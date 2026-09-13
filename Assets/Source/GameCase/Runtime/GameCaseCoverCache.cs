@@ -31,6 +31,13 @@ namespace EXW.Multiplayer
         private readonly Queue<uint> _queue = new Queue<uint>();
 
         private int _activeDownloadCount;
+        
+        public bool RequestsEnabled { get; private set; } = true;
+
+        public void SetRequestsEnabled(bool enabled)
+        {
+            RequestsEnabled = enabled;
+        }
 
         public static GameCaseCoverCache GetOrCreate()
         {
@@ -74,6 +81,12 @@ namespace EXW.Multiplayer
             uint appId,
             Action<Texture2D> completed)
         {
+            if (!RequestsEnabled)
+            {
+                completed?.Invoke(null);
+                return;
+            }
+            
             if (appId == 0)
             {
                 completed?.Invoke(null);

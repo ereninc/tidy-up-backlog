@@ -209,7 +209,7 @@ MonoBehaviour:
   gameplaySceneName: 03_GameplayScene
   requiredDistinctGames: 50
   copiesPerGame: 10
-  fallbackAppIds: 
+  fallbackAppIds: f046370074ae3200aefd0300a6ac11000e580300faef0b00
   excludedAppIds: 
   ownedGamesClient: {fileID: 269864307}
   clearPreviousSessionCache: 1

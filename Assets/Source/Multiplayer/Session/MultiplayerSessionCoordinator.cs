@@ -176,7 +176,8 @@ namespace EXW.Multiplayer
                     "Singleplayer cannot start while another session operation is active.");
             }
 
-            if (!ValidateGameplayScene())
+            if (!ValidateGameplayScene() ||
+                !ValidateGameSessionLoadingScene())
             {
                 return false;
             }
@@ -477,12 +478,8 @@ namespace EXW.Multiplayer
 
             TrySubscribeToSceneEvents();
 
-            // Co-op host önce oyun kutularını hazırlayan ara sahneye gider.
-            // Singleplayer şimdilik doğrudan gameplay'e gitmeye devam eder.
-            string targetSceneName =
-                Mode == GameSessionMode.CoopHost
-                    ? gameSessionLoadingSceneName
-                    : Settings.GameplaySceneName;
+            // Singleplayer ve co-op host aynı hazırlık sahnesinden geçer.
+            string targetSceneName = gameSessionLoadingSceneName;
 
             SetState(
                 GameSessionState.LoadingGameplay,

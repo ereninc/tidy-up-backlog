@@ -76,6 +76,11 @@ namespace EXW.Multiplayer
 
         private bool _localPreloadStarted;
         private bool _sceneLoadRequested;
+        
+        private bool IsSinglePlayerSession =>
+            MultiplayerSessionCoordinator.Instance != null &&
+            MultiplayerSessionCoordinator.Instance.Mode ==
+            GameSessionMode.SinglePlayer;
 
         private void Awake()
         {
@@ -141,6 +146,12 @@ namespace EXW.Multiplayer
         private IEnumerator BuildManifestServer()
         {
             float serviceDeadline = Time.realtimeSinceStartup + 10f;
+            
+            if (IsSinglePlayerSession)
+            {
+                yield return BuildSinglePlayerManifestServer();
+                yield break;
+            }
 
             while (SteamLobbyService.Instance == null &&
                    Time.realtimeSinceStartup < serviceDeadline)
@@ -355,6 +366,20 @@ namespace EXW.Multiplayer
             {
                 cache.ClearCache();
             }
+            
+            bool offlineSinglePlayer =
+                IsSinglePlayerSession &&
+                (!SteamBootstrap.IsSteamAvailable ||
+                 !SteamBootstrap.IsSteamLoggedOn);
+
+            cache.SetRequestsEnabled(!offlineSinglePlayer);
+
+            if (offlineSinglePlayer)
+            {
+                SetLocalProgress(1f, "Offline fallback games ready");
+                HandleLocalCoversReady();
+                yield break;
+            }
 
             cache.Preload(
                 appIds,
@@ -364,6 +389,107 @@ namespace EXW.Multiplayer
                     $"({Mathf.RoundToInt(progress * appIds.Length)}/" +
                     $"{appIds.Length})"),
                 HandleLocalCoversReady);
+        }
+        
+        private IEnumerator BuildSinglePlayerManifestServer()
+        {
+            var libraryView = new List<IReadOnlyList<uint>>(1);
+
+            bool steamOnline =
+                SteamBootstrap.IsSteamAvailable &&
+                SteamBootstrap.IsSteamLoggedOn &&
+                SteamBootstrap.LocalSteamId != 0;
+
+            if (steamOnline && ownedGamesClient != null)
+            {
+                SetLocalProgress(0.05f, "Reading local Steam library");
+
+                SteamOwnedGamesResult result = null;
+
+                yield return ownedGamesClient.FetchOwnedAppIds(
+                    SteamBootstrap.LocalSteamId,
+                    value => result = value);
+
+                if (!IsServer || !IsSpawned)
+                {
+                    yield break;
+                }
+
+                if (result != null && result.Succeeded)
+                {
+                    libraryView.Add(result.AppIds);
+
+                    SetLocalProgress(
+                        0.35f,
+                        $"Found {result.AppIds.Count} owned Steam games");
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        "[GameCaseLoading] Local Steam library could not be read: " +
+                        (result?.Error ?? "No result. Using fallback AppIds."),
+                        this);
+                }
+            }
+            else
+            {
+                SetLocalProgress(
+                    0.35f,
+                    "Steam is offline; using fallback games");
+
+                Debug.Log(
+                    "[GameCaseLoading] Offline singleplayer: using fallback AppIds.",
+                    this);
+            }
+
+            PublishManifestServer(
+                libraryView,
+                SteamBootstrap.LocalSteamId);
+        }
+        
+        private void PublishManifestServer(
+            IReadOnlyList<IReadOnlyList<uint>> libraryView,
+            ulong seedSource)
+        {
+            uint seed = unchecked(
+                (uint)(seedSource ^ (ulong)DateTime.UtcNow.Ticks));
+
+            if (seed == 0)
+            {
+                seed = 1;
+            }
+
+            List<uint> selected =
+                GameCaseSelectionUtility.SelectDistinctFairly(
+                    libraryView,
+                    fallbackAppIds,
+                    excludedAppIds,
+                    requiredDistinctGames,
+                    seed);
+
+            if (selected.Count != requiredDistinctGames)
+            {
+                FailLoadingServer(
+                    $"Only {selected.Count}/{requiredDistinctGames} unique " +
+                    "AppIds were available. Add more fallback AppIds.");
+                return;
+            }
+
+            _manifestReady.Value = false;
+            _readyClientIds.Clear();
+            _selectedAppIds.Clear();
+
+            for (int i = 0; i < selected.Count; i++)
+            {
+                _selectedAppIds.Add(selected[i]);
+            }
+
+            _assignmentSeed.Value = seed;
+            _copiesPerGame.Value = (ushort)copiesPerGame;
+            _distinctGameCount.Value = (ushort)requiredDistinctGames;
+            _manifestReady.Value = true;
+
+            SetLocalProgress(0.4f, "Game manifest ready");
         }
 
         private void HandleLocalCoversReady()
