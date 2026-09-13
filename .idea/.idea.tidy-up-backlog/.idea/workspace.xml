@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Packages/QuickOutline/Scripts/exOutline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Packages/QuickOutline/Scripts/exOutline.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CompileCo/AssetRecall/Resources/AssetRecall_History.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CompileCo/AssetRecall/Resources/AssetRecall_History.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CompileCo/TimeTweaker/Editor/TimeTweakerSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CompileCo/TimeTweaker/Editor/TimeTweakerSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/GameSessionLoadingScreen.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/GameSessionLoadingScreen.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/NetworkInteractable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/NetworkInteractable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/__PlaceholderAssetPacks/GameBox.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/__PlaceholderAssetPacks/GameBox.fbx.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +111,7 @@
       <updated>1789296217624</updated>
       <workItem from="1789296223406" duration="514000" />
       <workItem from="1789296771263" duration="2712000" />
-      <workItem from="1789301139783" duration="4139000" />
+      <workItem from="1789301139783" duration="5795000" />
     </task>
     <servers />
   </component>
