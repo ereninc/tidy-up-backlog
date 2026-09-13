@@ -3,38 +3,27 @@ using UnityEngine;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// Local-only preview for the next valid shelf position. Assign this
-    /// GameObject as NetworkItemReceiver's Local Focus Visual. It never sends
-    /// network messages and never parents the real held item.
+    /// One local-only ghost shared by every game-case shelf slot in the scene.
+    /// It only moves the configured visual to the focused slot's next valid
+    /// pose and toggles its renderers. The visual keeps its own material.
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu(
         "Multiplayer/Game Cases/Shelf/Game Case Shelf Ghost Presenter")]
     public sealed class GameCaseShelfGhostPresenter : MonoBehaviour
     {
-        [Header("Shelf")]
-        [SerializeField]
-        private NetworkGameCaseShelfDestination destination;
+        public static GameCaseShelfGhostPresenter Instance { get; private set; }
 
         [Header("Ghost Renderers")]
-        [Tooltip("All renderers hidden when the held case is not valid here.")]
+        [Tooltip("All renderers owned by this single global ghost.")]
         [SerializeField]
         private Renderer[] controlledRenderers =
             System.Array.Empty<Renderer>();
 
-        [SerializeField]
-        private Renderer artworkRenderer;
+        private NetworkGameCaseShelfDestination _focusedDestination;
 
-        [SerializeField, Min(0)]
-        private int artworkMaterialIndex = 1;
-
-        [SerializeField]
-        private string artworkTextureProperty = "_BaseMap";
-
-        private MaterialPropertyBlock _propertyBlock;
-        private int _artworkTexturePropertyId;
-        private uint _requestedAppId;
-        private uint _requestVersion;
+        public NetworkGameCaseShelfDestination FocusedDestination =>
+            _focusedDestination;
 
         private void Reset()
         {
@@ -43,41 +32,85 @@ namespace EXW.Multiplayer
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Debug.LogError(
+                    "[GameCaseShelf] More than one global shelf ghost exists " +
+                    "in this scene. The duplicate was disabled.",
+                    this);
+                enabled = false;
+                SetRenderersVisible(false);
+                return;
+            }
+
+            Instance = this;
             ResolveReferences();
-            _artworkTexturePropertyId = Shader.PropertyToID(
-                string.IsNullOrWhiteSpace(artworkTextureProperty)
-                    ? "_BaseMap"
-                    : artworkTextureProperty);
+            SetRenderersVisible(false);
         }
 
         private void OnEnable()
         {
-            RefreshPreview(true);
+            SetRenderersVisible(false);
         }
 
         private void Update()
         {
-            // This object is enabled only while locally focused, so polling is
-            // cheap and also handles held-item changes without new base hooks.
-            RefreshPreview(false);
+            RefreshPreview();
         }
 
         private void OnDisable()
         {
-            _requestVersion++;
+            _focusedDestination = null;
             SetRenderersVisible(false);
         }
 
-        private void RefreshPreview(bool forceCoverRefresh)
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
+
+        /// <summary>
+        /// Called locally by the focused slot's signal object.
+        /// </summary>
+        public void Focus(NetworkGameCaseShelfDestination destination)
+        {
+            if (!isActiveAndEnabled || destination == null)
+            {
+                return;
+            }
+
+            _focusedDestination = destination;
+            RefreshPreview();
+        }
+
+        /// <summary>
+        /// Clears focus only when the caller still owns the current focus.
+        /// This keeps slot-to-slot hand-off safe in either callback order.
+        /// </summary>
+        public void ClearFocus(NetworkGameCaseShelfDestination destination)
+        {
+            if (_focusedDestination != destination)
+            {
+                return;
+            }
+
+            _focusedDestination = null;
+            SetRenderersVisible(false);
+        }
+
+        private void RefreshPreview()
         {
             NetworkItemCarrier carrier = NetworkItemCarrier.Local;
 
-            if (carrier == null ||
+            if (_focusedDestination == null ||
+                carrier == null ||
                 !carrier.TryGetHeldItem(out NetworkWorldItem heldItem) ||
                 heldItem == null ||
                 !heldItem.TryGetComponent(out NetworkGameCase gameCase) ||
-                destination == null ||
-                !destination.TryGetPreviewWorldPose(
+                !_focusedDestination.TryGetPreviewWorldPose(
                     gameCase,
                     out Vector3 worldPosition,
                     out Quaternion worldRotation))
@@ -88,67 +121,6 @@ namespace EXW.Multiplayer
 
             transform.SetPositionAndRotation(worldPosition, worldRotation);
             SetRenderersVisible(true);
-
-            if (forceCoverRefresh || _requestedAppId != gameCase.AppId)
-            {
-                RequestCover(gameCase.AppId);
-            }
-        }
-
-        private void RequestCover(uint appId)
-        {
-            _requestedAppId = appId;
-            _requestVersion++;
-            uint capturedVersion = _requestVersion;
-
-            GameCaseCoverCache.GetOrCreate().RequestCover(
-                appId,
-                texture =>
-                {
-                    if (this == null || texture == null ||
-                        capturedVersion != _requestVersion ||
-                        _requestedAppId != appId)
-                    {
-                        return;
-                    }
-
-                    ApplyCover(texture);
-                });
-        }
-
-        private void ApplyCover(Texture texture)
-        {
-            if (artworkRenderer == null)
-            {
-                return;
-            }
-
-            Material[] materials = artworkRenderer.sharedMaterials;
-
-            if (artworkMaterialIndex < 0 ||
-                artworkMaterialIndex >= materials.Length)
-            {
-                Debug.LogError(
-                    $"Ghost artwork material index {artworkMaterialIndex} " +
-                    $"is invalid on {artworkRenderer.name}.",
-                    this);
-                return;
-            }
-
-            if (_propertyBlock == null)
-            {
-                _propertyBlock = new MaterialPropertyBlock();
-            }
-
-            artworkRenderer.GetPropertyBlock(
-                _propertyBlock,
-                artworkMaterialIndex);
-            _propertyBlock.SetTexture(
-                _artworkTexturePropertyId,
-                texture);
-            artworkRenderer.SetPropertyBlock(
-                _propertyBlock,
-                artworkMaterialIndex);
         }
 
         private void SetRenderersVisible(bool visible)
@@ -169,22 +141,10 @@ namespace EXW.Multiplayer
 
         private void ResolveReferences()
         {
-            if (destination == null)
-            {
-                destination = GetComponentInParent<
-                    NetworkGameCaseShelfDestination>(true);
-            }
-
             if (controlledRenderers == null ||
                 controlledRenderers.Length == 0)
             {
                 controlledRenderers = GetComponentsInChildren<Renderer>(true);
-            }
-
-            if (artworkRenderer == null && controlledRenderers != null &&
-                controlledRenderers.Length > 0)
-            {
-                artworkRenderer = controlledRenderers[0];
             }
         }
     }
