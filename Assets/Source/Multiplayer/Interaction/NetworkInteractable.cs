@@ -66,6 +66,8 @@ namespace EXW.Multiplayer
 
         private bool _isLocallyFocused;
         private double _nextAllowedServerTime;
+        
+        public event Action<bool, NetworkInteractionController> LocalFocusChanged;
 
         protected virtual void Reset()
         {
@@ -89,7 +91,7 @@ namespace EXW.Multiplayer
 
         protected virtual void OnDisable()
         {
-            _isLocallyFocused = false;
+            SetLocallyFocused(false, null);
             SetFocusVisual(false);
         }
 
@@ -130,6 +132,8 @@ namespace EXW.Multiplayer
 
             _isLocallyFocused = focused;
             SetFocusVisual(focused);
+
+            LocalFocusChanged?.Invoke(focused, interactor);
             OnLocalFocusChanged(focused, interactor);
         }
 

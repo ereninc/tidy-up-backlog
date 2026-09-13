@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5764986861227937245}
   - component: {fileID: 4906219715948643370}
   - component: {fileID: 283506998671660569}
+  - component: {fileID: 6678711445758127724}
   m_Layer: 0
   m_Name: NetworkGameCase
   m_TagString: Untagged
@@ -214,6 +215,20 @@ MonoBehaviour:
   shellColorProperty: _BaseColor
   shellSaturation: 0.65
   shellValue: 0.85
+--- !u!114 &6678711445758127724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415070188624565382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8750b76fd4d3c9447939127668af96de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.InteractionOutlineFeedback
+  interactable: {fileID: 8392574663449016452}
+  outline: {fileID: 8019059868299847151}
 --- !u!1001 &6124275459307679349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293,7 +308,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8019059868299847151}
   m_SourcePrefab: {fileID: 100100000, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
 --- !u!23 &4844845932129268465 stripped
 MeshRenderer:
@@ -305,3 +323,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
   m_PrefabInstance: {fileID: 6124275459307679349}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6358139039444374308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
+  m_PrefabInstance: {fileID: 6124275459307679349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8019059868299847151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6358139039444374308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::exOutline
+  outlineMode: 3
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 10
+  hoverWidth: 10
+  alwaysRenderOnTop: 1
+  overlayRenderQueue: 4999
+  visibleOnEnable: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

@@ -1,15 +1,27 @@
 {
     "items": [
         {
-            "assetPath": "",
-            "scenePath": "Assets/Scene/03_GameplayScene.unity",
-            "objectPath": "GameCaseRoot",
+            "assetPath": "Assets/__PlaceholderAssetPacks/GameBox.fbx",
+            "scenePath": "",
+            "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "",
-            "scenePath": "Assets/Scene/03_GameplayScene.unity",
-            "objectPath": "GameCasePileGenerator",
+            "assetPath": "Assets/Source/Multiplayer/Interaction/InteractionOutlineFeedback.cs",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/Source/Multiplayer/Interaction",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/GameAssets/Prefabs/Network",
+            "scenePath": "",
+            "objectPath": "",
             "isPinned": false
         },
         {
@@ -44,42 +56,6 @@
         },
         {
             "assetPath": "Assets/Source/GameCase/Runtime/NetworkGameCaseLoadingCoordinator.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseSelectionUtility.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseSessionPlan.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime/NetworkGameCaseSceneSet.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime/SteamOwnedGamesClient.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseCoverCache.cs",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/Source/GameCase/Runtime",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
