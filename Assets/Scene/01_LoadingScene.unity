@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74909c623b913014d869015a091d6537, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntryLoadingScreen
 --- !u!1 &1171062102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,6 +1633,7 @@ MonoBehaviour:
   networkManager: {fileID: 1852577410}
   flowController: {fileID: 1852577415}
   lobbyService: {fileID: 900325078}
+  gameSessionLoadingSceneName: GameSessionLoadingScreen
 --- !u!114 &1852577423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1664,37 +1665,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.MultiplayerSessionRoster
   networkManager: {fileID: 1852577410}
   lobbyService: {fileID: 900325078}
---- !u!1 &2119090384
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2119090385}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2119090385
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119090384}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 941.2768, y: 550.21765, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1705,4 +1675,3 @@ SceneRoots:
   - {fileID: 1006976663}
   - {fileID: 900325075}
   - {fileID: 1852577411}
-  - {fileID: 2119090385}

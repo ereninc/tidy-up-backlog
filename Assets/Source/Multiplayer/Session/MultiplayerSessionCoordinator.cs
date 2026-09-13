@@ -45,6 +45,9 @@ namespace EXW.Multiplayer
         [SerializeField] private NetworkManager networkManager;
         [SerializeField] private MultiplayerFlowController flowController;
         [SerializeField] private SteamLobbyService lobbyService;
+        
+        [Header("Game Session Loading")]
+        [SerializeField] private string gameSessionLoadingSceneName = "GameSessionLoadingScene";
 
         private NetworkSceneManager _subscribedSceneManager;
         private bool _flowEventsSubscribed;
@@ -207,6 +210,11 @@ namespace EXW.Multiplayer
             }
 
             if (!ValidateGameplayScene())
+            {
+                return false;
+            }
+            
+            if (!ValidateGameSessionLoadingScene())
             {
                 return false;
             }
@@ -468,21 +476,29 @@ namespace EXW.Multiplayer
             }
 
             TrySubscribeToSceneEvents();
+
+            // Co-op host önce oyun kutularını hazırlayan ara sahneye gider.
+            // Singleplayer şimdilik doğrudan gameplay'e gitmeye devam eder.
+            string targetSceneName =
+                Mode == GameSessionMode.CoopHost
+                    ? gameSessionLoadingSceneName
+                    : Settings.GameplaySceneName;
+
             SetState(
                 GameSessionState.LoadingGameplay,
                 Mode == GameSessionMode.SinglePlayer
                     ? "Loading singleplayer gameplay..."
-                    : "Loading gameplay for all players...");
+                    : "Preparing game session...");
 
             SceneEventProgressStatus result =
                 networkManager.SceneManager.LoadScene(
-                    Settings.GameplaySceneName,
+                    targetSceneName,
                     LoadSceneMode.Single);
 
             if (result != SceneEventProgressStatus.Started)
             {
                 RollBackGameplayStart(
-                    $"NGO rejected GameplayScene load: {result}.");
+                    $"NGO rejected scene '{targetSceneName}' load: {result}.");
             }
         }
 
@@ -789,6 +805,23 @@ namespace EXW.Multiplayer
             {
                 return Reject(
                     $"Scene '{Settings.GameplaySceneName}' is not available. " +
+                    "Add it to the Build Profile scene list.");
+            }
+
+            return true;
+        }
+        
+        private bool ValidateGameSessionLoadingScene()
+        {
+            if (string.IsNullOrWhiteSpace(gameSessionLoadingSceneName))
+            {
+                return Reject("Game Session Loading scene name is empty.");
+            }
+
+            if (!Application.CanStreamedLevelBeLoaded(gameSessionLoadingSceneName))
+            {
+                return Reject(
+                    $"Scene '{gameSessionLoadingSceneName}' is not available. " +
                     "Add it to the Build Profile scene list.");
             }
 

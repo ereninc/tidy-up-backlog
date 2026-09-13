@@ -1,121 +1,91 @@
 {
     "items": [
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/PlatesCounter.prefab",
+            "assetPath": "Assets/GameAssets/Prefabs/Network/Player.prefab",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/KitchenObjects",
+            "assetPath": "Assets/GameAssets/Prefabs/GameObjects",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Scripts/FollowTransform.cs",
+            "assetPath": "Assets/Scene/GameSessionLoadingScreen.unity",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/ContainerCounter_Bread.prefab",
+            "assetPath": "Assets/Scene/01_LoadingScene.unity",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/_BaseCounter.prefab",
+            "assetPath": "Assets/Source/GameCase/Runtime/NetworkGameCaseLoadingCoordinator.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/CuttingCounter.prefab",
+            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseSelectionUtility.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters",
+            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseSessionPlan.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/CountersVisuals/CuttingCounter_Visual.prefab",
+            "assetPath": "Assets/Source/GameCase/Runtime/NetworkGameCaseSceneSet.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals",
+            "assetPath": "Assets/Source/GameCase/Runtime/SteamOwnedGamesClient.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CheeseSlices_Visual.prefab",
+            "assetPath": "Assets/Source/GameCase/Runtime/GameCaseCoverCache.cs",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/MeatPattyCooked_Visual.prefab",
+            "assetPath": "Assets/Source/GameCase/Runtime",
             "scenePath": "",
             "objectPath": "",
             "isPinned": false
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Plate_Visual.prefab",
+            "assetPath": "Assets/Source/Multiplayer",
             "scenePath": "",
             "objectPath": "",
-            "isPinned": false
+            "isPinned": true
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Tomato_Visual.prefab",
+            "assetPath": "Assets/__DATA",
             "scenePath": "",
             "objectPath": "",
-            "isPinned": false
+            "isPinned": true
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/TomatoSlices_Visual.prefab",
+            "assetPath": "Assets/GameAssets/Prefabs",
             "scenePath": "",
             "objectPath": "",
-            "isPinned": false
+            "isPinned": true
         },
         {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/MeatPattyUncooked_Visual.prefab",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CheeseBlock_Visual.prefab",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CabbageSliced_Visual.prefab",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Cabbage_Visual.prefab",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/KitchenObjects/MeatPattyUncooked.prefab",
-            "scenePath": "",
-            "objectPath": "",
-            "isPinned": false
-        },
-        {
-            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/ScriptableObjects/KitchenObjectSO/_KitchenObjectSOList.asset",
+            "assetPath": "Assets/__DATA/Network/COOP_NetworkPrefabs.asset",
             "scenePath": "",
             "objectPath": "",
             "isPinned": true
