@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,231 +9,592 @@ using UnityEditor;
 public class GameCasePileGenerator : MonoBehaviour
 {
     [Header("Prefab")]
-    [SerializeField] private GameObject casePrefab;
-
-    [Header("Pile")]
-    [Min(1)]
-    [SerializeField] private int amount = 50;
-
-    [Range(1, 30)]
-    [SerializeField] private int layerCount = 6;
-
-    [Min(0.01f)]
-    [SerializeField] private float baseRadius = 1.5f;
-
-    [Range(0.05f, 1f)]
-    [SerializeField] private float topRadiusMultiplier = 0.2f;
-
-    [Min(0.001f)]
-    [SerializeField] private float layerHeight = 0.12f;
-
-    [Header("Randomness")]
     [SerializeField]
-    private Vector2 verticalJitter = new Vector2(-0.015f, 0.025f);
+    private GameObject casePrefab;
 
-    [Range(0f, 1f)]
-    [SerializeField] private float positionJitter = 0.12f;
+    [Header("Amount")]
+    [Min(1)]
+    [SerializeField]
+    private int amount = 250;
 
-    [Range(0f, 45f)]
-    [SerializeField] private float maxTilt = 10f;
+    [Header("Drop Area")]
+    [Tooltip("Kutuları hangi genişlikteki alandan dökeceğiz.")]
+    [SerializeField]
+    private Vector2 dropAreaSize = new Vector2(2f, 2f);
 
-    [SerializeField] private bool randomYaw = true;
+    [Tooltip("Kutuların düşmeye başlayacağı world Y.")]
+    [Min(0.1f)]
+    [SerializeField]
+    private float dropHeight = 3f;
 
-    [Range(0f, 1f)]
-    [SerializeField] private float layerCenterDrift = 0.15f;
-
-    [Header("Spacing")]
+    [Tooltip("Spawn edilen case'leri yukarı doğru ne kadar dağıtalım.")]
     [Min(0f)]
-    [SerializeField] private float minimumHorizontalSpacing = 0.18f;
+    [SerializeField]
+    private float spawnVolumeHeight = 2f;
 
-    [Range(1, 100)]
-    [SerializeField] private int placementAttempts = 25;
+    [Header("Drop Behaviour")]
+    [Tooltip("Case'ler havaya ilk bırakılırken maksimum eğim.")]
+    [Range(0f, 90f)]
+    [SerializeField]
+    private float initialTilt = 20f;
+
+    [Tooltip("Dökülürken kenarlara doğru hafif hız.")]
+    [Min(0f)]
+    [SerializeField]
+    private float horizontalVelocity = 0.75f;
+
+    [Tooltip("İlk açısal hız.")]
+    [Min(0f)]
+    [SerializeField]
+    private float angularVelocity = 3f;
+
+    [Header("Physics")]
+    [Min(0.001f)]
+    [SerializeField]
+    private float simulationStep = 1f / 60f;
+
+    [Tooltip("Bütün case'ler spawn olduktan sonra en fazla kaç saniye fizik çalışsın.")]
+    [Range(1f, 30f)]
+    [SerializeField]
+    private float settleTime = 8f;
+
+    [Tooltip("Case'leri batch batch bırakmak daha doğal ve daha stabil sonuç verir.")]
+    [Range(1, 500)]
+    [SerializeField]
+    private int batchSize = 75;
+
+    [Tooltip("Her batch bırakıldıktan sonra kaç saniye fizik çalışsın.")]
+    [Range(0f, 3f)]
+    [SerializeField]
+    private float batchSimulationTime = 0.35f;
+
+    [Header("Temporary Rigidbody")]
+    [Min(0.001f)]
+    [SerializeField]
+    private float caseMass = 1f;
+
+    [Range(0f, 5f)]
+    [SerializeField]
+    private float linearDamping = 0.05f;
+
+    [Range(0f, 5f)]
+    [SerializeField]
+    private float angularDamping = 0.1f;
+
+    [Header("Ground")]
+    [Tooltip("Geçici physics floor'un üst yüzeyi.")]
+    [SerializeField]
+    private float groundY = 0f;
+
+    [Tooltip("Scene'de ground collider olmasa bile temporary floor oluştur.")]
+    [SerializeField]
+    private bool createTemporaryGround = true;
+
+    [Tooltip("Temporary floor boyutu.")]
+    [SerializeField]
+    private Vector2 temporaryGroundSize = new Vector2(50f, 50f);
 
     [Header("Seed")]
-    [SerializeField] private int seed = 12345;
+    [SerializeField]
+    private int seed = 12345;
 
     [Header("Generated")]
-    [SerializeField] private Transform generatedRoot;
-
-    private readonly List<Vector2> _layerPositions = new();
+    [SerializeField]
+    private Transform generatedRoot;
 
     public Transform GeneratedRoot => generatedRoot;
     public int Amount => amount;
 
 #if UNITY_EDITOR
 
-    public void Generate()
+    private sealed class SimulatedCase
+    {
+        public GameObject gameObject;
+        public Rigidbody rigidbody;
+        public bool rigidbodyWasAdded;
+    }
+
+    public void GeneratePhysicsPile()
     {
         if (!casePrefab)
         {
             Debug.LogWarning(
-                "[GameCasePileGenerator] Case Prefab is not assigned.",
-                this
-            );
+                "[GameCasePileGenerator] Case Prefab is missing.",
+                this);
 
             return;
         }
 
-        if (amount <= 0)
+        BoxCollider prefabCollider =
+            casePrefab.GetComponentInChildren<BoxCollider>();
+
+        if (!prefabCollider)
+        {
+            Debug.LogError(
+                "[GameCasePileGenerator] Case prefab requires a BoxCollider.",
+                casePrefab);
+
             return;
+        }
 
         EnsureRoot();
-
-        // Generate her çağrıldığında eski pile temizlenir.
         ClearPile();
 
-        Random.State previousRandomState = Random.state;
-        Random.InitState(seed);
+        UnityEngine.Random.State oldRandomState =
+            UnityEngine.Random.state;
 
-        int[] casesPerLayer = CalculateLayerDistribution();
+        UnityEngine.Random.InitState(seed);
 
-        Vector2 layerCenter = Vector2.zero;
+        SimulationMode oldSimulationMode =
+            Physics.simulationMode;
 
-        for (int layer = 0; layer < layerCount; layer++)
+        GameObject tempGround = null;
+
+        var simulatedCases =
+            new List<SimulatedCase>(amount);
+
+        try
         {
-            int count = casesPerLayer[layer];
+            Physics.simulationMode =
+                SimulationMode.Script;
 
-            if (count <= 0)
-                continue;
-
-            float normalizedLayer =
-                layerCount <= 1
-                    ? 0f
-                    : layer / (float)(layerCount - 1);
-
-            float radiusMultiplier =
-                Mathf.Lerp(
-                    1f,
-                    topRadiusMultiplier,
-                    normalizedLayer
-                );
-
-            float layerRadius =
-                baseRadius * radiusMultiplier;
-
-            // Yığın yukarı çıktıkça hafif yana kayabilsin.
-            Vector2 drift =
-                Random.insideUnitCircle *
-                baseRadius *
-                layerCenterDrift *
-                normalizedLayer;
-
-            layerCenter +=
-                drift / Mathf.Max(1, layerCount);
-
-            _layerPositions.Clear();
-
-            for (int i = 0; i < count; i++)
+            if (createTemporaryGround)
             {
-                Vector2 position2D =
-                    FindPositionInLayer(
-                        layerRadius,
-                        layerCenter
-                    );
+                tempGround =
+                    CreateTemporaryGround();
+            }
 
-                float y =
-                    layer * layerHeight +
-                    Random.Range(
-                        verticalJitter.x,
-                        verticalJitter.y
-                    );
+            int spawned = 0;
 
-                Vector3 localPosition =
-                    new Vector3(
-                        position2D.x,
-                        y,
-                        position2D.y
-                    );
+            while (spawned < amount)
+            {
+                int spawnCount =
+                    Mathf.Min(
+                        batchSize,
+                        amount - spawned);
 
-                GameObject instance =
-                    PrefabUtility.InstantiatePrefab(
-                        casePrefab,
-                        generatedRoot
-                    ) as GameObject;
+                for (int i = 0; i < spawnCount; i++)
+                {
+                    SimulatedCase item =
+                        SpawnPhysicsCase(spawned + i);
 
-                if (!instance)
-                    continue;
+                    if (item != null)
+                        simulatedCases.Add(item);
+                }
 
-                instance.transform.localPosition =
-                    localPosition;
+                spawned += spawnCount;
 
-                float yaw =
-                    randomYaw
-                        ? Random.Range(0f, 360f)
-                        : 0f;
+                Physics.SyncTransforms();
 
-                float tiltX =
-                    Random.Range(-maxTilt, maxTilt);
+                if (batchSimulationTime > 0f)
+                {
+                    SimulateForDuration(
+                        batchSimulationTime,
+                        simulatedCases,
+                        $"Dropping cases... {spawned}/{amount}");
+                }
+            }
 
-                float tiltZ =
-                    Random.Range(-maxTilt, maxTilt);
+            Physics.SyncTransforms();
 
-                instance.transform.localRotation =
-                    Quaternion.Euler(
-                        tiltX,
-                        yaw,
-                        tiltZ
-                    );
+            SimulateUntilSettled(
+                simulatedCases);
+
+            Physics.SyncTransforms();
+
+            BakeCases(simulatedCases);
+
+            EditorUtility.SetDirty(this);
+            SceneView.RepaintAll();
+
+            Debug.Log(
+                $"[GameCasePileGenerator] Physics pile baked. Cases: {simulatedCases.Count}",
+                this);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogException(
+                exception,
+                this);
+        }
+        finally
+        {
+            EditorUtility.ClearProgressBar();
+
+            Physics.simulationMode =
+                oldSimulationMode;
+
+            UnityEngine.Random.state =
+                oldRandomState;
+
+            if (tempGround)
+            {
+                DestroyImmediate(tempGround);
             }
         }
-
-        Random.state = previousRandomState;
-
-        EditorUtility.SetDirty(this);
-        EditorUtility.SetDirty(gameObject);
-
-        SceneView.RepaintAll();
-
-        Debug.Log(
-            $"[GameCasePileGenerator] Generated {amount} cases.",
-            this
-        );
     }
 
     public void RandomizeAndGenerate()
     {
-        seed = Guid.NewGuid().GetHashCode();
+        seed =
+            Guid.NewGuid().GetHashCode();
 
-        Generate();
+        GeneratePhysicsPile();
     }
 
-    /// <summary>
-    /// Generated Root kalır, sadece child'ları silinir.
-    /// </summary>
+    private SimulatedCase SpawnPhysicsCase(
+        int index)
+    {
+        GameObject instance =
+            PrefabUtility.InstantiatePrefab(
+                casePrefab,
+                generatedRoot) as GameObject;
+
+        if (!instance)
+            return null;
+
+        instance.name =
+            $"{casePrefab.name}_{index:0000}";
+
+        Transform t =
+            instance.transform;
+
+        //
+        // SPAWN POSITION
+        //
+
+        Vector3 center =
+            transform.position;
+
+        float x =
+            UnityEngine.Random.Range(
+                -dropAreaSize.x * 0.5f,
+                dropAreaSize.x * 0.5f);
+
+        float z =
+            UnityEngine.Random.Range(
+                -dropAreaSize.y * 0.5f,
+                dropAreaSize.y * 0.5f);
+
+        float y =
+            groundY +
+            dropHeight +
+            UnityEngine.Random.Range(
+                0f,
+                spawnVolumeHeight);
+
+        t.position =
+            new Vector3(
+                center.x + x,
+                y,
+                center.z + z);
+
+        //
+        // INITIAL ROTATION
+        //
+
+        float yaw =
+            UnityEngine.Random.Range(
+                0f,
+                360f);
+
+        float pitch =
+            UnityEngine.Random.Range(
+                -initialTilt,
+                initialTilt);
+
+        float roll =
+            UnityEngine.Random.Range(
+                -initialTilt,
+                initialTilt);
+
+        t.rotation =
+            Quaternion.Euler(
+                pitch,
+                yaw,
+                roll);
+
+        //
+        // RIGIDBODY
+        //
+
+        Rigidbody rb =
+            instance.GetComponent<Rigidbody>();
+
+        bool addedRigidbody = false;
+
+        if (!rb)
+        {
+            rb =
+                instance.AddComponent<Rigidbody>();
+
+            addedRigidbody = true;
+        }
+
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        rb.mass =
+            caseMass;
+
+        rb.linearDamping =
+            linearDamping;
+
+        rb.angularDamping =
+            angularDamping;
+
+        rb.collisionDetectionMode =
+            CollisionDetectionMode.Discrete;
+
+        rb.interpolation =
+            RigidbodyInterpolation.None;
+
+        //
+        // INITIAL VELOCITY
+        //
+
+        Vector2 randomDirection =
+            UnityEngine.Random.insideUnitCircle;
+
+        rb.linearVelocity =
+            new Vector3(
+                randomDirection.x *
+                horizontalVelocity,
+
+                0f,
+
+                randomDirection.y *
+                horizontalVelocity);
+
+        rb.angularVelocity =
+            UnityEngine.Random.insideUnitSphere *
+            angularVelocity;
+
+        return new SimulatedCase
+        {
+            gameObject = instance,
+            rigidbody = rb,
+            rigidbodyWasAdded = addedRigidbody
+        };
+    }
+
+    private void SimulateForDuration(
+        float duration,
+        List<SimulatedCase> cases,
+        string progressTitle)
+    {
+        int steps =
+            Mathf.CeilToInt(
+                duration / simulationStep);
+
+        for (int i = 0; i < steps; i++)
+        {
+            Physics.Simulate(
+                simulationStep);
+
+            if (i % 10 == 0)
+            {
+                float progress =
+                    i / (float)steps;
+
+                bool cancel =
+                    EditorUtility.DisplayCancelableProgressBar(
+                        "Game Case Physics Bake",
+                        progressTitle,
+                        progress);
+
+                if (cancel)
+                    throw new OperationCanceledException(
+                        "Physics bake cancelled.");
+            }
+        }
+    }
+
+    private void SimulateUntilSettled(
+        List<SimulatedCase> cases)
+    {
+        int maxSteps =
+            Mathf.CeilToInt(
+                settleTime / simulationStep);
+
+        int consecutiveSleepingFrames = 0;
+
+        const int requiredSleepingFrames = 15;
+
+        for (int step = 0;
+             step < maxSteps;
+             step++)
+        {
+            Physics.Simulate(
+                simulationStep);
+
+            bool allSleeping = true;
+
+            for (int i = 0;
+                 i < cases.Count;
+                 i++)
+            {
+                Rigidbody rb =
+                    cases[i].rigidbody;
+
+                if (!rb)
+                    continue;
+
+                if (!rb.IsSleeping())
+                {
+                    allSleeping = false;
+                    break;
+                }
+            }
+
+            if (allSleeping)
+            {
+                consecutiveSleepingFrames++;
+
+                if (consecutiveSleepingFrames >=
+                    requiredSleepingFrames)
+                {
+                    break;
+                }
+            }
+            else
+            {
+                consecutiveSleepingFrames = 0;
+            }
+
+            if (step % 10 == 0)
+            {
+                float progress =
+                    step / (float)maxSteps;
+
+                bool cancel =
+                    EditorUtility.DisplayCancelableProgressBar(
+                        "Game Case Physics Bake",
+                        "Waiting for pile to settle...",
+                        progress);
+
+                if (cancel)
+                    throw new OperationCanceledException(
+                        "Physics bake cancelled.");
+            }
+        }
+    }
+
+    private void BakeCases(
+        List<SimulatedCase> cases)
+    {
+        for (int i = 0;
+             i < cases.Count;
+             i++)
+        {
+            SimulatedCase item =
+                cases[i];
+
+            if (!item.gameObject)
+                continue;
+
+            Rigidbody rb =
+                item.rigidbody;
+
+            if (!rb)
+                continue;
+
+            //
+            // Rigidbody bizim tarafımızdan eklendiyse
+            // bake sonrası tamamen kaldır.
+            //
+
+            if (item.rigidbodyWasAdded)
+            {
+                DestroyImmediate(rb);
+            }
+            else
+            {
+                //
+                // Prefab zaten Rigidbody içeriyorsa,
+                // sahnede fizik devam etmesin.
+                //
+                rb.linearVelocity =
+                    Vector3.zero;
+
+                rb.angularVelocity =
+                    Vector3.zero;
+
+                rb.isKinematic =
+                    true;
+            }
+
+            EditorUtility.SetDirty(
+                item.gameObject.transform);
+        }
+    }
+
+    private GameObject CreateTemporaryGround()
+    {
+        GameObject ground =
+            new GameObject(
+                "__TEMP_GameCasePhysicsGround");
+
+        ground.hideFlags =
+            HideFlags.HideAndDontSave;
+
+        BoxCollider collider =
+            ground.AddComponent<BoxCollider>();
+
+        const float thickness = 1f;
+
+        collider.size =
+            new Vector3(
+                temporaryGroundSize.x,
+                thickness,
+                temporaryGroundSize.y);
+
+        //
+        // Collider'ın TOP surface'i tam groundY olsun.
+        //
+
+        ground.transform.position =
+            new Vector3(
+                transform.position.x,
+                groundY - thickness * 0.5f,
+                transform.position.z);
+
+        return ground;
+    }
+
     public void ClearPile()
     {
         if (!generatedRoot)
             return;
 
-        for (int i = generatedRoot.childCount - 1; i >= 0; i--)
+        for (int i =
+                 generatedRoot.childCount - 1;
+             i >= 0;
+             i--)
         {
             Transform child =
                 generatedRoot.GetChild(i);
 
-            if (!child)
-                continue;
-
-            DestroyImmediate(child.gameObject);
+            if (child)
+                DestroyImmediate(
+                    child.gameObject);
         }
 
         EditorUtility.SetDirty(this);
         SceneView.RepaintAll();
     }
 
-    /// <summary>
-    /// Root dahil her şeyi siler.
-    /// </summary>
     public void RemoveRoot()
     {
         if (!generatedRoot)
             return;
 
-        GameObject rootObject =
+        GameObject root =
             generatedRoot.gameObject;
 
         generatedRoot = null;
 
-        DestroyImmediate(rootObject);
+        DestroyImmediate(root);
 
         EditorUtility.SetDirty(this);
         SceneView.RepaintAll();
@@ -246,166 +606,37 @@ public class GameCasePileGenerator : MonoBehaviour
             return;
 
         Transform existing =
-            transform.Find("GameCaseRoot");
+            transform.Find(
+                "GameCaseRoot");
 
         if (existing)
         {
-            generatedRoot = existing;
+            generatedRoot =
+                existing;
+
             return;
         }
 
         GameObject root =
-            new GameObject("GameCaseRoot");
+            new GameObject(
+                "GameCaseRoot");
 
-        root.transform.SetParent(transform);
-        root.transform.localPosition = Vector3.zero;
-        root.transform.localRotation = Quaternion.identity;
-        root.transform.localScale = Vector3.one;
+        root.transform.SetParent(
+            transform);
 
-        generatedRoot = root.transform;
+        root.transform.localPosition =
+            Vector3.zero;
+
+        root.transform.localRotation =
+            Quaternion.identity;
+
+        root.transform.localScale =
+            Vector3.one;
+
+        generatedRoot =
+            root.transform;
 
         EditorUtility.SetDirty(this);
-    }
-
-    private int[] CalculateLayerDistribution()
-    {
-        int safeLayerCount =
-            Mathf.Max(1, layerCount);
-
-        int[] distribution =
-            new int[safeLayerCount];
-
-        float[] weights =
-            new float[safeLayerCount];
-
-        float totalWeight = 0f;
-
-        for (int i = 0; i < safeLayerCount; i++)
-        {
-            float t =
-                safeLayerCount <= 1
-                    ? 0f
-                    : i / (float)(safeLayerCount - 1);
-
-            float radius =
-                Mathf.Lerp(
-                    1f,
-                    topRadiusMultiplier,
-                    t
-                );
-
-            // Circle area ~= radius²
-            float weight =
-                radius * radius;
-
-            weights[i] = weight;
-            totalWeight += weight;
-        }
-
-        int assigned = 0;
-
-        for (int i = 0; i < safeLayerCount; i++)
-        {
-            int count =
-                Mathf.FloorToInt(
-                    amount *
-                    (weights[i] / totalWeight)
-                );
-
-            distribution[i] = count;
-            assigned += count;
-        }
-
-        int remaining =
-            amount - assigned;
-
-        int index = 0;
-
-        while (remaining > 0)
-        {
-            distribution[index]++;
-
-            remaining--;
-            index++;
-
-            if (index >= safeLayerCount)
-                index = 0;
-        }
-
-        return distribution;
-    }
-
-    private Vector2 FindPositionInLayer(
-        float radius,
-        Vector2 layerCenter)
-    {
-        Vector2 bestCandidate =
-            layerCenter;
-
-        float minDistanceSqr =
-            minimumHorizontalSpacing *
-            minimumHorizontalSpacing;
-
-        for (int attempt = 0;
-             attempt < placementAttempts;
-             attempt++)
-        {
-            float distance =
-                Mathf.Sqrt(Random.value) *
-                radius;
-
-            float angle =
-                Random.Range(
-                    0f,
-                    Mathf.PI * 2f
-                );
-
-            Vector2 candidate =
-                layerCenter +
-                new Vector2(
-                    Mathf.Cos(angle),
-                    Mathf.Sin(angle)
-                ) *
-                distance;
-
-            candidate +=
-                Random.insideUnitCircle *
-                positionJitter;
-
-            bestCandidate = candidate;
-
-            bool valid = true;
-
-            for (int i = 0;
-                 i < _layerPositions.Count;
-                 i++)
-            {
-                float sqrDistance =
-                    (
-                        candidate -
-                        _layerPositions[i]
-                    ).sqrMagnitude;
-
-                if (sqrDistance <
-                    minDistanceSqr)
-                {
-                    valid = false;
-                    break;
-                }
-            }
-
-            if (!valid)
-                continue;
-
-            _layerPositions.Add(candidate);
-
-            return candidate;
-        }
-
-        // Çok doluysa sonsuz arama yapma.
-        _layerPositions.Add(bestCandidate);
-
-        return bestCandidate;
     }
 
 #endif

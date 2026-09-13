@@ -17,108 +17,96 @@ public class GameCasePileGeneratorEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
 
-        GUILayout.Space(12);
+        GUILayout.Space(14);
 
         EditorGUILayout.LabelField(
-            "Pile Tools",
-            EditorStyles.boldLabel
-        );
+            "Physics Pile Baker",
+            EditorStyles.boldLabel);
 
-        GUILayout.Space(4);
+        EditorGUILayout.HelpBox(
+            "Cases are temporarily simulated with Unity PhysX, then their final transforms are baked. Rigidbody components added by the baker are removed afterwards.",
+            MessageType.Info);
 
-        Color defaultColor =
+        GUILayout.Space(6);
+
+        Color oldColor =
             GUI.backgroundColor;
 
         GUI.backgroundColor =
-            new Color(0.35f, 0.85f, 0.45f);
+            new Color(
+                0.35f,
+                0.85f,
+                0.45f);
 
         if (GUILayout.Button(
-                "GENERATE PILE",
-                GUILayout.Height(36)))
+                "DROP + BAKE PILE",
+                GUILayout.Height(40)))
         {
             serializedObject.ApplyModifiedProperties();
 
-            Generator.Generate();
+            Generator.GeneratePhysicsPile();
 
-            EditorUtility.SetDirty(Generator);
+            EditorUtility.SetDirty(
+                Generator);
         }
 
         GUI.backgroundColor =
-            new Color(0.35f, 0.65f, 1f);
+            new Color(
+                0.35f,
+                0.65f,
+                1f);
 
         if (GUILayout.Button(
-                "RANDOMIZE + GENERATE",
-                GUILayout.Height(28)))
+                "RANDOMIZE + DROP + BAKE",
+                GUILayout.Height(32)))
         {
             serializedObject.ApplyModifiedProperties();
 
             Generator.RandomizeAndGenerate();
 
-            EditorUtility.SetDirty(Generator);
+            EditorUtility.SetDirty(
+                Generator);
         }
 
-        GUILayout.Space(6);
+        GUILayout.Space(8);
 
         GUI.backgroundColor =
-            new Color(1f, 0.65f, 0.25f);
+            new Color(
+                1f,
+                0.65f,
+                0.25f);
 
         if (GUILayout.Button(
                 "CLEAR PILE",
                 GUILayout.Height(28)))
         {
-            if (EditorUtility.DisplayDialog(
-                    "Clear Pile",
-                    "Remove all children from GameCaseRoot?",
-                    "Clear",
-                    "Cancel"))
-            {
-                Generator.ClearPile();
-            }
+            Generator.ClearPile();
         }
 
         GUI.backgroundColor =
-            new Color(1f, 0.35f, 0.35f);
+            new Color(
+                1f,
+                0.35f,
+                0.35f);
 
         if (GUILayout.Button(
                 "REMOVE ROOT",
-                GUILayout.Height(24)))
+                GUILayout.Height(25)))
         {
-            if (EditorUtility.DisplayDialog(
-                    "Remove Generated Root",
-                    "Delete GameCaseRoot and all of its children?",
-                    "Remove",
-                    "Cancel"))
-            {
-                Generator.RemoveRoot();
-            }
+            Generator.RemoveRoot();
         }
 
         GUI.backgroundColor =
-            defaultColor;
+            oldColor;
 
         GUILayout.Space(8);
 
-        DrawInfo();
-    }
-
-    private void DrawInfo()
-    {
-        if (!Generator.GeneratedRoot)
+        if (Generator.GeneratedRoot)
         {
             EditorGUILayout.HelpBox(
-                "No generated root exists yet. " +
-                "Generate will automatically create GameCaseRoot.",
-                MessageType.Info
-            );
-
-            return;
+                $"Current cases: {Generator.GeneratedRoot.childCount}",
+                MessageType.None);
         }
-
-        EditorGUILayout.HelpBox(
-            $"Generated Root: {Generator.GeneratedRoot.name}\n" +
-            $"Current Children: {Generator.GeneratedRoot.childCount}",
-            MessageType.None
-        );
     }
 }
 

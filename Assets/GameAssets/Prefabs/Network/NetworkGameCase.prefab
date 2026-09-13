@@ -191,7 +191,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 0.15, z: 0.8}
+  m_Size: {x: 0.5, y: 0.05, z: 0.65}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &283506998671660569
 MonoBehaviour:
@@ -224,15 +224,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -276,7 +276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

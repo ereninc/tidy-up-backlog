@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DefaultNetworkPrefabs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CompileCo/AssetRecall/Resources/AssetRecall_History.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CompileCo/AssetRecall/Resources/AssetRecall_History.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/01_LoadingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/01_LoadingScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/02_MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/02_MainMenuScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/MainScene/Post-Process Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/MainScene/Post-Process Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/__DATA/Network/COOP_NetworkPrefabs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/__DATA/Network/COOP_NetworkPrefabs.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ShaderGraphSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/Editor/GameCasePileGeneratorEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Editor/GameCasePileGeneratorEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/GameCasePileGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/GameCasePileGenerator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +114,7 @@
       <updated>1789296217624</updated>
       <workItem from="1789296223406" duration="514000" />
       <workItem from="1789296771263" duration="2712000" />
-      <workItem from="1789301139783" duration="781000" />
+      <workItem from="1789301139783" duration="1593000" />
     </task>
     <servers />
   </component>

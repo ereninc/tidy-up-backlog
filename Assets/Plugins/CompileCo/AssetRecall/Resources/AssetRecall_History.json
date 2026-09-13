@@ -1,6 +1,24 @@
 {
     "items": [
         {
+            "assetPath": "",
+            "scenePath": "Assets/Scene/03_GameplayScene.unity",
+            "objectPath": "GameCaseRoot",
+            "isPinned": false
+        },
+        {
+            "assetPath": "",
+            "scenePath": "Assets/Scene/03_GameplayScene.unity",
+            "objectPath": "GameCasePileGenerator",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
             "assetPath": "Assets/GameAssets/Prefabs/Network/Player.prefab",
             "scenePath": "",
             "objectPath": "",
