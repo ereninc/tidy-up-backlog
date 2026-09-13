@@ -1,0 +1,124 @@
+{
+    "items": [
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/PlatesCounter.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/KitchenObjects",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Scripts/FollowTransform.cs",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/ContainerCounter_Bread.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/_BaseCounter.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters/CuttingCounter.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/Counters",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/CountersVisuals/CuttingCounter_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CheeseSlices_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/MeatPattyCooked_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Plate_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Tomato_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/TomatoSlices_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/MeatPattyUncooked_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CheeseBlock_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/CabbageSliced_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/_Assets/PrefabsVisuals/KitchenObjectsVisuals/Cabbage_Visual.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/Prefabs/KitchenObjects/MeatPattyUncooked.prefab",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": false
+        },
+        {
+            "assetPath": "Assets/__PlaceholderAssetPacks/Kitchen/ScriptableObjects/KitchenObjectSO/_KitchenObjectSOList.asset",
+            "scenePath": "",
+            "objectPath": "",
+            "isPinned": true
+        }
+    ]
+}

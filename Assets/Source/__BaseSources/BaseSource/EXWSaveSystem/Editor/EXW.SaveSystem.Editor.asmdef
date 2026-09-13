@@ -1,0 +1,12 @@
+{
+  "name": "EXW.SaveSystem.Editor",
+  "rootNamespace": "EXW.SaveSystem.Editor",
+  "references": [
+    "EXW.SaveSystem.Runtime",
+    "Unity.Newtonsoft.Json"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a435e3f8c6b125a4e94903f8d95d3908, type: 3}
+  m_Name: MultiplayerSettings
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.MultiplayerSettings
+  productId: coop_base_dev
+  protocolVersion: 1
+  buildIdOverride: dev
+  maximumPlayers: 4
+  maximumSearchResults: 50
+  searchDistance: 3
+  allowReconnectToRunningSession: 1
+  defaultAllowLateJoin: 1
+  reconnectReservationSeconds: 600
+  preferReconnectInQuickJoin: 1
+  requireLobbyMembership: 1
+  requireTransportIdentityMatch: 1
+  deferPlayerObjectUntilGameplay: 1
+  useSceneSpawnPointsDuringApproval: 1
+  clientConnectionTimeout: 20
+  shutdownTimeout: 8
+  automaticallyAcceptSteamInvites: 1
+  quickJoinCreatesLobbyWhenNoneFound: 1
+  gameplaySceneName: 03_GameplayScene
+  mainMenuSceneName: 02_MainMenuScene
+  activatePlayersAfterLoad: 1
+  verboseLogging: 1

@@ -1,0 +1,8 @@
+{
+  "name": "EXW.SaveSystem.Runtime",
+  "rootNamespace": "EXW.SaveSystem",
+  "references": [
+    "Unity.Newtonsoft.Json"
+  ],
+  "autoReferenced": true
+}

@@ -1,0 +1,87 @@
+{
+    "palettes": [
+        {
+            "paletteName": "Cube_Colors",
+            "colors": [
+                "D50438FF",
+                "B5A53BFF",
+                "2F3F93FF",
+                "430B50FF",
+                "092C8CFF",
+                "172E3BFF",
+                "8D877AFF",
+                "CA75CFFF",
+                "283D5DFF",
+                "A51744FF",
+                "E0CB4BFF",
+                "559CD6FF",
+                "A460A2FF",
+                "076279FF",
+                "161616FF"
+            ],
+            "gridHeight": 3
+        },
+        {
+            "paletteName": "Skybox_Colors",
+            "colors": [
+                "E490A0FF",
+                "AA758FFF",
+                "EDFBFDFF",
+                "D8D20CFF",
+                "A0BEB4FF",
+                "6A6747FF",
+                "877D2DFF",
+                "0DAF78FF",
+                "050503FF",
+                "D87B81FF",
+                "424D49FF",
+                "115259FF",
+                "666D6CFF",
+                "2D032BFF",
+                "000000FF",
+                "A1E2CBFF",
+                "75CA5FFF",
+                "DA9CE2FF",
+                "6C595BFF",
+                "E2CFFDFF",
+                "85B99AFF",
+                "CB6935FF",
+                "191816FF",
+                "121516FF",
+                "222524FF"
+            ],
+            "gridHeight": 3
+        },
+        {
+            "paletteName": "UI_Colors",
+            "colors": [
+                "A6E48AFF",
+                "180104FF",
+                "335C28FF",
+                "320C63FF",
+                "00080AFF",
+                "1A4017FF",
+                "246F40FF",
+                "080D1DFF",
+                "411F46FF",
+                "766A6FFF",
+                "181818FF",
+                "2A2323FF",
+                "322A2AFF",
+                "0A83FEFF",
+                "D76C71FF",
+                "FA85BEFF",
+                "CF7C73FF",
+                "378D10FF",
+                "20062AFF",
+                "962382FF",
+                "241D15FF",
+                "930130FF",
+                "06020FFF",
+                "EDFE25FF",
+                "0766B0FF"
+            ],
+            "gridHeight": 5
+        }
+    ]
+}
