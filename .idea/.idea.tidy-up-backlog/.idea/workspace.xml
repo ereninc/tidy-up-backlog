@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/03_GameplayScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Shelf/GameCaseShelfGhostPresenter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Shelf/GameCaseShelfGhostPresenter.cs" afterDir="false" />
-    </list>
+    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -112,7 +108,7 @@
       <updated>1789296217624</updated>
       <workItem from="1789296223406" duration="514000" />
       <workItem from="1789296771263" duration="2712000" />
-      <workItem from="1789301139783" duration="7908000" />
+      <workItem from="1789301139783" duration="8507000" />
     </task>
     <servers />
   </component>

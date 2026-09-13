@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 975226703}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -3533,7 +3533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 153842744}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -4055,7 +4055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 389291455}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -5366,7 +5366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1374422520}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -7378,7 +7378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1848932586}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -7838,7 +7838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2025018344}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -8314,7 +8314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1830286442}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -8469,7 +8469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1912375869}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -9028,7 +9028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1590306086}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -10018,7 +10018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 430958237}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -11411,7 +11411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 558543244}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -12715,7 +12715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 979582996}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -13055,7 +13055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 484740460}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -13383,7 +13383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1106315126}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -13781,7 +13781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1996015210}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -15039,7 +15039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1625704290}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -15194,7 +15194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 381601299}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -16867,7 +16867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 321134710}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -17485,7 +17485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 321835496}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -18534,7 +18534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2029957967}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -18914,7 +18914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 962252476}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -19360,7 +19360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 639555507}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -20627,7 +20627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 939889661}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -21404,7 +21404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2012902316}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -22229,7 +22229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2081285343}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -22428,7 +22428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 219925679}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -22813,7 +22813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1453237821}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -23298,7 +23298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2036768010}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -23595,7 +23595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1207429793}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -23900,7 +23900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 413336643}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -24519,7 +24519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1646303083}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -25074,7 +25074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2051676291}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -25826,7 +25826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2005660894}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -26807,7 +26807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 553693409}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -28247,7 +28247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1172378725}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -28499,7 +28499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1622295688}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -28978,7 +28978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1206384188}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -29228,7 +29228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 3551394}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -29524,7 +29524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1348877653}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -29834,7 +29834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1088233599}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -30624,7 +30624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 636740253}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -31778,7 +31778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 86710580}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -32449,7 +32449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1018536269}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -32990,7 +32990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1221489897}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -33506,7 +33506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 540157878}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -33993,7 +33993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 121713099}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -34939,7 +34939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1404325618}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -36256,7 +36256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 419389611}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -37928,7 +37928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1614920087}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -40137,7 +40137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 235914424}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -42009,7 +42009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 688787808}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -42645,7 +42645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1224997503}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -43317,7 +43317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 586120174}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -43503,7 +43503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1012347390}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -44571,7 +44571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 68073216}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -44964,7 +44964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 286135338}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -45795,7 +45795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2095380735}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -46442,7 +46442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1632672737}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -47550,7 +47550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2107855792}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -48907,7 +48907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 473216276}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -49062,7 +49062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 745366029}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -50154,7 +50154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1671720170}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -50897,7 +50897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 151672313}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -51387,7 +51387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1939784020}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -51835,7 +51835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1239810874}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -57448,7 +57448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 393872650}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -58331,7 +58331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 577358182}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -58746,7 +58746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 82541744}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -59139,7 +59139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 66253608}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -60057,7 +60057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1570038351}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -60716,7 +60716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 939234678}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -61096,7 +61096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 824329474}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -61303,7 +61303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 818389320}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -61957,7 +61957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1922213807}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -63157,7 +63157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1653666634}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -63971,7 +63971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 43655096}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -64943,7 +64943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 301913190}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -65240,7 +65240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2083388316}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -66293,7 +66293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1617812633}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -67373,7 +67373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2039268380}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -67528,7 +67528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1211892864}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -68182,7 +68182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 722594512}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -69118,7 +69118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1144292086}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -71221,7 +71221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 76565895}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -73030,7 +73030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 946103473}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -73296,7 +73296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 65370697}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -73451,7 +73451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 927216261}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -74300,7 +74300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1991190439}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -78147,7 +78147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 921230729}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -79492,7 +79492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 504100076}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -80501,7 +80501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 13340424}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -80939,7 +80939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1496257501}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -81577,7 +81577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1278957947}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -82120,7 +82120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 300107811}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -82275,7 +82275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 691638737}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -82784,7 +82784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 599815246}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -82983,7 +82983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 100370660}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -85730,7 +85730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2064806801}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -87346,7 +87346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 950791564}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -90642,7 +90642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1465890557}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -91188,7 +91188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1612100160}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -91568,7 +91568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1160309838}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -91900,7 +91900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1806991882}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -92360,7 +92360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1986727362}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -92643,7 +92643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 339399999}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -92860,7 +92860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 2037874449}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -93631,7 +93631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 1584610636}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
@@ -97893,7 +97893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5712b80d9a7361844b18fbed1dfb02ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfDestination
-  capacity: 5
+  capacity: 10
   startPoint: {fileID: 443616189}
   localStep: {x: 0.075, y: 0, z: 0}
   firstItemLocalOffset: {x: 0, y: 0, z: 0}
