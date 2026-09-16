@@ -98,6 +98,8 @@ MonoBehaviour:
   - {fileID: 0}
   simulatePhysicsWhileInWorld: 0
   placementClearanceOverride: 0
+  ignoreDroppingPlayerCollision: 1
+  minimumDropCollisionGrace: 0.5
 --- !u!114 &7232972639985123236
 MonoBehaviour:
   m_ObjectHideFlags: 0

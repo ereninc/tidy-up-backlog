@@ -53,6 +53,23 @@ namespace EXW.Multiplayer
         [TitleGroup("Drop")]
         [SerializeField] private bool requireLockedCursorForInput = true;
 
+        [TitleGroup("Drop Safety")]
+        [Tooltip(
+            "Keeps the final drop pose outside this player's body instead of " +
+            "letting the item spawn inside the movement collider.")]
+        [SerializeField] private bool preventPlayerOverlapOnDrop = true;
+
+        [TitleGroup("Drop Safety")]
+        [MinValue(0f)]
+        [SuffixLabel("m")]
+        [SerializeField] private float playerDropPadding = 0.08f;
+
+        [TitleGroup("Drop Safety")]
+        [Tooltip(
+            "Player movement/body colliders. Trigger colliders are ignored. " +
+            "AUTO ASSIGN CARRY ANCHOR fills this from the player hierarchy.")]
+        [SerializeField] private Collider[] playerBodyColliders;
+
         [ShowInInspector]
         [Sirenix.OdinInspector.ReadOnly]
         [BoxGroup("Live Carrier")]
@@ -243,26 +260,32 @@ namespace EXW.Multiplayer
         [Button("AUTO ASSIGN CARRY ANCHOR")]
         public void AutoAssignReferences()
         {
-            if (itemCarryAnchor != null)
+            if (itemCarryAnchor == null)
             {
-                return;
-            }
+                Transform existing = null;
+                Transform[] children =
+                    GetComponentsInChildren<Transform>(true);
 
-            Transform existing = null;
-            Transform[] children = GetComponentsInChildren<Transform>(true);
-
-            for (int i = 0; i < children.Length; i++)
-            {
-                if (children[i].name == "ItemCarryAnchor")
+                for (int i = 0; i < children.Length; i++)
                 {
-                    existing = children[i];
-                    break;
+                    if (children[i].name == "ItemCarryAnchor")
+                    {
+                        existing = children[i];
+                        break;
+                    }
+                }
+
+                if (existing != null)
+                {
+                    itemCarryAnchor = existing;
                 }
             }
 
-            if (existing != null)
+            if (playerBodyColliders == null ||
+                playerBodyColliders.Length == 0)
             {
-                itemCarryAnchor = existing;
+                playerBodyColliders =
+                    GetComponentsInChildren<Collider>(true);
             }
         }
 
@@ -369,8 +392,17 @@ namespace EXW.Multiplayer
             }
 
             forward.Normalize();
+            float resolvedDropDistance = dropForwardDistance;
+
+            if (preventPlayerOverlapOnDrop && item != null)
+            {
+                resolvedDropDistance = Mathf.Max(
+                    resolvedDropDistance,
+                    CalculateSafeDropDistance(item, forward));
+            }
+
             Vector3 target = transform.position +
-                             forward * dropForwardDistance;
+                             forward * resolvedDropDistance;
             Vector3 probeOrigin = target + Vector3.up * groundProbeHeight;
 
             float clearance = 0.05f;
@@ -383,13 +415,10 @@ namespace EXW.Multiplayer
                 clearance = presentation.PlacementClearance;
             }
 
-            if (Physics.Raycast(
+            if (TryFindDropSurface(
                     probeOrigin,
-                    Vector3.down,
-                    out RaycastHit hit,
-                    groundProbeDistance,
-                    dropSurfaceMask,
-                    QueryTriggerInteraction.Ignore))
+                    item,
+                    out RaycastHit hit))
             {
                 worldPosition = hit.point + hit.normal * clearance;
             }
@@ -405,6 +434,163 @@ namespace EXW.Multiplayer
 
             return NetworkInteractionValidation.IsFinite(worldPosition) &&
                    IsFinite(worldRotation);
+        }
+
+        private float CalculateSafeDropDistance(
+            NetworkWorldItem item,
+            Vector3 forward)
+        {
+            const float fallbackPlayerReach = 0.45f;
+            const float fallbackItemRadius = 0.3f;
+
+            float playerReach = 0f;
+
+            if (playerBodyColliders != null)
+            {
+                for (int i = 0; i < playerBodyColliders.Length; i++)
+                {
+                    Collider bodyCollider = playerBodyColliders[i];
+
+                    if (!IsUsablePlayerBodyCollider(bodyCollider, item))
+                    {
+                        continue;
+                    }
+
+                    Bounds bounds = bodyCollider.bounds;
+                    Vector3 extents = bounds.extents;
+                    float projectedExtent =
+                        Mathf.Abs(forward.x) * extents.x +
+                        Mathf.Abs(forward.y) * extents.y +
+                        Mathf.Abs(forward.z) * extents.z;
+                    float projectedCenter = Vector3.Dot(
+                        bounds.center - transform.position,
+                        forward);
+
+                    playerReach = Mathf.Max(
+                        playerReach,
+                        projectedCenter + projectedExtent);
+                }
+            }
+
+            playerReach = Mathf.Max(
+                fallbackPlayerReach,
+                playerReach);
+
+            float itemRadius = CalculateItemHorizontalRadius(item);
+            itemRadius = Mathf.Max(fallbackItemRadius, itemRadius);
+
+            return playerReach + itemRadius + playerDropPadding;
+        }
+
+        private static float CalculateItemHorizontalRadius(
+            NetworkWorldItem item)
+        {
+            if (item == null)
+            {
+                return 0f;
+            }
+
+            float radius = 0f;
+            Renderer[] renderers =
+                item.GetComponentsInChildren<Renderer>(true);
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                Renderer itemRenderer = renderers[i];
+
+                if (itemRenderer == null)
+                {
+                    continue;
+                }
+
+                // Use the full bounding-sphere radius because the case may be
+                // upright in hand and flat after applying DropRotationOffset.
+                float horizontalRadius =
+                    itemRenderer.bounds.extents.magnitude;
+
+                radius = Mathf.Max(radius, horizontalRadius);
+            }
+
+            return radius;
+        }
+
+        private bool IsUsablePlayerBodyCollider(
+            Collider bodyCollider,
+            NetworkWorldItem heldItem)
+        {
+            if (bodyCollider == null ||
+                !bodyCollider.enabled ||
+                bodyCollider.isTrigger ||
+                !bodyCollider.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+
+            return heldItem == null ||
+                   !bodyCollider.transform.IsChildOf(heldItem.transform);
+        }
+
+        private bool TryFindDropSurface(
+            Vector3 probeOrigin,
+            NetworkWorldItem heldItem,
+            out RaycastHit bestHit)
+        {
+            bestHit = default;
+            float bestDistance = float.PositiveInfinity;
+            RaycastHit[] hits = Physics.RaycastAll(
+                probeOrigin,
+                Vector3.down,
+                groundProbeDistance,
+                dropSurfaceMask,
+                QueryTriggerInteraction.Ignore);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                RaycastHit hit = hits[i];
+
+                if (hit.collider == null ||
+                    ShouldIgnoreDropSurface(hit.collider, heldItem) ||
+                    hit.distance >= bestDistance)
+                {
+                    continue;
+                }
+
+                bestDistance = hit.distance;
+                bestHit = hit;
+            }
+
+            return bestDistance < float.PositiveInfinity;
+        }
+
+        private bool ShouldIgnoreDropSurface(
+            Collider candidate,
+            NetworkWorldItem heldItem)
+        {
+            if (candidate == null)
+            {
+                return true;
+            }
+
+            if (heldItem != null &&
+                candidate.transform.IsChildOf(heldItem.transform))
+            {
+                return true;
+            }
+
+            if (playerBodyColliders != null)
+            {
+                for (int i = 0; i < playerBodyColliders.Length; i++)
+                {
+                    if (playerBodyColliders[i] == candidate)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            // A player body must never be interpreted as the floor under a
+            // dropped item. This also prevents dropping onto another player.
+            return candidate.GetComponentInParent<NetworkItemCarrier>() != null;
         }
 
         [ServerRpc(RequireOwnership = true)]
@@ -492,6 +678,7 @@ namespace EXW.Multiplayer
             dropForwardDistance = Mathf.Max(0.2f, dropForwardDistance);
             groundProbeHeight = Mathf.Max(0.1f, groundProbeHeight);
             groundProbeDistance = Mathf.Max(0.1f, groundProbeDistance);
+            playerDropPadding = Mathf.Max(0f, playerDropPadding);
         }
 
         private static bool IsFinite(Quaternion value)
