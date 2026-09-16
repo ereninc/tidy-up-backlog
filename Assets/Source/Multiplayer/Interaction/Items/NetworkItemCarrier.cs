@@ -66,6 +66,16 @@ namespace EXW.Multiplayer
         [ShowInInspector]
         [Sirenix.OdinInspector.ReadOnly]
         [BoxGroup("Live Carrier")]
+        public int CarryLimit => 1;
+
+        [ShowInInspector]
+        [Sirenix.OdinInspector.ReadOnly]
+        [BoxGroup("Live Carrier")]
+        public int HeldItemCount => HasHeldItem ? 1 : 0;
+
+        [ShowInInspector]
+        [Sirenix.OdinInspector.ReadOnly]
+        [BoxGroup("Live Carrier")]
         public string HeldItemName => TryGetHeldItem(out NetworkWorldItem item)
             ? item.DisplayName
             : "Empty";
@@ -293,6 +303,30 @@ namespace EXW.Multiplayer
             _heldItem.Value = default;
         }
 
+        /// <summary>
+        /// Sends one discrete motion cue through the already-existing player
+        /// NetworkBehaviour. Every peer performs the visual interpolation
+        /// locally; item transforms are not streamed per frame.
+        /// </summary>
+        internal void BroadcastItemMotionServer(
+            NetworkWorldItem item,
+            Vector3 startWorldPosition,
+            Quaternion startWorldRotation,
+            uint targetRevision)
+        {
+            if (!IsServer || !IsSpawned ||
+                item == null || !item.IsSpawned)
+            {
+                return;
+            }
+
+            PlayItemMotionClientRpc(
+                new NetworkObjectReference(item.NetworkObject),
+                startWorldPosition,
+                startWorldRotation,
+                targetRevision);
+        }
+
         internal bool TryGetCarryLocalPose(
             NetworkCarryable carryable,
             out Vector3 localPosition,
@@ -389,6 +423,29 @@ namespace EXW.Multiplayer
                     $"[ItemCarrier] Drop rejected: {rejectionMessage}",
                     this);
             }
+        }
+
+        [ClientRpc]
+        private void PlayItemMotionClientRpc(
+            NetworkObjectReference itemReference,
+            Vector3 startWorldPosition,
+            Quaternion startWorldRotation,
+            uint targetRevision)
+        {
+            if (NetworkManager == null ||
+                !itemReference.TryGet(
+                    out NetworkObject itemObject,
+                    NetworkManager) ||
+                !itemObject.TryGetComponent(
+                    out NetworkItemMotionPresenter presenter))
+            {
+                return;
+            }
+
+            presenter.PlayTransitionLocal(
+                startWorldPosition,
+                startWorldRotation,
+                targetRevision);
         }
 
         private void HandleClientDisconnected(ulong clientId)

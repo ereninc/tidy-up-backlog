@@ -4,10 +4,9 @@ using UnityEngine;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// Synchronous server-only item transactions. It validates before mutation,
-    /// changes an NGO parent once, then publishes item/carrier/receiver state.
-    /// Unity's main thread makes competing pickup requests deterministic: first
-    /// valid transaction wins.
+    /// Synchronous server-only item transactions. Rules and final transforms
+    /// stay authoritative; an optional NetworkItemMotionPresenter sends one
+    /// transition cue so each peer draws the movement locally.
     /// </summary>
     public static class NetworkItemTransferService
     {
@@ -23,9 +22,103 @@ namespace EXW.Multiplayer
                 return false;
             }
 
+            return carrier.HasHeldItem
+                ? TrySwap(carrier, item, out resultMessage)
+                : TryPickupIntoEmptyHands(carrier, item, out resultMessage);
+        }
+
+        /// <summary>
+        /// One-slot carry behavior: the current item is safely dropped using
+        /// the carrier's normal drop calculation, then the target is picked up.
+        /// If the second step unexpectedly fails, the old item is restored when
+        /// possible instead of silently leaving the player's hands empty.
+        /// </summary>
+        private static bool TrySwap(
+            NetworkItemCarrier carrier,
+            NetworkWorldItem targetItem,
+            out string resultMessage)
+        {
+            resultMessage = string.Empty;
+
+            if (!carrier.TryGetHeldItem(out NetworkWorldItem previousItem) ||
+                previousItem == null)
+            {
+                resultMessage = "The currently held item could not be resolved.";
+                return false;
+            }
+
+            if (previousItem == targetItem)
+            {
+                resultMessage = "You are already holding this item.";
+                return false;
+            }
+
+            if (!previousItem.IsHeld ||
+                previousItem.Location.HolderClientId != carrier.OwnerClientId)
+            {
+                resultMessage = "Carrier and held item state do not agree.";
+                return false;
+            }
+
+            NetworkCarryable targetCarryable =
+                targetItem.GetComponent<NetworkCarryable>();
+
+            if (targetCarryable == null ||
+                !targetCarryable.CanPickUpServer(
+                    targetItem,
+                    out resultMessage))
+            {
+                return false;
+            }
+
+            string previousName = previousItem.DisplayName;
+            string targetName = targetItem.DisplayName;
+
+            if (!TryDrop(carrier, out string dropMessage))
+            {
+                resultMessage = "Swap could not drop the current item: " +
+                                dropMessage;
+                return false;
+            }
+
+            if (TryPickupIntoEmptyHands(
+                    carrier,
+                    targetItem,
+                    out string pickupMessage))
+            {
+                resultMessage = $"Swapped {previousName} for {targetName}.";
+                return true;
+            }
+
+            bool restoredPrevious = TryPickupIntoEmptyHands(
+                carrier,
+                previousItem,
+                out string restoreMessage);
+
+            resultMessage = restoredPrevious
+                ? $"Could not pick up {targetName}: {pickupMessage} " +
+                  $"{previousName} was restored."
+                : $"Could not pick up {targetName}: {pickupMessage} " +
+                  $"The previous item also could not be restored: " +
+                  restoreMessage;
+            return false;
+        }
+
+        private static bool TryPickupIntoEmptyHands(
+            NetworkItemCarrier carrier,
+            NetworkWorldItem item,
+            out string resultMessage)
+        {
+            resultMessage = string.Empty;
+
+            if (!ValidateServerPair(carrier, item, out resultMessage))
+            {
+                return false;
+            }
+
             if (carrier.HasHeldItem)
             {
-                resultMessage = "Your hands are full.";
+                resultMessage = "The carry slot is still occupied.";
                 return false;
             }
 
@@ -48,15 +141,19 @@ namespace EXW.Multiplayer
 
             NetworkItemReceiver previousReceiver = null;
 
-            if (item.IsPlaced)
+            if (item.IsPlaced &&
+                !item.TryResolveReceiver(out previousReceiver))
             {
-                if (!item.TryResolveReceiver(out previousReceiver))
-                {
-                    resultMessage =
-                        "Item placement receiver could not be resolved.";
-                    return false;
-                }
+                resultMessage =
+                    "Item placement receiver could not be resolved.";
+                return false;
             }
+
+            NetworkItemMotionPresenter motion = CaptureMotionStart(
+                item,
+                out Vector3 visualStartPosition,
+                out Quaternion visualStartRotation);
+            uint revision = item.NextRevisionServer();
 
             item.PrepareParentPoseServer(localPosition, localRotation);
 
@@ -73,8 +170,15 @@ namespace EXW.Multiplayer
             previousReceiver?.ReleaseItemServer(item);
             item.SetLocationServer(NetworkItemLocationState.Held(
                 carrier.OwnerClientId,
-                item.NextRevisionServer()));
+                revision));
             carrier.SetHeldItemServer(item);
+            PlayMotion(
+                carrier,
+                item,
+                motion,
+                visualStartPosition,
+                visualStartRotation,
+                revision);
 
             resultMessage = $"Picked up {item.DisplayName}.";
             return true;
@@ -105,9 +209,7 @@ namespace EXW.Multiplayer
                 ? carrier.TryGetHeldItemForServerCleanup(out item)
                 : carrier.TryGetHeldItem(out item);
 
-            if (!resolvedItem ||
-                item == null ||
-                !item.IsSpawned)
+            if (!resolvedItem || item == null || !item.IsSpawned)
             {
                 if (carrier.IsSpawned)
                 {
@@ -137,6 +239,12 @@ namespace EXW.Multiplayer
                 return false;
             }
 
+            NetworkItemMotionPresenter motion = CaptureMotionStart(
+                item,
+                out Vector3 visualStartPosition,
+                out Quaternion visualStartRotation);
+            uint revision = item.NextRevisionServer();
+
             item.PrepareParentPoseServer(worldPosition, worldRotation);
             bool detached = item.transform.parent == null ||
                             item.NetworkObject.TryRemoveParent(false);
@@ -149,13 +257,20 @@ namespace EXW.Multiplayer
             }
 
             item.ApplyPreparedParentPoseServer();
-            item.SetLocationServer(NetworkItemLocationState.World(
-                item.NextRevisionServer()));
+            item.SetLocationServer(NetworkItemLocationState.World(revision));
 
             if (carrier.IsSpawned)
             {
                 carrier.ClearHeldItemServer(item);
             }
+
+            PlayMotion(
+                carrier,
+                item,
+                motion,
+                visualStartPosition,
+                visualStartRotation,
+                revision);
 
             resultMessage = disconnectCleanup
                 ? $"Dropped {item.DisplayName} during disconnect cleanup."
@@ -213,6 +328,12 @@ namespace EXW.Multiplayer
                 return true;
             }
 
+            NetworkItemMotionPresenter motion = CaptureMotionStart(
+                item,
+                out Vector3 visualStartPosition,
+                out Quaternion visualStartRotation);
+            uint revision = item.NextRevisionServer();
+
             item.PrepareParentPoseServer(
                 plan.LocalPosition,
                 plan.LocalRotation);
@@ -231,11 +352,57 @@ namespace EXW.Multiplayer
             item.SetLocationServer(NetworkItemLocationState.Placed(
                 receiver.NetworkObject,
                 plan.SlotIndex,
-                item.NextRevisionServer()));
+                revision));
             carrier.ClearHeldItemServer(item);
+            PlayMotion(
+                carrier,
+                item,
+                motion,
+                visualStartPosition,
+                visualStartRotation,
+                revision);
 
             resultMessage = $"Placed {item.DisplayName}.";
             return true;
+        }
+
+        private static NetworkItemMotionPresenter CaptureMotionStart(
+            NetworkWorldItem item,
+            out Vector3 worldPosition,
+            out Quaternion worldRotation)
+        {
+            worldPosition = Vector3.zero;
+            worldRotation = Quaternion.identity;
+
+            if (item == null ||
+                !item.TryGetComponent(
+                    out NetworkItemMotionPresenter motion) ||
+                !motion.TryCaptureCurrentVisualPose(
+                    out worldPosition,
+                    out worldRotation))
+            {
+                return null;
+            }
+
+            return motion;
+        }
+
+        private static void PlayMotion(
+            NetworkItemCarrier carrier,
+            NetworkWorldItem item,
+            NetworkItemMotionPresenter motion,
+            Vector3 startPosition,
+            Quaternion startRotation,
+            uint targetRevision)
+        {
+            if (carrier != null && motion != null)
+            {
+                carrier.BroadcastItemMotionServer(
+                    item,
+                    startPosition,
+                    startRotation,
+                    targetRevision);
+            }
         }
 
         private static bool ValidateServerPair(
@@ -262,7 +429,8 @@ namespace EXW.Multiplayer
             if (manager == null || manager != item.NetworkManager ||
                 !manager.IsListening)
             {
-                rejectionMessage = "Carrier and item are not in the same session.";
+                rejectionMessage =
+                    "Carrier and item are not in the same session.";
                 return false;
             }
 

@@ -15,7 +15,7 @@ namespace EXW.Multiplayer
     {
         [InfoBox(
             "Display name comes from NetworkWorldItem. E requests a server-owned " +
-            "pickup; no client takes ownership of the item.")]
+            "pickup or one-slot swap; no client takes ownership of the item.")]
         [TitleGroup("Item")]
         [Required]
         [SerializeField] private NetworkWorldItem item;
@@ -64,7 +64,15 @@ namespace EXW.Multiplayer
                 return "Carrier Missing";
             }
 
-            return carrier.HasHeldItem ? "Hands Full" : "Pick Up";
+            if (!carrier.HasHeldItem)
+            {
+                return "Pick Up";
+            }
+
+            return carrier.TryGetHeldItem(out NetworkWorldItem heldItem) &&
+                   heldItem == item
+                ? "Holding"
+                : "Swap";
         }
 
         protected override bool CanInteractServer(
@@ -83,15 +91,16 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (carrier.HasHeldItem)
-            {
-                rejectionMessage = "Your hands are full.";
-                return false;
-            }
-
             if (item == null || carryable == null)
             {
                 rejectionMessage = "Item carry components are incomplete.";
+                return false;
+            }
+
+            if (carrier.TryGetHeldItem(out NetworkWorldItem heldItem) &&
+                heldItem == item)
+            {
+                rejectionMessage = "You are already holding this item.";
                 return false;
             }
 
