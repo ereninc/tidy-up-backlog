@@ -1,198 +1,350 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EXW.Multiplayer
 {
-    /// <summary>
-    /// Game-specific data/presentation composed beside NetworkWorldItem.
-    /// AppId is derived from the replicated session manifest and the serialized
-    /// scene index; it deliberately does not add one NetworkVariable per case.
-    /// </summary>
     [RequireComponent(typeof(NetworkWorldItem))]
     [DisallowMultipleComponent]
-    [AddComponentMenu("Multiplayer/Game Cases/Network Game Case")]
+    [AddComponentMenu(
+        "Multiplayer/Game Cases/Network Game Case")]
     public sealed class NetworkGameCase : MonoBehaviour
     {
+        private static readonly int CoverIndexId =
+            Shader.PropertyToID("_CoverIndex");
+
+        private static readonly int ShellColorId =
+            Shader.PropertyToID("_ShellColor");
+
         [Header("Scene Identity")]
-        [SerializeField, Min(0)] private int sceneCaseIndex;
+        [SerializeField, Min(0)]
+        private int sceneCaseIndex;
 
-        [Header("Artwork")]
-        [SerializeField] private Renderer artworkRenderer;
+        [Header("Combined Rendering")]
+        [FormerlySerializedAs("artworkRenderer")]
+        [SerializeField]
+        private Renderer combinedRenderer;
 
-        [Tooltip("Shell=0 and artwork=1 on one renderer: leave this at 1.")]
-        [SerializeField, Min(0)] private int artworkMaterialIndex = 1;
+        [Header("Playtime Colors")]
 
-        [Tooltip("URP Lit: _BaseMap. Built-in Standard: _MainTex.")]
-        [SerializeField] private string artworkTextureProperty = "_BaseMap";
+        [Tooltip("Unplayed / almost unplayed.")]
+        [SerializeField]
+        private Color lowPlaytimeColor =
+            new Color(
+                0.015f,
+                0.035f,
+                0.16f,
+                1f);
 
-        [Header("Optional Shell Variation")]
-        [SerializeField] private bool tintShellFromAppId;
-        [SerializeField, Min(0)] private int shellMaterialIndex;
-        [SerializeField] private string shellColorProperty = "_BaseColor";
-        [SerializeField, Range(0f, 1f)] private float shellSaturation = 0.65f;
-        [SerializeField, Range(0f, 1f)] private float shellValue = 0.85f;
+        [Tooltip("Regularly played.")]
+        [SerializeField]
+        private Color mediumPlaytimeColor =
+            new Color(
+                0.02f,
+                0.22f,
+                0.95f,
+                1f);
 
-        public int SceneCaseIndex => sceneCaseIndex;
+        [Tooltip("Heavily played.")]
+        [SerializeField]
+        private Color highPlaytimeColor =
+            new Color(
+                1f,
+                0.55f,
+                0.03f,
+                1f);
+
+        [Tooltip(
+            "At this many hours the case reaches full blue.")]
+        [SerializeField, Min(0.1f)]
+        private float blueAtHours = 20f;
+
+        [Tooltip(
+            "At this many hours the case reaches full gold.")]
+        [SerializeField, Min(1f)]
+        private float goldAtHours = 500f;
+
+        public int SceneCaseIndex =>
+            sceneCaseIndex;
+
         public uint AppId { get; private set; }
-        public bool IsBound => AppId != 0;
+
+        public uint PlaytimeMinutes { get; private set; }
+
+        public float PlaytimeHours =>
+            PlaytimeMinutes / 60f;
+
+        public bool IsBound =>
+            AppId != 0;
+
+        public Color CurrentShellColor { get; private set; }
 
         public event Action<uint, uint> AppIdChanged;
 
         private MaterialPropertyBlock _propertyBlock;
-        private int _artworkTexturePropertyId;
-        private int _shellColorPropertyId;
-        private uint _coverRequestVersion;
 
         private void Reset()
         {
-            artworkRenderer = GetComponentInChildren<Renderer>(true);
+            AutoAssignReferences();
         }
 
         private void Awake()
         {
-            if (artworkRenderer == null)
-            {
-                artworkRenderer = GetComponentInChildren<Renderer>(true);
-            }
+            AutoAssignReferences();
 
-            if (string.IsNullOrWhiteSpace(artworkTextureProperty))
-            {
-                artworkTextureProperty = "_BaseMap";
-            }
-
-            if (string.IsNullOrWhiteSpace(shellColorProperty))
-            {
-                shellColorProperty = "_BaseColor";
-            }
-
-            _artworkTexturePropertyId =
-                Shader.PropertyToID(artworkTextureProperty);
-            _shellColorPropertyId =
-                Shader.PropertyToID(shellColorProperty);
+            _propertyBlock =
+                new MaterialPropertyBlock();
         }
 
-        public void BindAppId(uint appId)
+        private void OnValidate()
+        {
+            blueAtHours =
+                Mathf.Max(
+                    0.1f,
+                    blueAtHours);
+
+            goldAtHours =
+                Mathf.Max(
+                    blueAtHours + 0.1f,
+                    goldAtHours);
+
+            AutoAssignReferences();
+        }
+
+        private void AutoAssignReferences()
+        {
+            if (!combinedRenderer)
+            {
+                combinedRenderer =
+                    GetComponentInChildren<Renderer>(
+                        true);
+            }
+        }
+
+        public void BindAppId(
+            uint appId)
+        {
+            uint playtimeMinutes =
+                GameCaseSessionPlaytimePlan
+                    .GetOrDefault(appId);
+
+            BindAppId(
+                appId,
+                playtimeMinutes);
+        }
+
+        public void BindAppId(
+            uint appId,
+            uint playtimeMinutes)
         {
             if (appId == 0)
             {
-                Debug.LogError("Cannot bind a zero Steam AppId.", this);
+                Debug.LogError(
+                    "[NetworkGameCase] Cannot bind zero AppId.",
+                    this);
+
                 return;
             }
 
-            if (AppId == appId)
+            uint previous =
+                AppId;
+
+            bool appChanged =
+                AppId != appId;
+
+            AppId =
+                appId;
+
+            PlaytimeMinutes =
+                playtimeMinutes;
+
+            ApplyVisualState();
+
+            if (appChanged)
             {
-                return;
+                AppIdChanged?.Invoke(
+                    previous,
+                    AppId);
             }
-
-            uint previous = AppId;
-            AppId = appId;
-            _coverRequestVersion++;
-            uint requestVersion = _coverRequestVersion;
-
-            if (tintShellFromAppId)
-            {
-                ApplyShellTint(appId);
-            }
-
-            AppIdChanged?.Invoke(previous, AppId);
-
-            GameCaseCoverCache.GetOrCreate().RequestCover(
-                appId,
-                texture =>
-                {
-                    if (this == null ||
-                        texture == null ||
-                        AppId != appId ||
-                        _coverRequestVersion != requestVersion)
-                    {
-                        return;
-                    }
-
-                    ApplyCoverTexture(texture);
-                });
         }
 
-        public void ApplyCoverTexture(Texture texture)
+        public void RefreshVisual()
         {
-            if (!TryPrepareMaterialSlot(artworkMaterialIndex))
+            if (!IsBound)
             {
                 return;
             }
 
-            artworkRenderer.GetPropertyBlock(
-                _propertyBlock,
-                artworkMaterialIndex);
-            _propertyBlock.SetTexture(
-                _artworkTexturePropertyId,
-                texture);
-            artworkRenderer.SetPropertyBlock(
-                _propertyBlock,
-                artworkMaterialIndex);
+            ApplyVisualState();
         }
 
-        private void ApplyShellTint(uint appId)
+        private void ApplyVisualState()
         {
-            if (!TryPrepareMaterialSlot(shellMaterialIndex))
-            {
-                return;
-            }
-
-            float hue = HashToUnitFloat(appId);
-            Color color = Color.HSVToRGB(
-                hue,
-                shellSaturation,
-                shellValue);
-
-            artworkRenderer.GetPropertyBlock(
-                _propertyBlock,
-                shellMaterialIndex);
-            _propertyBlock.SetColor(_shellColorPropertyId, color);
-            artworkRenderer.SetPropertyBlock(
-                _propertyBlock,
-                shellMaterialIndex);
-        }
-
-        private bool TryPrepareMaterialSlot(int materialIndex)
-        {
-            if (artworkRenderer == null)
-            {
-                return false;
-            }
-
-            Material[] materials = artworkRenderer.sharedMaterials;
-
-            if (materialIndex < 0 || materialIndex >= materials.Length)
+            if (!combinedRenderer)
             {
                 Debug.LogError(
-                    $"Material index {materialIndex} is invalid on " +
-                    artworkRenderer.name + ".",
+                    "[NetworkGameCase] Combined Renderer is missing.",
                     this);
-                return false;
+
+                return;
             }
 
-            if (_propertyBlock == null)
+            GameCaseCoverCache cache =
+                GameCaseCoverCache.Instance;
+
+            if (cache == null)
             {
-                _propertyBlock = new MaterialPropertyBlock();
+                Debug.LogError(
+                    "[NetworkGameCase] GameCaseCoverCache is missing.",
+                    this);
+
+                return;
             }
 
-            return true;
+            if (!cache.TryGetSlice(
+                    AppId,
+                    out int coverIndex))
+            {
+                Debug.LogError(
+                    $"[NetworkGameCase] No cover slice for AppId {AppId}.",
+                    this);
+
+                return;
+            }
+
+            EnsurePropertyBlock();
+
+            /*
+             * Keep any unrelated properties already on the renderer.
+             */
+            combinedRenderer.GetPropertyBlock(
+                _propertyBlock);
+
+            /*
+             * Cover Texture2DArray slice.
+             */
+            _propertyBlock.SetFloat(
+                CoverIndexId,
+                coverIndex);
+
+            /*
+             * Shell playtime color.
+             */
+            CurrentShellColor =
+                EvaluatePlaytimeColor(
+                    PlaytimeMinutes);
+
+            _propertyBlock.SetColor(
+                ShellColorId,
+                CurrentShellColor);
+
+            combinedRenderer.SetPropertyBlock(
+                _propertyBlock);
         }
 
-        private static float HashToUnitFloat(uint value)
+        private Color EvaluatePlaytimeColor(
+            uint playtimeMinutes)
         {
-            value ^= value >> 16;
-            value *= 0x7FEB352Du;
-            value ^= value >> 15;
-            value *= 0x846CA68Bu;
-            value ^= value >> 16;
-            return (value & 0x00FFFFFFu) / 16777216f;
+            float hours =
+                playtimeMinutes / 60f;
+
+            /*
+             * 0h -> BlueAtHours
+             *
+             * Navy -> Blue
+             */
+            if (hours <= blueAtHours)
+            {
+                float time =
+                    Mathf.Clamp01(
+                        hours /
+                        blueAtHours);
+
+                time =
+                    Mathf.Sqrt(time);
+
+                return Color.Lerp(
+                    lowPlaytimeColor,
+                    mediumPlaytimeColor,
+                    time);
+            }
+
+            /*
+             * BlueAtHours -> GoldAtHours
+             *
+             * Blue -> Gold
+             */
+            float range =
+                Mathf.Max(
+                    0.01f,
+                    goldAtHours -
+                    blueAtHours);
+
+            float elapsed =
+                Mathf.Clamp(
+                    hours -
+                    blueAtHours,
+                    0f,
+                    range);
+
+            float numerator =
+                Mathf.Log10(
+                    1f + elapsed);
+
+            float denominator =
+                Mathf.Log10(
+                    1f + range);
+
+            float t =
+                denominator > 0f
+                    ? numerator /
+                      denominator
+                    : 1f;
+
+            return Color.Lerp(
+                mediumPlaytimeColor,
+                highPlaytimeColor,
+                Mathf.Clamp01(t));
+        }
+
+        private void EnsurePropertyBlock()
+        {
+            if (_propertyBlock == null)
+            {
+                _propertyBlock =
+                    new MaterialPropertyBlock();
+            }
         }
 
 #if UNITY_EDITOR
-        public void EditorSetSceneCaseIndex(int index)
+
+        [ContextMenu("Debug / Reapply Visual")]
+        private void EditorReapplyVisual()
         {
-            sceneCaseIndex = Mathf.Max(0, index);
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
+            RefreshVisual();
+
+            Debug.Log(
+                $"[NetworkGameCase] " +
+                $"AppId={AppId}, " +
+                $"Playtime={PlaytimeHours:0.0}h, " +
+                $"ShellColor={CurrentShellColor}",
+                this);
         }
+
+        public void EditorSetSceneCaseIndex(
+            int index)
+        {
+            sceneCaseIndex =
+                Mathf.Max(
+                    0,
+                    index);
+        }
+
 #endif
     }
 }

@@ -189,8 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e5148641354de44b821f7c24858f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.SteamOwnedGamesClient
-  source: 1
-  backendUrlTemplate: 
+  source: 0
+  backendUrlTemplate: https://steam-library-proxy.vercel.app/api/steam-owned-games?steamId={steamId}
   webApiKeyEnvironmentVariable: STEAM_WEB_API_KEY
   directWebApiEndpoint: https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/
   timeoutSeconds: 20
@@ -211,6 +211,8 @@ MonoBehaviour:
   copiesPerGame: 30
   fallbackAppIds: f046370074ae3200aefd0300a6ac11000e580300faef0b00
   excludedAppIds: 
+  extraCandidatesPerPass: 25
+  maximumCoverCandidates: 500
   ownedGamesClient: {fileID: 269864307}
   clearPreviousSessionCache: 1
 --- !u!114 &269864309

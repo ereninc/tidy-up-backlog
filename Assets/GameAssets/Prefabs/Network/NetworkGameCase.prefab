@@ -162,14 +162,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCase
   sceneCaseIndex: 2
-  artworkRenderer: {fileID: 4844845932129268465}
-  artworkMaterialIndex: 1
-  artworkTextureProperty: _BaseMap
-  tintShellFromAppId: 1
-  shellMaterialIndex: 0
-  shellColorProperty: _BaseColor
-  shellSaturation: 0.65
-  shellValue: 0.85
+  combinedRenderer: {fileID: 4844845932129268465}
+  lowPlaytimeColor: {r: 0.1154503, g: 0.13503504, b: 0.2603773, a: 1}
+  mediumPlaytimeColor: {r: 0.25471687, g: 0.4150943, b: 1, a: 1}
+  highPlaytimeColor: {r: 1, g: 0.7394873, b: 0.031372547, a: 1}
+  blueAtHours: 8
+  goldAtHours: 30
 --- !u!114 &6678711445758127724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +183,6 @@ MonoBehaviour:
   interactable: {fileID: 8392574663449016452}
   outlineRenderer: {fileID: 0}
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
 --- !u!114 &5995530946966573179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,13 +350,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6dc5dc25aedbe674abf2b39cafe9f837, type: 2}
+      objectReference: {fileID: 2100000, guid: 0de1e10d6b5af544cbe6cbd476c00e16, type: 2}
     - target: {fileID: -7511558181221131132, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 9bfede8dca9f1824288fd3f5786d1c81, type: 2}
+    - target: {fileID: -5754084199372789682, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: a4ac7c0794e900d458dc8e0807403797, type: 2}
     - target: {fileID: 919132149155446097, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_Name
       value: GameBoxVisual

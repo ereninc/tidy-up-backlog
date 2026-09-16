@@ -12,44 +12,100 @@ namespace EXW.Multiplayer
         DirectWebApiDevelopmentOnly = 1
     }
 
+    public sealed class SteamOwnedGameData
+    {
+        public SteamOwnedGameData(
+            uint appId,
+            uint playtimeMinutes)
+        {
+            AppId = appId;
+            PlaytimeMinutes = playtimeMinutes;
+        }
+
+        public uint AppId { get; }
+
+        /// <summary>
+        /// Steam's playtime_forever value, in minutes.
+        /// </summary>
+        public uint PlaytimeMinutes { get; }
+
+        public float PlaytimeHours =>
+            PlaytimeMinutes / 60f;
+    }
+
     public sealed class SteamOwnedGamesResult
     {
         private SteamOwnedGamesResult(
             bool succeeded,
-            IReadOnlyList<uint> appIds,
+            IReadOnlyList<SteamOwnedGameData> games,
             string error)
         {
             Succeeded = succeeded;
-            AppIds = appIds ?? Array.Empty<uint>();
-            Error = error ?? string.Empty;
+
+            Games =
+                games ??
+                Array.Empty<SteamOwnedGameData>();
+
+            Error =
+                error ??
+                string.Empty;
+
+            var appIds =
+                new uint[Games.Count];
+
+            for (int i = 0;
+                 i < Games.Count;
+                 i++)
+            {
+                appIds[i] =
+                    Games[i].AppId;
+            }
+
+            AppIds = appIds;
         }
 
         public bool Succeeded { get; }
+
+        public IReadOnlyList<SteamOwnedGameData> Games { get; }
+
+        /// <summary>
+        /// Preserved for systems which only care about AppIds.
+        /// </summary>
         public IReadOnlyList<uint> AppIds { get; }
+
         public string Error { get; }
 
         public static SteamOwnedGamesResult Success(
-            IReadOnlyList<uint> appIds)
+            IReadOnlyList<SteamOwnedGameData> games)
         {
-            return new SteamOwnedGamesResult(true, appIds, string.Empty);
+            return new SteamOwnedGamesResult(
+                true,
+                games,
+                string.Empty);
         }
 
-        public static SteamOwnedGamesResult Failure(string error)
+        public static SteamOwnedGamesResult Failure(
+            string error)
         {
             return new SteamOwnedGamesResult(
                 false,
-                Array.Empty<uint>(),
+                Array.Empty<SteamOwnedGameData>(),
                 error);
         }
     }
 
     /// <summary>
-    /// Fetches only AppIds. Production mode expects a backend proxy so a Steam
-    /// Web API key is never shipped inside the game. The direct mode reads the
-    /// key from a host-machine environment variable and refuses release builds.
+    /// Fetches owned Steam games including lifetime playtime.
+    ///
+    /// Production mode expects a backend proxy so a Steam Web API key
+    /// is never shipped inside the game.
+    ///
+    /// Direct mode reads the API key from an environment variable
+    /// and refuses release builds.
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Multiplayer/Game Cases/Steam Owned Games Client")]
+    [AddComponentMenu(
+        "Multiplayer/Game Cases/Steam Owned Games Client")]
     public sealed class SteamOwnedGamesClient : MonoBehaviour
     {
         [Header("Source")]
@@ -59,11 +115,13 @@ namespace EXW.Multiplayer
 
         [Tooltip(
             "Example: https://example.com/steam/owned-games?steamId={steamId}")]
-        [SerializeField] private string backendUrlTemplate;
+        [SerializeField]
+        private string backendUrlTemplate;
 
         [Header("Development Direct Web API")]
         [SerializeField]
-        private string webApiKeyEnvironmentVariable = "STEAM_WEB_API_KEY";
+        private string webApiKeyEnvironmentVariable =
+            "STEAM_WEB_API_KEY";
 
         [SerializeField]
         private string directWebApiEndpoint =
@@ -71,7 +129,8 @@ namespace EXW.Multiplayer
             "IPlayerService/GetOwnedGames/v0001/";
 
         [Header("Request")]
-        [SerializeField, Min(5)] private int timeoutSeconds = 20;
+        [SerializeField, Min(5)]
+        private int timeoutSeconds = 20;
 
         public IEnumerator FetchOwnedAppIds(
             ulong steamId,
@@ -80,39 +139,62 @@ namespace EXW.Multiplayer
             if (steamId == 0)
             {
                 completed?.Invoke(
-                    SteamOwnedGamesResult.Failure("SteamId is zero."));
+                    SteamOwnedGamesResult.Failure(
+                        "SteamId is zero."));
+
                 yield break;
             }
 
-            if (!TryBuildRequestUrl(steamId, out string url, out string error))
+            if (!TryBuildRequestUrl(
+                    steamId,
+                    out string url,
+                    out string error))
             {
-                completed?.Invoke(SteamOwnedGamesResult.Failure(error));
+                completed?.Invoke(
+                    SteamOwnedGamesResult.Failure(
+                        error));
+
                 yield break;
             }
 
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            using (
+                UnityWebRequest request =
+                    UnityWebRequest.Get(url))
             {
-                request.timeout = Mathf.Max(5, timeoutSeconds);
-                yield return request.SendWebRequest();
+                request.timeout =
+                    Mathf.Max(
+                        5,
+                        timeoutSeconds);
 
-                if (request.result != UnityWebRequest.Result.Success)
+                yield return
+                    request.SendWebRequest();
+
+                if (request.result !=
+                    UnityWebRequest.Result.Success)
                 {
-                    completed?.Invoke(SteamOwnedGamesResult.Failure(
-                        $"Owned-games request failed for {steamId}: " +
-                        request.error));
+                    completed?.Invoke(
+                        SteamOwnedGamesResult.Failure(
+                            $"Owned-games request failed for " +
+                            $"{steamId}: {request.error}"));
+
                     yield break;
                 }
 
-                if (!TryParseAppIds(
+                if (!TryParseGames(
                         request.downloadHandler.text,
-                        out IReadOnlyList<uint> appIds,
+                        out IReadOnlyList<SteamOwnedGameData> games,
                         out error))
                 {
-                    completed?.Invoke(SteamOwnedGamesResult.Failure(error));
+                    completed?.Invoke(
+                        SteamOwnedGamesResult.Failure(
+                            error));
+
                     yield break;
                 }
 
-                completed?.Invoke(SteamOwnedGamesResult.Success(appIds));
+                completed?.Invoke(
+                    SteamOwnedGamesResult.Success(
+                        games));
             }
         }
 
@@ -124,136 +206,375 @@ namespace EXW.Multiplayer
             url = string.Empty;
             error = string.Empty;
 
-            if (source == SteamOwnedGamesSource.BackendProxy)
+            if (source ==
+                SteamOwnedGamesSource.BackendProxy)
             {
-                if (string.IsNullOrWhiteSpace(backendUrlTemplate) ||
-                    !backendUrlTemplate.Contains("{steamId}"))
+                if (string.IsNullOrWhiteSpace(
+                        backendUrlTemplate) ||
+                    !backendUrlTemplate.Contains(
+                        "{steamId}"))
                 {
                     error =
-                        "Backend URL must contain the {steamId} placeholder.";
+                        "Backend URL must contain the " +
+                        "{steamId} placeholder.";
+
                     return false;
                 }
 
-                url = backendUrlTemplate.Replace(
-                    "{steamId}",
-                    steamId.ToString());
+                url =
+                    backendUrlTemplate.Replace(
+                        "{steamId}",
+                        steamId.ToString());
+
                 return true;
             }
 
-            if (!Application.isEditor && !Debug.isDebugBuild)
+            if (!Application.isEditor &&
+                !Debug.isDebugBuild)
             {
                 error =
-                    "Direct Steam Web API mode is disabled in release builds.";
+                    "Direct Steam Web API mode is disabled " +
+                    "in release builds.";
+
                 return false;
             }
 
-            string key = Environment.GetEnvironmentVariable(
-                webApiKeyEnvironmentVariable);
+            string key =
+                Environment.GetEnvironmentVariable(
+                    webApiKeyEnvironmentVariable);
 
             if (string.IsNullOrWhiteSpace(key))
             {
                 error =
-                    $"Environment variable {webApiKeyEnvironmentVariable} " +
+                    $"Environment variable " +
+                    $"{webApiKeyEnvironmentVariable} " +
                     "is missing on the host machine.";
+
                 return false;
             }
 
-            string separator = directWebApiEndpoint.Contains("?") ? "&" : "?";
-            url = directWebApiEndpoint + separator +
-                  "key=" + UnityWebRequest.EscapeURL(key) +
-                  "&steamid=" + steamId +
-                  "&include_appinfo=0" +
-                  "&include_played_free_games=1" +
-                  "&format=json";
+            string separator =
+                directWebApiEndpoint.Contains("?")
+                    ? "&"
+                    : "?";
+
+            url =
+                directWebApiEndpoint +
+                separator +
+                "key=" +
+                UnityWebRequest.EscapeURL(key) +
+                "&steamid=" +
+                steamId +
+                "&include_appinfo=0" +
+                "&include_played_free_games=1" +
+                "&format=json";
+
             return true;
         }
 
-        private static bool TryParseAppIds(
+        private static bool TryParseGames(
             string json,
-            out IReadOnlyList<uint> appIds,
+            out IReadOnlyList<SteamOwnedGameData> games,
             out string error)
         {
-            appIds = Array.Empty<uint>();
-            error = string.Empty;
+            games =
+                Array.Empty<SteamOwnedGameData>();
+
+            error =
+                string.Empty;
 
             if (string.IsNullOrWhiteSpace(json))
             {
-                error = "Owned-games response was empty.";
+                error =
+                    "Owned-games response was empty.";
+
                 return false;
             }
 
             try
             {
+                /*
+                 * Production backend - preferred new shape:
+                 *
+                 * {
+                 *   "games": [
+                 *     {
+                 *       "appId": 730,
+                 *       "playtimeMinutes": 12345
+                 *     }
+                 *   ]
+                 * }
+                 */
                 BackendEnvelope backend =
-                    JsonUtility.FromJson<BackendEnvelope>(json);
+                    JsonUtility.FromJson<BackendEnvelope>(
+                        json);
 
-                if (backend != null && backend.appIds != null)
+                if (backend != null)
                 {
-                    appIds = Sanitize(backend.appIds);
-                    return true;
-                }
-
-                ValveEnvelope valve = JsonUtility.FromJson<ValveEnvelope>(json);
-
-                if (valve != null && valve.response != null)
-                {
-                    OwnedGame[] games = valve.response.games;
-
-                    if (games == null)
+                    if (backend.games != null)
                     {
-                        appIds = Array.Empty<uint>();
+                        games =
+                            SanitizeBackendGames(
+                                backend.games);
+
                         return true;
                     }
 
-                    var raw = new int[games.Length];
-
-                    for (int i = 0; i < games.Length; i++)
+                    /*
+                     * Legacy backend shape:
+                     *
+                     * {
+                     *   "appIds": [730, ...]
+                     * }
+                     *
+                     * Still supported, but playtime becomes 0.
+                     */
+                    if (backend.appIds != null)
                     {
-                        raw[i] = games[i].appid;
+                        games =
+                            SanitizeLegacyAppIds(
+                                backend.appIds);
+
+                        return true;
+                    }
+                }
+
+                /*
+                 * Valve Web API:
+                 *
+                 * response.games[].appid
+                 * response.games[].playtime_forever
+                 */
+                ValveEnvelope valve =
+                    JsonUtility.FromJson<ValveEnvelope>(
+                        json);
+
+                if (valve != null &&
+                    valve.response != null)
+                {
+                    OwnedGame[] rawGames =
+                        valve.response.games;
+
+                    if (rawGames == null)
+                    {
+                        games =
+                            Array.Empty<SteamOwnedGameData>();
+
+                        return true;
                     }
 
-                    appIds = Sanitize(raw);
+                    games =
+                        SanitizeValveGames(
+                            rawGames);
+
                     return true;
                 }
             }
             catch (Exception exception)
             {
-                error = "Could not parse owned-games response: " +
-                        exception.Message;
+                error =
+                    "Could not parse owned-games response: " +
+                    exception.Message;
+
                 return false;
             }
 
-            error = "Owned-games response had an unknown JSON shape.";
+            error =
+                "Owned-games response had an unknown JSON shape.";
+
             return false;
         }
 
-        private static IReadOnlyList<uint> Sanitize(int[] raw)
+        private static IReadOnlyList<SteamOwnedGameData>
+            SanitizeValveGames(
+                OwnedGame[] raw)
         {
-            var unique = new HashSet<uint>();
-            var result = new List<uint>(raw.Length);
+            var result =
+                new List<SteamOwnedGameData>(
+                    raw.Length);
 
-            for (int i = 0; i < raw.Length; i++)
+            var indices =
+                new Dictionary<uint, int>();
+
+            for (int i = 0;
+                 i < raw.Length;
+                 i++)
+            {
+                OwnedGame game =
+                    raw[i];
+
+                if (game == null ||
+                    game.appid <= 0)
+                {
+                    continue;
+                }
+
+                uint appId =
+                    (uint)game.appid;
+
+                uint playtime =
+                    game.playtime_forever > 0
+                        ? (uint)game.playtime_forever
+                        : 0u;
+
+                AddOrMerge(
+                    result,
+                    indices,
+                    appId,
+                    playtime);
+            }
+
+            return result;
+        }
+
+        private static IReadOnlyList<SteamOwnedGameData>
+            SanitizeBackendGames(
+                BackendGame[] raw)
+        {
+            var result =
+                new List<SteamOwnedGameData>(
+                    raw.Length);
+
+            var indices =
+                new Dictionary<uint, int>();
+
+            for (int i = 0;
+                 i < raw.Length;
+                 i++)
+            {
+                BackendGame game =
+                    raw[i];
+
+                if (game == null)
+                {
+                    continue;
+                }
+
+                int rawAppId =
+                    game.appId > 0
+                        ? game.appId
+                        : game.appid;
+
+                if (rawAppId <= 0)
+                {
+                    continue;
+                }
+
+                int rawPlaytime =
+                    game.playtimeMinutes > 0
+                        ? game.playtimeMinutes
+                        : game.playtime_forever;
+
+                uint playtime =
+                    rawPlaytime > 0
+                        ? (uint)rawPlaytime
+                        : 0u;
+
+                AddOrMerge(
+                    result,
+                    indices,
+                    (uint)rawAppId,
+                    playtime);
+            }
+
+            return result;
+        }
+
+        private static IReadOnlyList<SteamOwnedGameData>
+            SanitizeLegacyAppIds(
+                int[] raw)
+        {
+            var result =
+                new List<SteamOwnedGameData>(
+                    raw.Length);
+
+            var unique =
+                new HashSet<uint>();
+
+            for (int i = 0;
+                 i < raw.Length;
+                 i++)
             {
                 if (raw[i] <= 0)
                 {
                     continue;
                 }
 
-                uint appId = (uint)raw[i];
+                uint appId =
+                    (uint)raw[i];
 
-                if (unique.Add(appId))
+                if (!unique.Add(appId))
                 {
-                    result.Add(appId);
+                    continue;
                 }
+
+                result.Add(
+                    new SteamOwnedGameData(
+                        appId,
+                        0));
             }
 
             return result;
         }
 
+        private static void AddOrMerge(
+            List<SteamOwnedGameData> result,
+            Dictionary<uint, int> indices,
+            uint appId,
+            uint playtimeMinutes)
+        {
+            if (indices.TryGetValue(
+                    appId,
+                    out int existingIndex))
+            {
+                SteamOwnedGameData existing =
+                    result[existingIndex];
+
+                /*
+                 * Should not normally duplicate, but keep the
+                 * largest reported playtime if it does.
+                 */
+                if (playtimeMinutes >
+                    existing.PlaytimeMinutes)
+                {
+                    result[existingIndex] =
+                        new SteamOwnedGameData(
+                            appId,
+                            playtimeMinutes);
+                }
+
+                return;
+            }
+
+            indices.Add(
+                appId,
+                result.Count);
+
+            result.Add(
+                new SteamOwnedGameData(
+                    appId,
+                    playtimeMinutes));
+        }
+
         [Serializable]
         private sealed class BackendEnvelope
         {
+            public BackendGame[] games;
             public int[] appIds;
+        }
+
+        [Serializable]
+        private sealed class BackendGame
+        {
+            public int appId;
+
+            // Supported alternate Valve-style naming.
+            public int appid;
+
+            public int playtimeMinutes;
+
+            // Supported alternate Valve-style naming.
+            public int playtime_forever;
         }
 
         [Serializable]
@@ -273,6 +594,11 @@ namespace EXW.Multiplayer
         private sealed class OwnedGame
         {
             public int appid;
+
+            /*
+             * Lifetime playtime in minutes.
+             */
+            public int playtime_forever;
         }
     }
 }

@@ -7,76 +7,114 @@ using UnityEngine.SceneManagement;
 
 namespace EXW.Multiplayer
 {
-    /// <summary>
-    /// Place one scene NetworkObject with this component in LoadingScene.
-    /// The host reads SteamLobbyService.CurrentMembers, builds one manifest,
-    /// sends only that manifest to clients, waits for local cover caches, then
-    /// performs the single authoritative NGO load to GameScene.
-    /// </summary>
     [RequireComponent(typeof(NetworkObject))]
     [DisallowMultipleComponent]
     [AddComponentMenu(
         "Multiplayer/Game Cases/Network Game Case Loading Coordinator")]
-    public sealed class NetworkGameCaseLoadingCoordinator : NetworkBehaviour
+    public sealed class NetworkGameCaseLoadingCoordinator :
+        NetworkBehaviour
     {
-        private readonly NetworkVariable<uint> _assignmentSeed =
-            new NetworkVariable<uint>(
-                0,
-                NetworkVariableReadPermission.Everyone,
-                NetworkVariableWritePermission.Server);
+        private readonly NetworkVariable<uint>
+            _assignmentSeed =
+                new NetworkVariable<uint>(
+                    0,
+                    NetworkVariableReadPermission.Everyone,
+                    NetworkVariableWritePermission.Server);
 
-        private readonly NetworkVariable<ushort> _copiesPerGame =
-            new NetworkVariable<ushort>(
-                0,
-                NetworkVariableReadPermission.Everyone,
-                NetworkVariableWritePermission.Server);
+        private readonly NetworkVariable<ushort>
+            _copiesPerGame =
+                new NetworkVariable<ushort>(
+                    0,
+                    NetworkVariableReadPermission.Everyone,
+                    NetworkVariableWritePermission.Server);
 
-        private readonly NetworkVariable<ushort> _distinctGameCount =
-            new NetworkVariable<ushort>(
-                0,
-                NetworkVariableReadPermission.Everyone,
-                NetworkVariableWritePermission.Server);
+        private readonly NetworkVariable<ushort>
+            _distinctGameCount =
+                new NetworkVariable<ushort>(
+                    0,
+                    NetworkVariableReadPermission.Everyone,
+                    NetworkVariableWritePermission.Server);
 
-        private readonly NetworkVariable<bool> _manifestReady =
-            new NetworkVariable<bool>(
-                false,
-                NetworkVariableReadPermission.Everyone,
-                NetworkVariableWritePermission.Server);
+        private readonly NetworkVariable<bool>
+            _manifestReady =
+                new NetworkVariable<bool>(
+                    false,
+                    NetworkVariableReadPermission.Everyone,
+                    NetworkVariableWritePermission.Server);
 
         [Header("Scene Flow")]
-        [SerializeField] private string gameplaySceneName = "GameScene";
+        [SerializeField]
+        private string gameplaySceneName =
+            "GameScene";
 
         [Header("Game Case Set")]
-        [SerializeField, Min(1)] private int requiredDistinctGames = 50;
-        [SerializeField, Min(1)] private int copiesPerGame = 30;
+        [SerializeField, Min(1)]
+        private int requiredDistinctGames = 50;
+
+        [SerializeField, Min(1)]
+        private int copiesPerGame = 30;
 
         [Tooltip(
-            "Optional known-good pool used when private/empty libraries leave " +
-            "the host below Required Distinct Games.")]
-        [SerializeField] private uint[] fallbackAppIds = Array.Empty<uint>();
+            "Optional known-good pool used when Steam libraries " +
+            "do not provide enough games.")]
+        [SerializeField]
+        private uint[] fallbackAppIds =
+            Array.Empty<uint>();
 
-        [Tooltip("Current game, tools, demos or unwanted AppIds can go here.")]
-        [SerializeField] private uint[] excludedAppIds = Array.Empty<uint>();
+        [Tooltip(
+            "Current game, tools, demos or unwanted AppIds.")]
+        [SerializeField]
+        private uint[] excludedAppIds =
+            Array.Empty<uint>();
+
+        [Header("Cover Validation")]
+        [SerializeField, Min(1)]
+        private int extraCandidatesPerPass = 25;
+
+        [SerializeField, Min(1)]
+        private int maximumCoverCandidates = 500;
 
         [Header("References")]
-        [SerializeField] private SteamOwnedGamesClient ownedGamesClient;
+        [SerializeField]
+        private SteamOwnedGamesClient ownedGamesClient;
 
         [Header("Cover Cache")]
-        [SerializeField] private bool clearPreviousSessionCache = true;
+        [SerializeField]
+        private bool clearPreviousSessionCache = true;
 
         public float LocalProgress { get; private set; }
-        public string LocalStatus { get; private set; } = "Waiting";
 
-        public event Action<float, string> LocalProgressChanged;
-        public event Action<string> LocalLoadingFailed;
+        public string LocalStatus { get; private set; } =
+            "Waiting";
+
+        public event Action<float, string>
+            LocalProgressChanged;
+
+        public event Action<string>
+            LocalLoadingFailed;
 
         private NetworkList<uint> _selectedAppIds;
-        private readonly HashSet<ulong> _readyClientIds =
-            new HashSet<ulong>();
+
+        /*
+         * Same index as _selectedAppIds.
+         *
+         * Multiplayer:
+         * average lifetime playtime among lobby members
+         * who own that AppId.
+         */
+        private NetworkList<uint>
+            _selectedPlaytimeMinutes;
+
+        private readonly HashSet<ulong>
+            _readyClientIds =
+                new HashSet<ulong>();
 
         private bool _localPreloadStarted;
+
         private bool _sceneLoadRequested;
-        
+
+        private bool _serverCoverCachePrimed;
+
         private bool IsSinglePlayerSession =>
             MultiplayerSessionCoordinator.Instance != null &&
             MultiplayerSessionCoordinator.Instance.Mode ==
@@ -84,28 +122,47 @@ namespace EXW.Multiplayer
 
         private void Awake()
         {
-            _selectedAppIds = new NetworkList<uint>();
+            _selectedAppIds =
+                new NetworkList<uint>();
 
-            if (ownedGamesClient == null)
+            _selectedPlaytimeMinutes =
+                new NetworkList<uint>();
+
+            if (!ownedGamesClient)
             {
-                ownedGamesClient = GetComponent<SteamOwnedGamesClient>();
+                ownedGamesClient =
+                    GetComponent<SteamOwnedGamesClient>();
             }
         }
 
         private void OnValidate()
         {
-            requiredDistinctGames = Mathf.Clamp(
-                requiredDistinctGames,
-                1,
-                ushort.MaxValue);
-            copiesPerGame = Mathf.Clamp(
-                copiesPerGame,
-                1,
-                ushort.MaxValue);
+            requiredDistinctGames =
+                Mathf.Clamp(
+                    requiredDistinctGames,
+                    1,
+                    ushort.MaxValue);
 
-            if (ownedGamesClient == null)
+            copiesPerGame =
+                Mathf.Clamp(
+                    copiesPerGame,
+                    1,
+                    ushort.MaxValue);
+
+            extraCandidatesPerPass =
+                Mathf.Max(
+                    1,
+                    extraCandidatesPerPass);
+
+            maximumCoverCandidates =
+                Mathf.Max(
+                    requiredDistinctGames,
+                    maximumCoverCandidates);
+
+            if (!ownedGamesClient)
             {
-                ownedGamesClient = GetComponent<SteamOwnedGamesClient>();
+                ownedGamesClient =
+                    GetComponent<SteamOwnedGamesClient>();
             }
         }
 
@@ -114,14 +171,22 @@ namespace EXW.Multiplayer
             base.OnNetworkSpawn();
 
             GameCaseSessionPlan.Clear();
-            SetLocalProgress(0f, "Preparing game libraries");
-            _manifestReady.OnValueChanged += HandleManifestReadyChanged;
+            GameCaseSessionPlaytimePlan.Clear();
+
+            SetLocalProgress(
+                0f,
+                "Preparing game libraries");
+
+            _manifestReady.OnValueChanged +=
+                HandleManifestReadyChanged;
 
             if (IsServer)
             {
                 NetworkManager.OnClientDisconnectCallback +=
                     HandleClientDisconnected;
-                StartCoroutine(BuildManifestServer());
+
+                StartCoroutine(
+                    BuildManifestServer());
             }
 
             if (_manifestReady.Value)
@@ -132,9 +197,11 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkDespawn()
         {
-            _manifestReady.OnValueChanged -= HandleManifestReadyChanged;
+            _manifestReady.OnValueChanged -=
+                HandleManifestReadyChanged;
 
-            if (IsServer && NetworkManager != null)
+            if (IsServer &&
+                NetworkManager != null)
             {
                 NetworkManager.OnClientDisconnectCallback -=
                     HandleClientDisconnected;
@@ -145,42 +212,56 @@ namespace EXW.Multiplayer
 
         private IEnumerator BuildManifestServer()
         {
-            float serviceDeadline = Time.realtimeSinceStartup + 10f;
-            
             if (IsSinglePlayerSession)
             {
-                yield return BuildSinglePlayerManifestServer();
+                yield return
+                    BuildSinglePlayerManifestServer();
+
                 yield break;
             }
 
-            while (SteamLobbyService.Instance == null &&
-                   Time.realtimeSinceStartup < serviceDeadline)
+            float deadline =
+                Time.realtimeSinceStartup +
+                10f;
+
+            while (
+                SteamLobbyService.Instance == null &&
+                Time.realtimeSinceStartup < deadline)
             {
                 yield return null;
             }
 
-            if (!IsServer || !IsSpawned)
+            if (!IsServer ||
+                !IsSpawned)
             {
                 yield break;
             }
 
             if (SteamLobbyService.Instance == null)
             {
-                FailLoadingServer("SteamLobbyService was not ready.");
+                FailLoadingServer(
+                    "SteamLobbyService was not ready.");
+
                 yield break;
             }
 
             IReadOnlyList<SteamLobbyMember> liveMembers =
                 SteamLobbyService.Instance.CurrentMembers;
-            var members = new List<SteamLobbyMember>();
+
+            var members =
+                new List<SteamLobbyMember>();
 
             if (liveMembers != null)
             {
-                for (int i = 0; i < liveMembers.Count; i++)
+                for (int i = 0;
+                     i < liveMembers.Count;
+                     i++)
                 {
-                    SteamLobbyMember member = liveMembers[i];
+                    SteamLobbyMember member =
+                        liveMembers[i];
 
-                    if (member != null && member.SteamId != 0)
+                    if (member != null &&
+                        member.SteamId != 0)
                     {
                         members.Add(member);
                     }
@@ -189,122 +270,487 @@ namespace EXW.Multiplayer
 
             if (members.Count == 0)
             {
-                FailLoadingServer("The Steam lobby has no valid members.");
+                FailLoadingServer(
+                    "The Steam lobby has no valid members.");
+
                 yield break;
             }
 
-            var libraries = new IReadOnlyList<uint>[members.Count];
+            var results =
+                new SteamOwnedGamesResult[
+                    members.Count];
 
             if (ownedGamesClient != null)
             {
-                int remaining = members.Count;
-                int completed = 0;
+                int remaining =
+                    members.Count;
 
-                for (int i = 0; i < members.Count; i++)
+                int completed =
+                    0;
+
+                for (int i = 0;
+                     i < members.Count;
+                     i++)
                 {
-                    int capturedIndex = i;
-                    SteamLobbyMember member = members[capturedIndex];
+                    int capturedIndex =
+                        i;
 
-                    StartCoroutine(ownedGamesClient.FetchOwnedAppIds(
-                        member.SteamId,
-                        result =>
-                        {
-                            if (result.Succeeded)
-                            {
-                                libraries[capturedIndex] = result.AppIds;
-                            }
-                            else
-                            {
-                                libraries[capturedIndex] = Array.Empty<uint>();
-                                Debug.LogWarning(
-                                    "[GameCaseLoading] Could not read " +
-                                    $"{member.PersonaName}'s library: " +
-                                    result.Error,
-                                    this);
-                            }
+                    SteamLobbyMember member =
+                        members[capturedIndex];
 
-                            completed++;
-                            remaining--;
-                            SetLocalProgress(
-                                0.35f * completed / members.Count,
-                                $"Reading Steam libraries " +
-                                $"({completed}/{members.Count})");
-                        }));
+                    StartCoroutine(
+                        ownedGamesClient.FetchOwnedAppIds(
+                            member.SteamId,
+                            result =>
+                            {
+                                results[capturedIndex] =
+                                    result;
+
+                                if (!result.Succeeded)
+                                {
+                                    Debug.LogWarning(
+                                        "[GameCaseLoading] Could not read " +
+                                        $"{member.PersonaName}'s library: " +
+                                        result.Error,
+                                        this);
+                                }
+
+                                completed++;
+                                remaining--;
+
+                                SetLocalProgress(
+                                    0.30f *
+                                    completed /
+                                    members.Count,
+                                    $"Reading Steam libraries " +
+                                    $"({completed}/{members.Count})");
+                            }));
                 }
 
-                while (remaining > 0 && IsSpawned)
+                while (
+                    remaining > 0 &&
+                    IsSpawned)
                 {
                     yield return null;
                 }
             }
             else
             {
-                for (int i = 0; i < libraries.Length; i++)
-                {
-                    libraries[i] = Array.Empty<uint>();
-                }
-
                 Debug.LogWarning(
-                    "[GameCaseLoading] SteamOwnedGamesClient is missing; " +
-                    "using only fallback AppIds.",
+                    "[GameCaseLoading] SteamOwnedGamesClient is missing.",
                     this);
             }
 
-            if (!IsServer || !IsSpawned)
+            if (!IsServer ||
+                !IsSpawned)
             {
                 yield break;
             }
 
-            ulong lobbyId = SteamLobbyService.Instance.CurrentLobbyId;
-            uint seed = unchecked(
-                (uint)(lobbyId ^ (ulong)DateTime.UtcNow.Ticks));
+            var libraryView =
+                new List<IReadOnlyList<uint>>(
+                    members.Count);
+
+            for (int i = 0;
+                 i < results.Length;
+                 i++)
+            {
+                SteamOwnedGamesResult result =
+                    results[i];
+
+                libraryView.Add(
+                    result != null &&
+                    result.Succeeded
+                        ? result.AppIds
+                        : Array.Empty<uint>());
+            }
+
+            Dictionary<uint, uint>
+                averagePlaytimeByAppId =
+                    BuildAveragePlaytimeMap(
+                        results);
+
+            ulong lobbyId =
+                SteamLobbyService.Instance.CurrentLobbyId;
+
+            yield return
+                BuildAndPublishManifestServer(
+                    libraryView,
+                    averagePlaytimeByAppId,
+                    lobbyId,
+                    true);
+        }
+
+        private IEnumerator BuildSinglePlayerManifestServer()
+        {
+            var libraryView =
+                new List<IReadOnlyList<uint>>(1);
+
+            var playtimeByAppId =
+                new Dictionary<uint, uint>();
+
+            bool steamOnline =
+                SteamBootstrap.IsSteamAvailable &&
+                SteamBootstrap.IsSteamLoggedOn &&
+                SteamBootstrap.LocalSteamId != 0;
+
+            if (steamOnline &&
+                ownedGamesClient != null)
+            {
+                SetLocalProgress(
+                    0.05f,
+                    "Reading local Steam library");
+
+                SteamOwnedGamesResult result =
+                    null;
+
+                yield return
+                    ownedGamesClient.FetchOwnedAppIds(
+                        SteamBootstrap.LocalSteamId,
+                        value => result = value);
+
+                if (!IsServer ||
+                    !IsSpawned)
+                {
+                    yield break;
+                }
+
+                if (result != null &&
+                    result.Succeeded)
+                {
+                    libraryView.Add(
+                        result.AppIds);
+
+                    for (int i = 0;
+                         i < result.Games.Count;
+                         i++)
+                    {
+                        SteamOwnedGameData game =
+                            result.Games[i];
+
+                        playtimeByAppId[game.AppId] =
+                            game.PlaytimeMinutes;
+                    }
+
+                    SetLocalProgress(
+                        0.30f,
+                        $"Found {result.AppIds.Count} owned Steam games");
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        "[GameCaseLoading] Local Steam library " +
+                        "could not be read: " +
+                        (result?.Error ??
+                         "No result. Using fallback AppIds."),
+                        this);
+                }
+            }
+            else
+            {
+                SetLocalProgress(
+                    0.30f,
+                    "Steam is offline; using fallback games");
+            }
+
+            yield return
+                BuildAndPublishManifestServer(
+                    libraryView,
+                    playtimeByAppId,
+                    SteamBootstrap.LocalSteamId,
+                    steamOnline);
+        }
+
+        private IEnumerator BuildAndPublishManifestServer(
+            IReadOnlyList<IReadOnlyList<uint>> libraryView,
+            IReadOnlyDictionary<uint, uint> playtimeByAppId,
+            ulong seedSource,
+            bool validateVerticalCovers)
+        {
+            uint seed =
+                unchecked(
+                    (uint)(
+                        seedSource ^
+                        (ulong)DateTime.UtcNow.Ticks));
 
             if (seed == 0)
             {
                 seed = 1;
             }
 
-            var libraryView = new List<IReadOnlyList<uint>>(libraries.Length);
-
-            for (int i = 0; i < libraries.Length; i++)
+            if (!validateVerticalCovers)
             {
-                libraryView.Add(libraries[i] ?? Array.Empty<uint>());
-            }
+                List<uint> selected =
+                    GameCaseSelectionUtility.SelectDistinctFairly(
+                        libraryView,
+                        fallbackAppIds,
+                        excludedAppIds,
+                        requiredDistinctGames,
+                        seed);
 
-            List<uint> selected =
-                GameCaseSelectionUtility.SelectDistinctFairly(
-                    libraryView,
-                    fallbackAppIds,
-                    excludedAppIds,
-                    requiredDistinctGames,
+                if (selected.Count !=
+                    requiredDistinctGames)
+                {
+                    FailLoadingServer(
+                        $"Only {selected.Count}/" +
+                        $"{requiredDistinctGames} unique AppIds available.");
+
+                    yield break;
+                }
+
+                PublishManifestServer(
+                    selected,
+                    playtimeByAppId,
                     seed);
 
-            if (selected.Count != requiredDistinctGames)
-            {
-                FailLoadingServer(
-                    $"Only {selected.Count}/{requiredDistinctGames} unique " +
-                    "AppIds were available. Add fallback AppIds or check " +
-                    "Steam library visibility.");
                 yield break;
             }
 
-            _manifestReady.Value = false;
-            _readyClientIds.Clear();
-            _selectedAppIds.Clear();
+            GameCaseCoverCache cache =
+                GameCaseCoverCache.GetOrCreate();
 
-            for (int i = 0; i < selected.Count; i++)
+            if (clearPreviousSessionCache)
             {
-                _selectedAppIds.Add(selected[i]);
+                cache.ClearCache();
             }
 
-            _assignmentSeed.Value = seed;
-            _copiesPerGame.Value = (ushort)copiesPerGame;
-            _distinctGameCount.Value = (ushort)requiredDistinctGames;
-            _manifestReady.Value = true;
-            SetLocalProgress(0.4f, "Game manifest ready");
+            cache.SetRequestsEnabled(
+                true);
+
+            _serverCoverCachePrimed =
+                true;
+
+            int requestedCandidateCount =
+                Mathf.Min(
+                    maximumCoverCandidates,
+                    requiredDistinctGames +
+                    extraCandidatesPerPass);
+
+            int previousCandidateCount =
+                -1;
+
+            while (true)
+            {
+                List<uint> candidates =
+                    GameCaseSelectionUtility.SelectDistinctFairly(
+                        libraryView,
+                        fallbackAppIds,
+                        excludedAppIds,
+                        requestedCandidateCount,
+                        seed);
+
+                if (candidates.Count <
+                    requiredDistinctGames)
+                {
+                    FailLoadingServer(
+                        $"Only {candidates.Count} unique AppIds available.");
+
+                    yield break;
+                }
+
+                if (previousCandidateCount >= 0 &&
+                    candidates.Count <=
+                    previousCandidateCount)
+                {
+                    FailLoadingServer(
+                        "Could not find enough games with valid " +
+                        "vertical Steam artwork.");
+
+                    yield break;
+                }
+
+                previousCandidateCount =
+                    candidates.Count;
+
+                bool preloadFinished =
+                    false;
+
+                cache.Preload(
+                    candidates,
+                    progress =>
+                    {
+                        SetLocalProgress(
+                            Mathf.Lerp(
+                                0.31f,
+                                0.39f,
+                                progress),
+                            $"Checking Steam cover artwork " +
+                            $"({Mathf.RoundToInt(progress * candidates.Count)}/" +
+                            $"{candidates.Count})");
+                    },
+                    () =>
+                    {
+                        preloadFinished =
+                            true;
+                    });
+
+                while (
+                    !preloadFinished &&
+                    IsSpawned)
+                {
+                    yield return null;
+                }
+
+                if (!IsServer ||
+                    !IsSpawned)
+                {
+                    yield break;
+                }
+
+                var valid =
+                    new List<uint>(
+                        requiredDistinctGames);
+
+                int missing =
+                    0;
+
+                for (int i = 0;
+                     i < candidates.Count;
+                     i++)
+                {
+                    uint appId =
+                        candidates[i];
+
+                    if (cache.TryGet(
+                            appId,
+                            out _))
+                    {
+                        if (valid.Count <
+                            requiredDistinctGames)
+                        {
+                            valid.Add(
+                                appId);
+                        }
+                    }
+                    else
+                    {
+                        missing++;
+                    }
+                }
+
+                if (valid.Count >=
+                    requiredDistinctGames)
+                {
+                    if (missing > 0)
+                    {
+                        Debug.Log(
+                            $"[GameCaseLoading] Skipped {missing} " +
+                            "AppIds without vertical Steam artwork.",
+                            this);
+                    }
+
+                    PublishManifestServer(
+                        valid,
+                        playtimeByAppId,
+                        seed);
+
+                    yield break;
+                }
+
+                if (candidates.Count <
+                    requestedCandidateCount)
+                {
+                    FailLoadingServer(
+                        $"Only {valid.Count}/" +
+                        $"{requiredDistinctGames} games had usable " +
+                        "vertical artwork.");
+
+                    yield break;
+                }
+
+                int next =
+                    Mathf.Min(
+                        maximumCoverCandidates,
+                        requestedCandidateCount +
+                        extraCandidatesPerPass);
+
+                if (next ==
+                    requestedCandidateCount)
+                {
+                    FailLoadingServer(
+                        $"Only {valid.Count}/" +
+                        $"{requiredDistinctGames} valid-cover games " +
+                        "were found before reaching the candidate limit.");
+
+                    yield break;
+                }
+
+                requestedCandidateCount =
+                    next;
+            }
         }
 
-        private void HandleManifestReadyChanged(bool previous, bool current)
+        private void PublishManifestServer(
+            IReadOnlyList<uint> selected,
+            IReadOnlyDictionary<uint, uint> playtimeByAppId,
+            uint seed)
+        {
+            if (!IsServer ||
+                !IsSpawned)
+            {
+                return;
+            }
+
+            if (selected == null ||
+                selected.Count !=
+                requiredDistinctGames)
+            {
+                FailLoadingServer(
+                    "Validated game manifest has an invalid size.");
+
+                return;
+            }
+
+            _manifestReady.Value =
+                false;
+
+            _readyClientIds.Clear();
+
+            _selectedAppIds.Clear();
+            _selectedPlaytimeMinutes.Clear();
+
+            for (int i = 0;
+                 i < selected.Count;
+                 i++)
+            {
+                uint appId =
+                    selected[i];
+
+                _selectedAppIds.Add(
+                    appId);
+
+                uint playtime =
+                    playtimeByAppId != null &&
+                    playtimeByAppId.TryGetValue(
+                        appId,
+                        out uint value)
+                        ? value
+                        : 0u;
+
+                _selectedPlaytimeMinutes.Add(
+                    playtime);
+            }
+
+            _assignmentSeed.Value =
+                seed;
+
+            _copiesPerGame.Value =
+                (ushort)copiesPerGame;
+
+            _distinctGameCount.Value =
+                (ushort)requiredDistinctGames;
+
+            _manifestReady.Value =
+                true;
+
+            SetLocalProgress(
+                0.40f,
+                "Game manifest ready");
+        }
+
+        private void HandleManifestReadyChanged(
+            bool previous,
+            bool current)
         {
             if (current)
             {
@@ -319,40 +765,69 @@ namespace EXW.Multiplayer
                 return;
             }
 
-            _localPreloadStarted = true;
-            StartCoroutine(WaitForManifestThenPreload());
+            _localPreloadStarted =
+                true;
+
+            StartCoroutine(
+                WaitForManifestThenPreload());
         }
 
         private IEnumerator WaitForManifestThenPreload()
         {
-            float deadline = Time.realtimeSinceStartup + 10f;
-            int expectedCount = _distinctGameCount.Value;
+            float deadline =
+                Time.realtimeSinceStartup +
+                10f;
 
-            while ((expectedCount <= 0 ||
-                    _selectedAppIds.Count != expectedCount ||
+            int expectedCount =
+                _distinctGameCount.Value;
+
+            while (
+                (
+                    expectedCount <= 0 ||
+                    _selectedAppIds.Count !=
+                    expectedCount ||
+                    _selectedPlaytimeMinutes.Count !=
+                    expectedCount ||
                     _copiesPerGame.Value == 0 ||
-                    _assignmentSeed.Value == 0) &&
-                   Time.realtimeSinceStartup < deadline)
+                    _assignmentSeed.Value == 0
+                ) &&
+                Time.realtimeSinceStartup <
+                deadline)
             {
                 yield return null;
-                expectedCount = _distinctGameCount.Value;
+
+                expectedCount =
+                    _distinctGameCount.Value;
             }
 
             if (!_manifestReady.Value ||
                 expectedCount <= 0 ||
                 _selectedAppIds.Count != expectedCount ||
+                _selectedPlaytimeMinutes.Count != expectedCount ||
                 _copiesPerGame.Value == 0 ||
                 _assignmentSeed.Value == 0)
             {
-                FailLoadingLocal("The replicated game manifest was incomplete.");
+                FailLoadingLocal(
+                    "The replicated game manifest was incomplete.");
+
                 yield break;
             }
 
-            var appIds = new uint[_selectedAppIds.Count];
+            var appIds =
+                new uint[expectedCount];
 
-            for (int i = 0; i < _selectedAppIds.Count; i++)
+            var playtimes =
+                new uint[expectedCount];
+
+            for (int i = 0;
+                 i < expectedCount;
+                 i++)
             {
-                appIds[i] = _selectedAppIds[i];
+                appIds[i] =
+                    _selectedAppIds[i];
+
+                playtimes[i] =
+                    _selectedPlaytimeMinutes[i];
             }
 
             GameCaseSessionPlan.Set(
@@ -360,145 +835,171 @@ namespace EXW.Multiplayer
                 _copiesPerGame.Value,
                 _assignmentSeed.Value);
 
-            GameCaseCoverCache cache = GameCaseCoverCache.GetOrCreate();
+            GameCaseSessionPlaytimePlan.Set(
+                appIds,
+                playtimes);
 
-            if (clearPreviousSessionCache)
+            GameCaseCoverCache cache =
+                GameCaseCoverCache.GetOrCreate();
+
+            bool preserveValidatedHostCache =
+                IsServer &&
+                _serverCoverCachePrimed;
+
+            if (clearPreviousSessionCache &&
+                !preserveValidatedHostCache)
             {
                 cache.ClearCache();
             }
-            
+
             bool offlineSinglePlayer =
                 IsSinglePlayerSession &&
-                (!SteamBootstrap.IsSteamAvailable ||
-                 !SteamBootstrap.IsSteamLoggedOn);
+                (
+                    !SteamBootstrap.IsSteamAvailable ||
+                    !SteamBootstrap.IsSteamLoggedOn
+                );
 
-            cache.SetRequestsEnabled(!offlineSinglePlayer);
+            cache.SetRequestsEnabled(
+                !offlineSinglePlayer);
 
             if (offlineSinglePlayer)
             {
-                SetLocalProgress(1f, "Offline fallback games ready");
+                SetLocalProgress(
+                    0.97f,
+                    "Building offline cover array");
+
+                if (!cache.BuildCoverArray(
+                        appIds))
+                {
+                    FailLoadingLocal(
+                        "Could not build offline cover array.");
+
+                    yield break;
+                }
+
                 HandleLocalCoversReady();
+
                 yield break;
             }
 
             cache.Preload(
                 appIds,
-                progress => SetLocalProgress(
-                    Mathf.Lerp(0.4f, 1f, progress),
-                    $"Downloading covers " +
-                    $"({Mathf.RoundToInt(progress * appIds.Length)}/" +
-                    $"{appIds.Length})"),
-                HandleLocalCoversReady);
-        }
-        
-        private IEnumerator BuildSinglePlayerManifestServer()
-        {
-            var libraryView = new List<IReadOnlyList<uint>>(1);
-
-            bool steamOnline =
-                SteamBootstrap.IsSteamAvailable &&
-                SteamBootstrap.IsSteamLoggedOn &&
-                SteamBootstrap.LocalSteamId != 0;
-
-            if (steamOnline && ownedGamesClient != null)
-            {
-                SetLocalProgress(0.05f, "Reading local Steam library");
-
-                SteamOwnedGamesResult result = null;
-
-                yield return ownedGamesClient.FetchOwnedAppIds(
-                    SteamBootstrap.LocalSteamId,
-                    value => result = value);
-
-                if (!IsServer || !IsSpawned)
+                progress =>
                 {
-                    yield break;
-                }
-
-                if (result != null && result.Succeeded)
-                {
-                    libraryView.Add(result.AppIds);
-
                     SetLocalProgress(
-                        0.35f,
-                        $"Found {result.AppIds.Count} owned Steam games");
-                }
-                else
+                        Mathf.Lerp(
+                            0.40f,
+                            0.95f,
+                            progress),
+                        $"Downloading covers " +
+                        $"({Mathf.RoundToInt(progress * appIds.Length)}/" +
+                        $"{appIds.Length})");
+                },
+                () =>
                 {
-                    Debug.LogWarning(
-                        "[GameCaseLoading] Local Steam library could not be read: " +
-                        (result?.Error ?? "No result. Using fallback AppIds."),
-                        this);
+                    SetLocalProgress(
+                        0.97f,
+                        "Building cover texture array");
+
+                    if (!cache.BuildCoverArray(
+                            appIds))
+                    {
+                        FailLoadingLocal(
+                            "Could not build game case cover array.");
+
+                        return;
+                    }
+
+                    HandleLocalCoversReady();
+                });
+        }
+
+        private static Dictionary<uint, uint>
+            BuildAveragePlaytimeMap(
+                IReadOnlyList<SteamOwnedGamesResult> results)
+        {
+            var accumulators =
+                new Dictionary<uint, PlaytimeAccumulator>();
+
+            if (results == null)
+            {
+                return new Dictionary<uint, uint>();
+            }
+
+            for (int i = 0;
+                 i < results.Count;
+                 i++)
+            {
+                SteamOwnedGamesResult result =
+                    results[i];
+
+                if (result == null ||
+                    !result.Succeeded)
+                {
+                    continue;
+                }
+
+                for (int j = 0;
+                     j < result.Games.Count;
+                     j++)
+                {
+                    SteamOwnedGameData game =
+                        result.Games[j];
+
+                    if (!accumulators.TryGetValue(
+                            game.AppId,
+                            out PlaytimeAccumulator accumulator))
+                    {
+                        accumulator =
+                            default;
+                    }
+
+                    accumulator.TotalMinutes +=
+                        game.PlaytimeMinutes;
+
+                    accumulator.OwnerCount++;
+
+                    accumulators[game.AppId] =
+                        accumulator;
                 }
             }
-            else
-            {
-                SetLocalProgress(
-                    0.35f,
-                    "Steam is offline; using fallback games");
 
-                Debug.Log(
-                    "[GameCaseLoading] Offline singleplayer: using fallback AppIds.",
-                    this);
+            var averages =
+                new Dictionary<uint, uint>(
+                    accumulators.Count);
+
+            foreach (
+                KeyValuePair<uint, PlaytimeAccumulator> pair
+                in accumulators)
+            {
+                if (pair.Value.OwnerCount <= 0)
+                {
+                    continue;
+                }
+
+                ulong average =
+                    pair.Value.TotalMinutes /
+                    (ulong)pair.Value.OwnerCount;
+
+                averages[pair.Key] =
+                    average > uint.MaxValue
+                        ? uint.MaxValue
+                        : (uint)average;
             }
 
-            PublishManifestServer(
-                libraryView,
-                SteamBootstrap.LocalSteamId);
-        }
-        
-        private void PublishManifestServer(
-            IReadOnlyList<IReadOnlyList<uint>> libraryView,
-            ulong seedSource)
-        {
-            uint seed = unchecked(
-                (uint)(seedSource ^ (ulong)DateTime.UtcNow.Ticks));
-
-            if (seed == 0)
-            {
-                seed = 1;
-            }
-
-            List<uint> selected =
-                GameCaseSelectionUtility.SelectDistinctFairly(
-                    libraryView,
-                    fallbackAppIds,
-                    excludedAppIds,
-                    requiredDistinctGames,
-                    seed);
-
-            if (selected.Count != requiredDistinctGames)
-            {
-                FailLoadingServer(
-                    $"Only {selected.Count}/{requiredDistinctGames} unique " +
-                    "AppIds were available. Add more fallback AppIds.");
-                return;
-            }
-
-            _manifestReady.Value = false;
-            _readyClientIds.Clear();
-            _selectedAppIds.Clear();
-
-            for (int i = 0; i < selected.Count; i++)
-            {
-                _selectedAppIds.Add(selected[i]);
-            }
-
-            _assignmentSeed.Value = seed;
-            _copiesPerGame.Value = (ushort)copiesPerGame;
-            _distinctGameCount.Value = (ushort)requiredDistinctGames;
-            _manifestReady.Value = true;
-
-            SetLocalProgress(0.4f, "Game manifest ready");
+            return averages;
         }
 
         private void HandleLocalCoversReady()
         {
-            SetLocalProgress(1f, "Ready");
+            SetLocalProgress(
+                1f,
+                "Ready");
 
             if (IsServer)
             {
-                MarkClientReadyServer(NetworkManager.LocalClientId);
+                MarkClientReadyServer(
+                    NetworkManager.LocalClientId);
             }
             else
             {
@@ -510,80 +1011,130 @@ namespace EXW.Multiplayer
         private void ReportLoadingReadyServerRpc(
             ServerRpcParams rpcParams = default)
         {
-            MarkClientReadyServer(rpcParams.Receive.SenderClientId);
+            MarkClientReadyServer(
+                rpcParams.Receive.SenderClientId);
         }
 
-        private void MarkClientReadyServer(ulong clientId)
+        private void MarkClientReadyServer(
+            ulong clientId)
         {
-            if (!IsServer || !_manifestReady.Value ||
+            if (!IsServer ||
+                !_manifestReady.Value ||
                 NetworkManager == null ||
-                !NetworkManager.ConnectedClients.ContainsKey(clientId))
+                !NetworkManager.ConnectedClients.ContainsKey(
+                    clientId))
             {
                 return;
             }
 
-            _readyClientIds.Add(clientId);
+            _readyClientIds.Add(
+                clientId);
+
             TryLoadGameplaySceneServer();
         }
 
         private void TryLoadGameplaySceneServer()
         {
-            if (!IsServer || _sceneLoadRequested ||
-                NetworkManager == null || !NetworkManager.IsListening)
+            if (!IsServer ||
+                _sceneLoadRequested ||
+                NetworkManager == null ||
+                !NetworkManager.IsListening)
             {
                 return;
             }
 
-            foreach (ulong clientId in NetworkManager.ConnectedClientsIds)
+            foreach (
+                ulong clientId
+                in NetworkManager.ConnectedClientsIds)
             {
-                if (!_readyClientIds.Contains(clientId))
+                if (!_readyClientIds.Contains(
+                        clientId))
                 {
                     return;
                 }
             }
 
-            _sceneLoadRequested = true;
-            SetLocalProgress(1f, "Opening gameplay scene");
+            _sceneLoadRequested =
+                true;
+
+            SetLocalProgress(
+                1f,
+                "Opening gameplay scene");
+
             NetworkManager.SceneManager.LoadScene(
                 gameplaySceneName,
                 LoadSceneMode.Single);
         }
 
-        private void HandleClientDisconnected(ulong clientId)
+        private void HandleClientDisconnected(
+            ulong clientId)
         {
             if (!IsServer)
             {
                 return;
             }
 
-            _readyClientIds.Remove(clientId);
+            _readyClientIds.Remove(
+                clientId);
+
             TryLoadGameplaySceneServer();
         }
 
-        private void FailLoadingServer(string message)
+        private void FailLoadingServer(
+            string message)
         {
-            Debug.LogError("[GameCaseLoading] " + message, this);
-            LoadingFailedClientRpc(message);
+            Debug.LogError(
+                "[GameCaseLoading] " +
+                message,
+                this);
+
+            LoadingFailedClientRpc(
+                message);
         }
 
         [ClientRpc]
-        private void LoadingFailedClientRpc(string message)
+        private void LoadingFailedClientRpc(
+            string message)
         {
-            FailLoadingLocal(message);
+            FailLoadingLocal(
+                message);
         }
 
-        private void FailLoadingLocal(string message)
+        private void FailLoadingLocal(
+            string message)
         {
-            LocalStatus = message;
-            LocalLoadingFailed?.Invoke(message);
-            LocalProgressChanged?.Invoke(LocalProgress, LocalStatus);
+            LocalStatus =
+                message;
+
+            LocalLoadingFailed?.Invoke(
+                message);
+
+            LocalProgressChanged?.Invoke(
+                LocalProgress,
+                LocalStatus);
         }
 
-        private void SetLocalProgress(float progress, string status)
+        private void SetLocalProgress(
+            float progress,
+            string status)
         {
-            LocalProgress = Mathf.Clamp01(progress);
-            LocalStatus = status ?? string.Empty;
-            LocalProgressChanged?.Invoke(LocalProgress, LocalStatus);
+            LocalProgress =
+                Mathf.Clamp01(
+                    progress);
+
+            LocalStatus =
+                status ??
+                string.Empty;
+
+            LocalProgressChanged?.Invoke(
+                LocalProgress,
+                LocalStatus);
+        }
+
+        private struct PlaytimeAccumulator
+        {
+            public ulong TotalMinutes;
+            public int OwnerCount;
         }
     }
 }
