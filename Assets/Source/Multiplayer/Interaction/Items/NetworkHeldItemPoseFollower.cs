@@ -36,16 +36,14 @@ namespace EXW.Multiplayer
 
         private void LateUpdate()
         {
-            if (item == null || carryable == null ||
-                !item.IsSpawned || !item.IsHeld)
+            if (!item || !carryable || !item.IsSpawned || !item.IsHeld)
             {
                 return;
             }
 
-            NetworkItemCarrier carrier =
-                GetComponentInParent<NetworkItemCarrier>();
+            NetworkItemCarrier carrier = GetComponentInParent<NetworkItemCarrier>();
 
-            if (carrier == null || carrier.ItemCarryAnchor == null)
+            if (!carrier || !carrier.ItemCarryAnchor)
             {
                 return;
             }

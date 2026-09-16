@@ -208,7 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseLoadingCoordinator
   gameplaySceneName: 03_GameplayScene
   requiredDistinctGames: 50
-  copiesPerGame: 10
+  copiesPerGame: 30
   fallbackAppIds: f046370074ae3200aefd0300a6ac11000e580300faef0b00
   excludedAppIds: 
   ownedGamesClient: {fileID: 269864307}

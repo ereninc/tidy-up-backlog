@@ -3,12 +3,21 @@ using UnityEngine;
 namespace EXW.Multiplayer
 {
     [DisallowMultipleComponent]
-    [AddComponentMenu("Multiplayer/Interaction/Interaction Outline Feedback")]
-    public sealed class InteractionOutlineFeedback : MonoBehaviour
+    [AddComponentMenu(
+        "Multiplayer/Interaction/Interaction Outline Feedback")]
+    public sealed class InteractionOutlineFeedback :
+        MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private NetworkInteractable interactable;
-        [SerializeField] private global::exOutline outline;
+        [SerializeField]
+        private NetworkInteractable interactable;
+
+        [SerializeField]
+        private Renderer outlineRenderer;
+
+        [Header("Outline")]
+        [SerializeField]
+        private Color outlineColor = Color.white;
 
         private void Reset()
         {
@@ -18,7 +27,6 @@ namespace EXW.Multiplayer
         private void Awake()
         {
             AutoAssignReferences();
-            HideOutline();
         }
 
         private void OnEnable()
@@ -27,17 +35,21 @@ namespace EXW.Multiplayer
 
             if (interactable != null)
             {
-                interactable.LocalFocusChanged += HandleFocusChanged;
+                interactable.LocalFocusChanged +=
+                    HandleFocusChanged;
             }
 
-            Apply(interactable != null && interactable.IsLocallyFocused);
+            Apply(
+                interactable != null &&
+                interactable.IsLocallyFocused);
         }
 
         private void OnDisable()
         {
             if (interactable != null)
             {
-                interactable.LocalFocusChanged -= HandleFocusChanged;
+                interactable.LocalFocusChanged -=
+                    HandleFocusChanged;
             }
 
             HideOutline();
@@ -45,14 +57,17 @@ namespace EXW.Multiplayer
 
         public void AutoAssignReferences()
         {
-            if (interactable == null)
+            if (!interactable)
             {
-                interactable = GetComponent<NetworkInteractable>();
+                interactable =
+                    GetComponent<NetworkInteractable>();
             }
 
-            if (outline == null)
+            if (!outlineRenderer)
             {
-                outline = GetComponentInChildren<global::exOutline>(true);
+                outlineRenderer =
+                    GetComponentInChildren<MeshRenderer>(
+                        true);
             }
         }
 
@@ -65,27 +80,38 @@ namespace EXW.Multiplayer
 
         private void Apply(bool focused)
         {
-            if (outline == null)
+            if (!outlineRenderer)
+            {
+                return;
+            }
+
+            GlobalInteractionOutlineProxy proxy =
+                GlobalInteractionOutlineProxy.Instance;
+
+            if (!proxy)
             {
                 return;
             }
 
             if (focused)
             {
-                outline.OnSelected();
+                proxy.Show(outlineRenderer);
             }
             else
             {
-                outline.OnHide();
+                proxy.Hide(outlineRenderer);
             }
         }
 
         private void HideOutline()
         {
-            if (outline != null)
+            if (!outlineRenderer)
             {
-                outline.OnHide();
+                return;
             }
+
+            GlobalInteractionOutlineProxy.Instance?.Hide(
+                outlineRenderer);
         }
     }
 }

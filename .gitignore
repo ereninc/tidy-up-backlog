@@ -108,3 +108,4 @@ InitTestScene*.unity*
 .vscode/launch.json
 .vscode/settings.json
 .idea/.idea.tidy-up-backlog/.idea/workspace.xml
+/.idea
