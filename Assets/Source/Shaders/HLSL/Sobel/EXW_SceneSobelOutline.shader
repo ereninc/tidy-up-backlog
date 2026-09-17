@@ -98,47 +98,80 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
             CBUFFER_END
 
+            /*
+             * ---------------------------------------------------------
+             * DEPTH HELPERS
+             * ---------------------------------------------------------
+             */
+
+            float GetRawDepth(float2 uv)
+            {
+                return SampleSceneDepth(uv);
+            }
+
+            bool IsBackgroundDepth(float rawDepth)
+            {
+                /*
+                 * Unity reversed-Z:
+                 *
+                 * Near = 1
+                 * Far / sky = 0
+                 *
+                 * Non reversed-Z:
+                 *
+                 * Near = 0
+                 * Far / sky = 1
+                 */
+                #if UNITY_REVERSED_Z
+
+                    return rawDepth <= 0.00001;
+
+                #else
+
+                    return rawDepth >= 0.99999;
+
+                #endif
+            }
+
             float GetEyeDepth(float2 uv)
             {
                 float rawDepth =
-                    SampleSceneDepth(uv);
+                    GetRawDepth(uv);
 
                 return LinearEyeDepth(
                     rawDepth,
                     _ZBufferParams);
             }
 
+            /*
+             * ---------------------------------------------------------
+             * DEPTH SOBEL
+             * ---------------------------------------------------------
+             */
+
             float GetDepthEdge(
                 float2 uv,
                 float2 texel)
             {
-                /*
-                 * 3x3 Sobel kernel.
-                 *
-                 * d00 d10 d20
-                 * d01  C  d21
-                 * d02 d12 d22
-                 */
-
                 float d00 =
                     GetEyeDepth(
-                        uv + texel * float2(-1,  1));
+                        uv + texel * float2(-1, 1));
 
                 float d10 =
                     GetEyeDepth(
-                        uv + texel * float2( 0,  1));
+                        uv + texel * float2(0, 1));
 
                 float d20 =
                     GetEyeDepth(
-                        uv + texel * float2( 1,  1));
+                        uv + texel * float2(1, 1));
 
                 float d01 =
                     GetEyeDepth(
-                        uv + texel * float2(-1,  0));
+                        uv + texel * float2(-1, 0));
 
                 float d21 =
                     GetEyeDepth(
-                        uv + texel * float2( 1,  0));
+                        uv + texel * float2(1, 0));
 
                 float d02 =
                     GetEyeDepth(
@@ -146,11 +179,11 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
                 float d12 =
                     GetEyeDepth(
-                        uv + texel * float2( 0, -1));
+                        uv + texel * float2(0, -1));
 
                 float d22 =
                     GetEyeDepth(
-                        uv + texel * float2( 1, -1));
+                        uv + texel * float2(1, -1));
 
                 float gx =
                     -d00 +
@@ -173,12 +206,6 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                         gx * gx +
                         gy * gy);
 
-                /*
-                 * Normalize by nearest sampled depth.
-                 *
-                 * Böylece 2 metre ve 30 metre mesafedeki
-                 * objeler tamamen farklı threshold istemiyor.
-                 */
                 float nearestDepth =
                     min(
                         min(
@@ -198,78 +225,218 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                     nearestDepth;
             }
 
+            /*
+             * ---------------------------------------------------------
+             * NORMAL EDGE
+             * ---------------------------------------------------------
+             */
+
             float GetNormalEdge(
                 float2 uv,
                 float2 texel)
             {
+                /*
+                 * Çok önemli:
+                 *
+                 * Sky/background'ın normal texture değeri valid geometry
+                 * normal'i değil.
+                 *
+                 * Background üzerinde normal edge hesaplamazsak
+                 * bütün sky'ın outlineColor ile boyanmasını engelleriz.
+                 */
+                float centerRawDepth =
+                    GetRawDepth(uv);
+
+                if (IsBackgroundDepth(
+                        centerRawDepth))
+                {
+                    return 0.0;
+                }
+
                 float3 center =
-                    normalize(
-                        SampleSceneNormals(uv));
+                    SampleSceneNormals(uv);
 
-                float3 left =
-                    normalize(
+                float centerLengthSq =
+                    dot(
+                        center,
+                        center);
+
+                if (centerLengthSq <
+                    0.0001)
+                {
+                    return 0.0;
+                }
+
+                center =
+                    normalize(center);
+
+                float edge =
+                    0.0;
+
+                /*
+                 * LEFT
+                 */
+
+                float2 leftUv =
+                    uv +
+                    texel *
+                    float2(-1, 0);
+
+                float leftDepth =
+                    GetRawDepth(leftUv);
+
+                if (!IsBackgroundDepth(
+                        leftDepth))
+                {
+                    float3 left =
                         SampleSceneNormals(
-                            uv +
-                            texel *
-                            float2(-1, 0)));
+                            leftUv);
 
-                float3 right =
-                    normalize(
+                    float leftLengthSq =
+                        dot(left, left);
+
+                    if (leftLengthSq >
+                        0.0001)
+                    {
+                        left =
+                            normalize(left);
+
+                        edge =
+                            max(
+                                edge,
+                                1.0 -
+                                saturate(
+                                    dot(
+                                        center,
+                                        left)));
+                    }
+                }
+
+                /*
+                 * RIGHT
+                 */
+
+                float2 rightUv =
+                    uv +
+                    texel *
+                    float2(1, 0);
+
+                float rightDepth =
+                    GetRawDepth(rightUv);
+
+                if (!IsBackgroundDepth(
+                        rightDepth))
+                {
+                    float3 right =
                         SampleSceneNormals(
-                            uv +
-                            texel *
-                            float2(1, 0)));
+                            rightUv);
 
-                float3 up =
-                    normalize(
+                    float rightLengthSq =
+                        dot(right, right);
+
+                    if (rightLengthSq >
+                        0.0001)
+                    {
+                        right =
+                            normalize(right);
+
+                        edge =
+                            max(
+                                edge,
+                                1.0 -
+                                saturate(
+                                    dot(
+                                        center,
+                                        right)));
+                    }
+                }
+
+                /*
+                 * UP
+                 */
+
+                float2 upUv =
+                    uv +
+                    texel *
+                    float2(0, 1);
+
+                float upDepth =
+                    GetRawDepth(upUv);
+
+                if (!IsBackgroundDepth(
+                        upDepth))
+                {
+                    float3 up =
                         SampleSceneNormals(
-                            uv +
-                            texel *
-                            float2(0, 1)));
+                            upUv);
 
-                float3 down =
-                    normalize(
+                    float upLengthSq =
+                        dot(up, up);
+
+                    if (upLengthSq >
+                        0.0001)
+                    {
+                        up =
+                            normalize(up);
+
+                        edge =
+                            max(
+                                edge,
+                                1.0 -
+                                saturate(
+                                    dot(
+                                        center,
+                                        up)));
+                    }
+                }
+
+                /*
+                 * DOWN
+                 */
+
+                float2 downUv =
+                    uv +
+                    texel *
+                    float2(0, -1);
+
+                float downDepth =
+                    GetRawDepth(downUv);
+
+                if (!IsBackgroundDepth(
+                        downDepth))
+                {
+                    float3 down =
                         SampleSceneNormals(
-                            uv +
-                            texel *
-                            float2(0, -1)));
+                            downUv);
 
-                float leftDifference =
-                    1.0 -
-                    saturate(
-                        dot(
-                            center,
-                            left));
+                    float downLengthSq =
+                        dot(down, down);
 
-                float rightDifference =
-                    1.0 -
-                    saturate(
-                        dot(
-                            center,
-                            right));
+                    if (downLengthSq >
+                        0.0001)
+                    {
+                        down =
+                            normalize(down);
 
-                float upDifference =
-                    1.0 -
-                    saturate(
-                        dot(
-                            center,
-                            up));
+                        edge =
+                            max(
+                                edge,
+                                1.0 -
+                                saturate(
+                                    dot(
+                                        center,
+                                        down)));
+                    }
+                }
 
-                float downDifference =
-                    1.0 -
-                    saturate(
-                        dot(
-                            center,
-                            down));
-
-                return max(
-                    max(
-                        leftDifference,
-                        rightDifference),
-                    max(
-                        upDifference,
-                        downDifference));
+                return edge;
             }
+
+            /*
+             * ---------------------------------------------------------
+             * FRAGMENT
+             * ---------------------------------------------------------
+             */
 
             half4 Frag(
                 Varyings input
@@ -280,6 +447,20 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
                 float2 uv =
                     input.texcoord;
+
+                half4 sceneColor =
+                    SAMPLE_TEXTURE2D_X(
+                        _BlitTexture,
+                        sampler_LinearClamp,
+                        uv);
+
+                /*
+                 * Eğer şu anki pixel tamamen background/sky ise
+                 * normal detection çalışmayacak.
+                 *
+                 * Fakat geometry'nin sky ile birleştiği sınır
+                 * depth Sobel tarafından hâlâ bulunabilir.
+                 */
 
                 float2 texel =
                     (
@@ -324,12 +505,6 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                         edge *
                         _Intensity *
                         _OutlineColor.a);
-
-                half4 sceneColor =
-                    SAMPLE_TEXTURE2D_X(
-                        _BlitTexture,
-                        sampler_LinearClamp,
-                        uv);
 
                 sceneColor.rgb =
                     lerp(
