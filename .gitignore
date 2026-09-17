@@ -111,3 +111,8 @@ InitTestScene*.unity*
 /.idea
 .idea/.idea.tidy-up-backlog/.idea/workspace.xml
 *.xml
+*.xml
+/.idea
+/.idea/.idea.tidy-up-backlog
+/.idea/.idea.tidy-up-backlog/.idea
+.idea/.idea.tidy-up-backlog/.idea/workspace.xml
