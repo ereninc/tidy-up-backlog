@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GameAssets/Prefabs/Network/NetworkGameCase.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/Items/NetworkItemCarrier.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/Items/NetworkItemCarrier.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/Items/NetworkItemPresentation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Multiplayer/Interaction/Items/NetworkItemPresentation.cs" afterDir="false" />
-    </list>
+    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +43,18 @@
   }
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/NOT THRASH/BUILDS/coop\C02Y.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\erenc\Desktop\NOT THRASH\BUILDS\coop" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.2.7f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\erenc\Documents\Repositories\tidy-up-backlog -debugCodeOptimization" />
@@ -114,6 +122,7 @@
       <workItem from="1789296771263" duration="2712000" />
       <workItem from="1789301139783" duration="8507000" />
       <workItem from="1789574451413" duration="606000" />
+      <workItem from="1789719698467" duration="223000" />
     </task>
     <servers />
   </component>
