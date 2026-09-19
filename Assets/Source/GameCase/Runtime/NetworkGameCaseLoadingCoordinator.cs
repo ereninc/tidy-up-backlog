@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -98,6 +100,10 @@ namespace EXW.Multiplayer
 
         private NetworkList<uint> _selectedAppIds;
 
+        /* Same index as _selectedAppIds. */
+        private NetworkList<FixedString128Bytes>
+            _selectedGameNames;
+
         /*
          * Same index as _selectedAppIds.
          *
@@ -127,6 +133,9 @@ namespace EXW.Multiplayer
         {
             _selectedAppIds =
                 new NetworkList<uint>();
+
+            _selectedGameNames =
+                new NetworkList<FixedString128Bytes>();
 
             _selectedPlaytimeMinutes =
                 new NetworkList<uint>();
@@ -389,6 +398,11 @@ namespace EXW.Multiplayer
                     BuildAveragePlaytimeMap(
                         results);
 
+            Dictionary<uint, string>
+                gameNameByAppId =
+                    BuildGameNameMap(
+                        results);
+
             ulong lobbyId =
                 SteamLobbyService.Instance.CurrentLobbyId;
 
@@ -396,6 +410,7 @@ namespace EXW.Multiplayer
                 BuildAndPublishManifestServer(
                     libraryView,
                     averagePlaytimeByAppId,
+                    gameNameByAppId,
                     lobbyId,
                     true,
                     hideNsfwGames);
@@ -408,6 +423,9 @@ namespace EXW.Multiplayer
 
             var playtimeByAppId =
                 new Dictionary<uint, uint>();
+
+            var gameNameByAppId =
+                new Dictionary<uint, string>();
 
             bool steamOnline =
                 SteamBootstrap.IsSteamAvailable &&
@@ -450,6 +468,12 @@ namespace EXW.Multiplayer
 
                         playtimeByAppId[game.AppId] =
                             game.PlaytimeMinutes;
+
+                        if (!string.IsNullOrWhiteSpace(game.Name))
+                        {
+                            gameNameByAppId[game.AppId] =
+                                game.Name;
+                        }
                     }
 
                     SetLocalProgress(
@@ -477,6 +501,7 @@ namespace EXW.Multiplayer
                 BuildAndPublishManifestServer(
                     libraryView,
                     playtimeByAppId,
+                    gameNameByAppId,
                     SteamBootstrap.LocalSteamId,
                     steamOnline,
                     false);
@@ -485,6 +510,7 @@ namespace EXW.Multiplayer
         private IEnumerator BuildAndPublishManifestServer(
             IReadOnlyList<IReadOnlyList<uint>> libraryView,
             IReadOnlyDictionary<uint, uint> playtimeByAppId,
+            IReadOnlyDictionary<uint, string> gameNameByAppId,
             ulong seedSource,
             bool validateVerticalCovers,
             bool hideNsfwGames)
@@ -523,6 +549,7 @@ namespace EXW.Multiplayer
                 PublishManifestServer(
                     selected,
                     playtimeByAppId,
+                    gameNameByAppId,
                     seed);
 
                 yield break;
@@ -754,6 +781,7 @@ namespace EXW.Multiplayer
                     PublishManifestServer(
                         valid,
                         playtimeByAppId,
+                        gameNameByAppId,
                         seed);
 
                     yield break;
@@ -795,6 +823,7 @@ namespace EXW.Multiplayer
         private void PublishManifestServer(
             IReadOnlyList<uint> selected,
             IReadOnlyDictionary<uint, uint> playtimeByAppId,
+            IReadOnlyDictionary<uint, string> gameNameByAppId,
             uint seed)
         {
             if (!IsServer ||
@@ -819,6 +848,7 @@ namespace EXW.Multiplayer
             _readyClientIds.Clear();
 
             _selectedAppIds.Clear();
+            _selectedGameNames.Clear();
             _selectedPlaytimeMinutes.Clear();
 
             for (int i = 0;
@@ -830,6 +860,19 @@ namespace EXW.Multiplayer
 
                 _selectedAppIds.Add(
                     appId);
+
+                string gameName =
+                    gameNameByAppId != null &&
+                    gameNameByAppId.TryGetValue(
+                        appId,
+                        out string resolvedName)
+                        ? resolvedName
+                        : string.Empty;
+
+                _selectedGameNames.Add(
+                    ToNetworkGameName(
+                        appId,
+                        gameName));
 
                 uint playtime =
                     playtimeByAppId != null &&
@@ -898,6 +941,8 @@ namespace EXW.Multiplayer
                     expectedCount <= 0 ||
                     _selectedAppIds.Count !=
                     expectedCount ||
+                    _selectedGameNames.Count !=
+                    expectedCount ||
                     _selectedPlaytimeMinutes.Count !=
                     expectedCount ||
                     _copiesPerGame.Value == 0 ||
@@ -915,6 +960,7 @@ namespace EXW.Multiplayer
             if (!_manifestReady.Value ||
                 expectedCount <= 0 ||
                 _selectedAppIds.Count != expectedCount ||
+                _selectedGameNames.Count != expectedCount ||
                 _selectedPlaytimeMinutes.Count != expectedCount ||
                 _copiesPerGame.Value == 0 ||
                 _assignmentSeed.Value == 0)
@@ -931,6 +977,9 @@ namespace EXW.Multiplayer
             var playtimes =
                 new uint[expectedCount];
 
+            var gameNames =
+                new string[expectedCount];
+
             for (int i = 0;
                  i < expectedCount;
                  i++)
@@ -938,12 +987,16 @@ namespace EXW.Multiplayer
                 appIds[i] =
                     _selectedAppIds[i];
 
+                gameNames[i] =
+                    _selectedGameNames[i].ToString();
+
                 playtimes[i] =
                     _selectedPlaytimeMinutes[i];
             }
 
             GameCaseSessionPlan.Set(
                 appIds,
+                gameNames,
                 _copiesPerGame.Value,
                 _assignmentSeed.Value);
 
@@ -1024,6 +1077,91 @@ namespace EXW.Multiplayer
 
                     HandleLocalCoversReady();
                 });
+        }
+
+        private static Dictionary<uint, string>
+            BuildGameNameMap(
+                IReadOnlyList<SteamOwnedGamesResult> results)
+        {
+            var names =
+                new Dictionary<uint, string>();
+
+            if (results == null)
+            {
+                return names;
+            }
+
+            for (int i = 0;
+                 i < results.Count;
+                 i++)
+            {
+                SteamOwnedGamesResult result =
+                    results[i];
+
+                if (result == null ||
+                    !result.Succeeded)
+                {
+                    continue;
+                }
+
+                for (int j = 0;
+                     j < result.Games.Count;
+                     j++)
+                {
+                    SteamOwnedGameData game =
+                        result.Games[j];
+
+                    if (game.AppId == 0 ||
+                        string.IsNullOrWhiteSpace(game.Name) ||
+                        names.ContainsKey(game.AppId))
+                    {
+                        continue;
+                    }
+
+                    names.Add(
+                        game.AppId,
+                        game.Name.Trim());
+                }
+            }
+
+            return names;
+        }
+
+        private static FixedString128Bytes ToNetworkGameName(
+            uint appId,
+            string gameName)
+        {
+            string value =
+                string.IsNullOrWhiteSpace(gameName)
+                    ? $"App {appId}"
+                    : gameName.Trim()
+                        .Replace('\r', ' ')
+                        .Replace('\n', ' ');
+
+            const int maximumUtf8Bytes = 120;
+
+            while (
+                value.Length > 1 &&
+                Encoding.UTF8.GetByteCount(value) >
+                maximumUtf8Bytes)
+            {
+                int newLength =
+                    value.Length - 1;
+
+                if (newLength > 0 &&
+                    char.IsHighSurrogate(
+                        value[newLength - 1]))
+                {
+                    newLength--;
+                }
+
+                value =
+                    value.Substring(
+                        0,
+                        Mathf.Max(1, newLength));
+            }
+
+            return new FixedString128Bytes(value);
         }
 
         private static Dictionary<uint, uint>

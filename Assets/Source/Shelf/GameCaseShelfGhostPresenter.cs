@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 namespace EXW.Multiplayer
 {
     /// <summary>
     /// One local-only shelf ghost. It searches the local carry stack from top
-    /// to bottom and previews the first game case accepted by the focused slot.
+    /// to bottom and exposes the exact stack item used by the preview.
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu(
@@ -16,12 +17,21 @@ namespace EXW.Multiplayer
         [Header("Ghost Renderers")]
         [SerializeField]
         private Renderer[] controlledRenderers =
-            System.Array.Empty<Renderer>();
+            Array.Empty<Renderer>();
 
         private NetworkGameCaseShelfDestination _focusedDestination;
 
         public NetworkGameCaseShelfDestination FocusedDestination =>
             _focusedDestination;
+
+        public int PreviewStackIndex { get; private set; } = -1;
+        public NetworkWorldItem PreviewItem { get; private set; }
+
+        /// <summary>
+        /// Local-only event. Index uses carrier order: 0 is bottom and
+        /// HeldItemCount - 1 is the visible top.
+        /// </summary>
+        public event Action<int, NetworkWorldItem> PreviewSelectionChanged;
 
         private void Reset()
         {
@@ -43,7 +53,7 @@ namespace EXW.Multiplayer
 
             Instance = this;
             ResolveReferences();
-            SetRenderersVisible(false);
+            ClearPreviewSelection();
         }
 
         private void OnEnable()
@@ -59,7 +69,7 @@ namespace EXW.Multiplayer
         private void OnDisable()
         {
             _focusedDestination = null;
-            SetRenderersVisible(false);
+            ClearPreviewSelection();
         }
 
         private void OnDestroy()
@@ -89,7 +99,7 @@ namespace EXW.Multiplayer
             }
 
             _focusedDestination = null;
-            SetRenderersVisible(false);
+            ClearPreviewSelection();
         }
 
         private void RefreshPreview()
@@ -98,24 +108,31 @@ namespace EXW.Multiplayer
 
             if (_focusedDestination == null ||
                 carrier == null ||
-                !TryFindPreviewPose(
+                !TryFindPreview(
                     carrier,
+                    out int stackIndex,
+                    out NetworkWorldItem selectedItem,
                     out Vector3 worldPosition,
                     out Quaternion worldRotation))
             {
-                SetRenderersVisible(false);
+                ClearPreviewSelection();
                 return;
             }
 
+            SetPreviewSelection(stackIndex, selectedItem);
             transform.SetPositionAndRotation(worldPosition, worldRotation);
             SetRenderersVisible(true);
         }
 
-        private bool TryFindPreviewPose(
+        private bool TryFindPreview(
             NetworkItemCarrier carrier,
+            out int stackIndex,
+            out NetworkWorldItem selectedItem,
             out Vector3 worldPosition,
             out Quaternion worldRotation)
         {
+            stackIndex = -1;
+            selectedItem = null;
             worldPosition = Vector3.zero;
             worldRotation = Quaternion.identity;
 
@@ -130,16 +147,53 @@ namespace EXW.Multiplayer
                     continue;
                 }
 
-                if (_focusedDestination.TryGetPreviewWorldPose(
+                if (!_focusedDestination.TryGetPreviewWorldPose(
                         gameCase,
                         out worldPosition,
                         out worldRotation))
                 {
-                    return true;
+                    continue;
                 }
+
+                stackIndex = i;
+                selectedItem = heldItem;
+                return true;
             }
 
             return false;
+        }
+
+        private void SetPreviewSelection(
+            int stackIndex,
+            NetworkWorldItem selectedItem)
+        {
+            SetRenderersVisible(true);
+
+            if (PreviewStackIndex == stackIndex &&
+                PreviewItem == selectedItem)
+            {
+                return;
+            }
+
+            PreviewStackIndex = stackIndex;
+            PreviewItem = selectedItem;
+            PreviewSelectionChanged?.Invoke(
+                PreviewStackIndex,
+                PreviewItem);
+        }
+
+        private void ClearPreviewSelection()
+        {
+            SetRenderersVisible(false);
+
+            if (PreviewStackIndex == -1 && PreviewItem == null)
+            {
+                return;
+            }
+
+            PreviewStackIndex = -1;
+            PreviewItem = null;
+            PreviewSelectionChanged?.Invoke(-1, null);
         }
 
         private void SetRenderersVisible(bool visible)

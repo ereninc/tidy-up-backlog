@@ -16,13 +16,24 @@ namespace EXW.Multiplayer
     {
         public SteamOwnedGameData(
             uint appId,
+            string name,
             uint playtimeMinutes)
         {
             AppId = appId;
+            Name = name?.Trim() ?? string.Empty;
             PlaytimeMinutes = playtimeMinutes;
         }
 
+        public SteamOwnedGameData(
+            uint appId,
+            uint playtimeMinutes)
+            : this(appId, string.Empty, playtimeMinutes)
+        {
+        }
+
         public uint AppId { get; }
+
+        public string Name { get; }
 
         /// <summary>
         /// Steam's playtime_forever value, in minutes.
@@ -95,7 +106,7 @@ namespace EXW.Multiplayer
     }
 
     /// <summary>
-    /// Fetches owned Steam games including lifetime playtime.
+    /// Fetches owned Steam games including display name and lifetime playtime.
     ///
     /// Production mode expects a backend proxy so a Steam Web API key
     /// is never shipped inside the game.
@@ -265,7 +276,7 @@ namespace EXW.Multiplayer
                 UnityWebRequest.EscapeURL(key) +
                 "&steamid=" +
                 steamId +
-                "&include_appinfo=0" +
+                "&include_appinfo=1" +
                 "&include_played_free_games=1" +
                 "&format=json";
 
@@ -300,6 +311,7 @@ namespace EXW.Multiplayer
                  *   "games": [
                  *     {
                  *       "appId": 730,
+                 *       "name": "Counter-Strike 2",
                  *       "playtimeMinutes": 12345
                  *     }
                  *   ]
@@ -343,6 +355,7 @@ namespace EXW.Multiplayer
                  * Valve Web API:
                  *
                  * response.games[].appid
+                 * response.games[].name
                  * response.games[].playtime_forever
                  */
                 ValveEnvelope valve =
@@ -421,6 +434,7 @@ namespace EXW.Multiplayer
                     result,
                     indices,
                     appId,
+                    game.name,
                     playtime);
             }
 
@@ -474,6 +488,7 @@ namespace EXW.Multiplayer
                     result,
                     indices,
                     (uint)rawAppId,
+                    game.name,
                     playtime);
             }
 
@@ -511,6 +526,7 @@ namespace EXW.Multiplayer
                 result.Add(
                     new SteamOwnedGameData(
                         appId,
+                        string.Empty,
                         0));
             }
 
@@ -521,8 +537,12 @@ namespace EXW.Multiplayer
             List<SteamOwnedGameData> result,
             Dictionary<uint, int> indices,
             uint appId,
+            string name,
             uint playtimeMinutes)
         {
+            string sanitizedName =
+                name?.Trim() ?? string.Empty;
+
             if (indices.TryGetValue(
                     appId,
                     out int existingIndex))
@@ -530,17 +550,27 @@ namespace EXW.Multiplayer
                 SteamOwnedGameData existing =
                     result[existingIndex];
 
-                /*
-                 * Should not normally duplicate, but keep the
-                 * largest reported playtime if it does.
-                 */
-                if (playtimeMinutes >
-                    existing.PlaytimeMinutes)
+                uint mergedPlaytime =
+                    Math.Max(
+                        playtimeMinutes,
+                        existing.PlaytimeMinutes);
+
+                string mergedName =
+                    !string.IsNullOrWhiteSpace(existing.Name)
+                        ? existing.Name
+                        : sanitizedName;
+
+                if (mergedPlaytime != existing.PlaytimeMinutes ||
+                    !string.Equals(
+                        mergedName,
+                        existing.Name,
+                        StringComparison.Ordinal))
                 {
                     result[existingIndex] =
                         new SteamOwnedGameData(
                             appId,
-                            playtimeMinutes);
+                            mergedName,
+                            mergedPlaytime);
                 }
 
                 return;
@@ -553,6 +583,7 @@ namespace EXW.Multiplayer
             result.Add(
                 new SteamOwnedGameData(
                     appId,
+                    sanitizedName,
                     playtimeMinutes));
         }
 
@@ -570,6 +601,8 @@ namespace EXW.Multiplayer
 
             // Supported alternate Valve-style naming.
             public int appid;
+
+            public string name;
 
             public int playtimeMinutes;
 
@@ -594,6 +627,8 @@ namespace EXW.Multiplayer
         private sealed class OwnedGame
         {
             public int appid;
+
+            public string name;
 
             /*
              * Lifetime playtime in minutes.
