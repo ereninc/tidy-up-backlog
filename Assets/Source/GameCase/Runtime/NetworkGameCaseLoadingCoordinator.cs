@@ -78,6 +78,9 @@ namespace EXW.Multiplayer
         [SerializeField]
         private SteamOwnedGamesClient ownedGamesClient;
 
+        [SerializeField]
+        private SteamAppContentFilterClient contentFilterClient;
+
         [Header("Cover Cache")]
         [SerializeField]
         private bool clearPreviousSessionCache = true;
@@ -133,6 +136,12 @@ namespace EXW.Multiplayer
                 ownedGamesClient =
                     GetComponent<SteamOwnedGamesClient>();
             }
+
+            if (!contentFilterClient)
+            {
+                contentFilterClient =
+                    GetComponent<SteamAppContentFilterClient>();
+            }
         }
 
         private void OnValidate()
@@ -163,6 +172,12 @@ namespace EXW.Multiplayer
             {
                 ownedGamesClient =
                     GetComponent<SteamOwnedGamesClient>();
+            }
+
+            if (!contentFilterClient)
+            {
+                contentFilterClient =
+                    GetComponent<SteamAppContentFilterClient>();
             }
         }
 
@@ -280,6 +295,10 @@ namespace EXW.Multiplayer
                 new SteamOwnedGamesResult[
                     members.Count];
 
+            bool hideNsfwGames =
+                MultiplayerFlowController.Instance != null &&
+                MultiplayerFlowController.Instance.HideNsfwGames;
+
             if (ownedGamesClient != null)
             {
                 int remaining =
@@ -378,7 +397,8 @@ namespace EXW.Multiplayer
                     libraryView,
                     averagePlaytimeByAppId,
                     lobbyId,
-                    true);
+                    true,
+                    hideNsfwGames);
         }
 
         private IEnumerator BuildSinglePlayerManifestServer()
@@ -458,14 +478,16 @@ namespace EXW.Multiplayer
                     libraryView,
                     playtimeByAppId,
                     SteamBootstrap.LocalSteamId,
-                    steamOnline);
+                    steamOnline,
+                    false);
         }
 
         private IEnumerator BuildAndPublishManifestServer(
             IReadOnlyList<IReadOnlyList<uint>> libraryView,
             IReadOnlyDictionary<uint, uint> playtimeByAppId,
             ulong seedSource,
-            bool validateVerticalCovers)
+            bool validateVerticalCovers,
+            bool hideNsfwGames)
         {
             uint seed =
                 unchecked(
@@ -526,12 +548,12 @@ namespace EXW.Multiplayer
                     requiredDistinctGames +
                     extraCandidatesPerPass);
 
-            int previousCandidateCount =
+            int previousRawCandidateCount =
                 -1;
 
             while (true)
             {
-                List<uint> candidates =
+                List<uint> rawCandidates =
                     GameCaseSelectionUtility.SelectDistinctFairly(
                         libraryView,
                         fallbackAppIds,
@@ -539,28 +561,118 @@ namespace EXW.Multiplayer
                         requestedCandidateCount,
                         seed);
 
-                if (candidates.Count <
+                if (rawCandidates.Count <
                     requiredDistinctGames)
                 {
                     FailLoadingServer(
-                        $"Only {candidates.Count} unique AppIds available.");
+                        $"Only {rawCandidates.Count} unique AppIds available.");
 
                     yield break;
                 }
 
-                if (previousCandidateCount >= 0 &&
-                    candidates.Count <=
-                    previousCandidateCount)
+                if (previousRawCandidateCount >= 0 &&
+                    rawCandidates.Count <=
+                    previousRawCandidateCount)
                 {
                     FailLoadingServer(
-                        "Could not find enough games with valid " +
-                        "vertical Steam artwork.");
+                        "Could not find enough eligible games.");
 
                     yield break;
                 }
 
-                previousCandidateCount =
-                    candidates.Count;
+                previousRawCandidateCount =
+                    rawCandidates.Count;
+
+                List<uint> candidates =
+                    rawCandidates;
+
+                if (hideNsfwGames)
+                {
+                    if (contentFilterClient == null)
+                    {
+                        FailLoadingServer(
+                            "Hide NSFW Games is enabled, but the Steam " +
+                            "content filter client is missing.");
+
+                        yield break;
+                    }
+
+                    SteamContentFilterResult filterResult =
+                        null;
+
+                    yield return
+                        contentFilterClient.FilterAllowedAppIds(
+                            rawCandidates,
+                            value => filterResult = value);
+
+                    if (!IsServer ||
+                        !IsSpawned)
+                    {
+                        yield break;
+                    }
+
+                    if (filterResult == null ||
+                        !filterResult.Succeeded)
+                    {
+                        FailLoadingServer(
+                            filterResult?.Error ??
+                            "Steam content filtering returned no result.");
+
+                        yield break;
+                    }
+
+                    candidates =
+                        new List<uint>(
+                            filterResult.AllowedAppIds);
+
+                    if (filterResult.BlockedCount > 0 ||
+                        filterResult.UnknownCount > 0)
+                    {
+                        Debug.Log(
+                            "[GameCaseLoading] NSFW filter removed " +
+                            $"{filterResult.BlockedCount} adult and " +
+                            $"{filterResult.UnknownCount} unverified AppIds.",
+                            this);
+                    }
+
+                    if (candidates.Count <
+                        requiredDistinctGames)
+                    {
+                        if (rawCandidates.Count <
+                            requestedCandidateCount)
+                        {
+                            FailLoadingServer(
+                                $"Only {candidates.Count}/" +
+                                $"{requiredDistinctGames} verified safe " +
+                                "games were available.");
+
+                            yield break;
+                        }
+
+                        int nextSafePass =
+                            Mathf.Min(
+                                maximumCoverCandidates,
+                                requestedCandidateCount +
+                                extraCandidatesPerPass);
+
+                        if (nextSafePass ==
+                            requestedCandidateCount)
+                        {
+                            FailLoadingServer(
+                                $"Only {candidates.Count}/" +
+                                $"{requiredDistinctGames} verified safe " +
+                                "games were found before reaching the " +
+                                "candidate limit.");
+
+                            yield break;
+                        }
+
+                        requestedCandidateCount =
+                            nextSafePass;
+
+                        continue;
+                    }
+                }
 
                 bool preloadFinished =
                     false;
@@ -647,7 +759,7 @@ namespace EXW.Multiplayer
                     yield break;
                 }
 
-                if (candidates.Count <
+                if (rawCandidates.Count <
                     requestedCandidateCount)
                 {
                     FailLoadingServer(

@@ -64,6 +64,10 @@ namespace EXW.Multiplayer.UI
             "Optional. If assigned, this per-lobby value overrides " +
             "MultiplayerSettings.DefaultAllowLateJoin.")]
         [SerializeField] private Toggle allowLateJoinToggle;
+        [Tooltip(
+            "When enabled, adult-only Steam games are removed before " +
+            "the host builds the game-case selection pool.")]
+        [SerializeField] private Toggle hideNsfwGamesToggle;
         [SerializeField] private Button createPublicButton;
         [SerializeField] private Button createPrivateButton;
         [SerializeField] private Button createModalBackButton;
@@ -257,6 +261,11 @@ namespace EXW.Multiplayer.UI
                     MultiplayerSettings.Current.DefaultAllowLateJoin);
             }
 
+            if (hideNsfwGamesToggle != null)
+            {
+                hideNsfwGamesToggle.SetIsOnWithoutNotify(true);
+            }
+
             if (lobbyNameInputField != null)
             {
                 lobbyNameInputField.Select();
@@ -426,6 +435,7 @@ namespace EXW.Multiplayer.UI
             Require(lobbyEntryTemplate, nameof(lobbyEntryTemplate), missing);
 
             Require(lobbyNameInputField, nameof(lobbyNameInputField), missing);
+            Require(hideNsfwGamesToggle, nameof(hideNsfwGamesToggle), missing);
             Require(createPublicButton, nameof(createPublicButton), missing);
             Require(createPrivateButton, nameof(createPrivateButton), missing);
             Require(createModalBackButton, nameof(createModalBackButton), missing);
@@ -576,6 +586,11 @@ namespace EXW.Multiplayer.UI
                 RootOf(createLobbyModal),
                 "AllowLateJoinToggle",
                 "Toggle_AllowLateJoin");
+            hideNsfwGamesToggle = FindComponent(
+                hideNsfwGamesToggle,
+                RootOf(createLobbyModal),
+                "HideNsfwGamesToggle",
+                "Toggle_HideNsfwGames");
             createPublicButton = FindComponent(
                 createPublicButton,
                 RootOf(createLobbyModal),
@@ -684,11 +699,16 @@ namespace EXW.Multiplayer.UI
                 ? allowLateJoinToggle.isOn
                 : (bool?)null;
 
+            bool hideNsfwGames =
+                hideNsfwGamesToggle == null ||
+                hideNsfwGamesToggle.isOn;
+
             Hide(createLobbyModal);
             _flowController.CreateLobby(
                 lobbyName,
                 visibility,
-                allowLateJoinOverride);
+                allowLateJoinOverride,
+                hideNsfwGames);
         }
 
         private bool CanStartLobbyOperation()

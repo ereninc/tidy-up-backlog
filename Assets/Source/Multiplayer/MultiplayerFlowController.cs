@@ -93,6 +93,12 @@ namespace EXW.Multiplayer
         public string StatusMessage { get; private set; } = "Idle";
         public string LastError { get; private set; } = string.Empty;
 
+        /// <summary>
+        /// Host-only game-case content option selected in Create Lobby.
+        /// The persistent flow controller carries it into the loading scene.
+        /// </summary>
+        public bool HideNsfwGames { get; private set; } = true;
+
         public SteamLobbySummary CurrentLobby =>
             lobbyService != null ? lobbyService.CurrentLobby : null;
 
@@ -203,7 +209,8 @@ namespace EXW.Multiplayer
         public bool CreateLobby(
             string lobbyName,
             SteamLobbyVisibility visibility = SteamLobbyVisibility.Public,
-            bool? allowLateJoinOverride = null)
+            bool? allowLateJoinOverride = null,
+            bool hideNsfwGames = true)
         {
             if (!PrepareForNewFlow("create a lobby"))
             {
@@ -212,6 +219,7 @@ namespace EXW.Multiplayer
 
             _pendingRole = MultiplayerSessionRole.Host;
             _quickJoinRequested = false;
+            HideNsfwGames = hideNsfwGames;
             SetState(
                 MultiplayerFlowState.CreatingLobby,
                 "Creating Steam lobby...");
@@ -646,6 +654,7 @@ namespace EXW.Multiplayer
             }
 
             _pendingRole = MultiplayerSessionRole.Host;
+            HideNsfwGames = true;
             SetState(
                 MultiplayerFlowState.CreatingLobby,
                 "Quick Join found no lobby; creating a public lobby...");

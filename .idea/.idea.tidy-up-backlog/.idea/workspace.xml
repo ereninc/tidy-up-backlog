@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="" />
+    <list default="true" id="e4318178-6d74-4f19-9f1e-1d4711ef1bd5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Source/GameCase/Runtime/SteamContentFilterResult.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Source/GameCase/Runtime/SteamContentFilterResult.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tidy-up-backlog/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scene/02_MainMenuScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/02_MainMenuScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/GameCase/Runtime/NetworkGameCaseLoadingCoordinator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/GameCase/Runtime/NetworkGameCaseLoadingCoordinator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/Multiplayer/MultiplayerFlowController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Multiplayer/MultiplayerFlowController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/Multiplayer/UI/MultiplayerMainMenuPresenter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Multiplayer/UI/MultiplayerMainMenuPresenter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Source/Shaders/HLSL/Sobel/EXW_Fullscreen_Scene Sobel Outline.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Source/Shaders/HLSL/Sobel/EXW_Fullscreen_Scene Sobel Outline.mat" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +31,9 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="3JGnJSxXSWyhNyjdAIWn0BdQZYf" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 269864306}
   - component: {fileID: 269864307}
   - component: {fileID: 269864308}
+  - component: {fileID: 269864310}
   - component: {fileID: 269864309}
   m_Layer: 0
   m_Name: GameCaseLoadingCoordinator
@@ -214,6 +215,7 @@ MonoBehaviour:
   extraCandidatesPerPass: 25
   maximumCoverCandidates: 500
   ownedGamesClient: {fileID: 269864307}
+  contentFilterClient: {fileID: 269864310}
   clearPreviousSessionCache: 1
 --- !u!114 &269864309
 MonoBehaviour:
@@ -232,6 +234,21 @@ MonoBehaviour:
   FontStyle: 1
   Texture: {fileID: 2800000, guid: c164f9cd69bbdea4fb535a9e6624bea8, type: 3}
   IconSize: {x: 15, y: 15}
+--- !u!114 &269864310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269864304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989c7198e5904980869b695ea6e8670c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.SteamAppContentFilterClient
+  endpoint: https://steam-library-proxy.vercel.app/api/steam-content-filter
+  appIdsPerRequest: 60
+  timeoutSeconds: 30
 --- !u!1 &1224815208
 GameObject:
   m_ObjectHideFlags: 0
