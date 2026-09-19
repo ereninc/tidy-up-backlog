@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace EXW.Multiplayer
 {
-    /// <summary>
-    /// Interactable station endpoint. Acceptance policy and destination behavior
-    /// are composed through assets/components instead of item-type switches.
-    /// </summary>
     [RequireComponent(typeof(NetworkObject))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Multiplayer/Items/Network Item Receiver")]
@@ -20,34 +16,27 @@ namespace EXW.Multiplayer
                 NetworkVariableWritePermission.Server);
 
         [InfoBox(
-            "Receiver = interaction endpoint, Filter = accepted item semantics, " +
-            "Destination = placement/consume strategy. Swap components instead " +
-            "of editing the carrier or item code.")]
+            "A receiver scans the carry stack from top to bottom and chooses " +
+            "the first item its filter/destination accepts.")]
         [TitleGroup("Receiver")]
         [SerializeField] private string receiverDisplayName = "Item Receiver";
 
         [TitleGroup("Receiver")]
         [SerializeField] private NetworkItemAcceptanceFilter acceptanceFilter;
 
-        [TitleGroup("Receiver")]
-        [Required]
+        [TitleGroup("Receiver"), Required]
         [SerializeField] private NetworkItemDestination destination;
 
-        [ShowInInspector]
-        [ReadOnly]
-        [BoxGroup("Live Receiver")]
+        [ShowInInspector, ReadOnly, BoxGroup("Live Receiver")]
         public int OccupiedCount => IsSpawned
             ? _occupiedCount.Value
-            : destination != null
-                ? destination.OccupiedCount
-                : 0;
+            : destination != null ? destination.OccupiedCount : 0;
 
-        [ShowInInspector]
-        [ReadOnly]
-        [BoxGroup("Live Receiver")]
+        [ShowInInspector, ReadOnly, BoxGroup("Live Receiver")]
         public int Capacity => destination != null
             ? destination.Capacity
             : 0;
+
         public NetworkItemDestination Destination => destination;
 
         protected override void Reset()
@@ -110,17 +99,16 @@ namespace EXW.Multiplayer
                 ? context.PlayerController.GetComponent<NetworkItemCarrier>()
                 : null;
 
-            if (carrier == null ||
-                !carrier.TryGetHeldItem(out NetworkWorldItem item))
+            if (carrier == null)
             {
-                rejectionMessage = "Hold an item first.";
+                rejectionMessage = "Player has no NetworkItemCarrier.";
                 return false;
             }
 
-            return TryBuildPlacementPlanServer(
-                item,
+            return TryFindPlacementCandidateServer(
                 carrier,
                 context,
+                out _,
                 out _,
                 out rejectionMessage);
         }
@@ -139,6 +127,64 @@ namespace EXW.Multiplayer
                 out resultMessage);
         }
 
+        internal bool TryFindPlacementCandidateServer(
+            NetworkItemCarrier carrier,
+            NetworkInteractionContext context,
+            out NetworkWorldItem selectedItem,
+            out NetworkItemPlacementPlan selectedPlan,
+            out string rejectionMessage)
+        {
+            selectedItem = null;
+            selectedPlan = default;
+            rejectionMessage = "No carried item fits this receiver.";
+
+            if (carrier == null || !carrier.HasHeldItem)
+            {
+                rejectionMessage = "Hold an item first.";
+                return false;
+            }
+
+            string firstRejection = string.Empty;
+
+            // Top-to-bottom: empty slots naturally consume the visible top,
+            // while a locked game shelf can reach a matching case underneath.
+            for (int i = carrier.HeldItemCount - 1; i >= 0; i--)
+            {
+                if (!carrier.TryGetHeldItemAt(
+                        i,
+                        out NetworkWorldItem candidate))
+                {
+                    continue;
+                }
+
+                if (TryBuildPlacementPlanServer(
+                        candidate,
+                        carrier,
+                        context,
+                        out NetworkItemPlacementPlan plan,
+                        out string candidateRejection))
+                {
+                    selectedItem = candidate;
+                    selectedPlan = plan;
+                    rejectionMessage = string.Empty;
+                    return true;
+                }
+
+                if (string.IsNullOrWhiteSpace(firstRejection) &&
+                    !string.IsNullOrWhiteSpace(candidateRejection))
+                {
+                    firstRejection = candidateRejection;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(firstRejection))
+            {
+                rejectionMessage = firstRejection;
+            }
+
+            return false;
+        }
+
         internal bool TryBuildPlacementPlanServer(
             NetworkWorldItem item,
             NetworkItemCarrier carrier,
@@ -151,7 +197,7 @@ namespace EXW.Multiplayer
 
             if (!IsServer || !IsSpawned)
             {
-                rejectionMessage = "Receiver is not spawned on the server.";
+                rejectionMessage = "Item receiver is not spawned on the server.";
                 return false;
             }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// Synchronous server-only item transactions. Rules and final transforms
-    /// stay authoritative; an optional NetworkItemMotionPresenter sends one
-    /// transition cue so each peer draws the movement locally.
+    /// Synchronous, server-only stack transactions. The last stack item is the
+    /// default drop/swap target, while receivers may choose a matching item from
+    /// anywhere in the stack.
     /// </summary>
     public static class NetworkItemTransferService
     {
@@ -22,18 +22,12 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            return carrier.HasHeldItem
-                ? TrySwap(carrier, item, out resultMessage)
-                : TryPickupIntoEmptyHands(carrier, item, out resultMessage);
+            return carrier.IsCarryLimitReached()
+                ? TrySwapTop(carrier, item, out resultMessage)
+                : TryPush(carrier, item, out resultMessage);
         }
 
-        /// <summary>
-        /// One-slot carry behavior: the current item is safely dropped using
-        /// the carrier's normal drop calculation, then the target is picked up.
-        /// If the second step unexpectedly fails, the old item is restored when
-        /// possible instead of silently leaving the player's hands empty.
-        /// </summary>
-        private static bool TrySwap(
+        private static bool TrySwapTop(
             NetworkItemCarrier carrier,
             NetworkWorldItem targetItem,
             out string resultMessage)
@@ -43,11 +37,12 @@ namespace EXW.Multiplayer
             if (!carrier.TryGetHeldItem(out NetworkWorldItem previousItem) ||
                 previousItem == null)
             {
-                resultMessage = "The currently held item could not be resolved.";
+                resultMessage = "The top stack item could not be resolved.";
                 return false;
             }
 
-            if (previousItem == targetItem)
+            if (previousItem == targetItem ||
+                carrier.ContainsHeldItem(targetItem))
             {
                 resultMessage = "You are already holding this item.";
                 return false;
@@ -56,7 +51,7 @@ namespace EXW.Multiplayer
             if (!previousItem.IsHeld ||
                 previousItem.Location.HolderClientId != carrier.OwnerClientId)
             {
-                resultMessage = "Carrier and held item state do not agree.";
+                resultMessage = "Carrier and top item state do not agree.";
                 return false;
             }
 
@@ -76,21 +71,18 @@ namespace EXW.Multiplayer
 
             if (!TryDrop(carrier, out string dropMessage))
             {
-                resultMessage = "Swap could not drop the current item: " +
+                resultMessage = "Swap could not drop the top item: " +
                                 dropMessage;
                 return false;
             }
 
-            if (TryPickupIntoEmptyHands(
-                    carrier,
-                    targetItem,
-                    out string pickupMessage))
+            if (TryPush(carrier, targetItem, out string pickupMessage))
             {
                 resultMessage = $"Swapped {previousName} for {targetName}.";
                 return true;
             }
 
-            bool restoredPrevious = TryPickupIntoEmptyHands(
+            bool restoredPrevious = TryPush(
                 carrier,
                 previousItem,
                 out string restoreMessage);
@@ -104,7 +96,7 @@ namespace EXW.Multiplayer
             return false;
         }
 
-        private static bool TryPickupIntoEmptyHands(
+        private static bool TryPush(
             NetworkItemCarrier carrier,
             NetworkWorldItem item,
             out string resultMessage)
@@ -116,9 +108,15 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (carrier.HasHeldItem)
+            if (carrier.IsCarryLimitReached())
             {
-                resultMessage = "The carry slot is still occupied.";
+                resultMessage = "The carry stack is full.";
+                return false;
+            }
+
+            if (carrier.ContainsHeldItem(item))
+            {
+                resultMessage = "This item is already in the carry stack.";
                 return false;
             }
 
@@ -130,19 +128,19 @@ namespace EXW.Multiplayer
                 return false;
             }
 
+            int stackIndex = carrier.HeldItemCount;
             if (!carrier.TryGetCarryLocalPose(
                     carryable,
+                    stackIndex,
                     out Vector3 localPosition,
                     out Quaternion localRotation))
             {
-                resultMessage = "Carry anchor produced an invalid pose.";
+                resultMessage = "Carry stack produced an invalid pose.";
                 return false;
             }
 
             NetworkItemReceiver previousReceiver = null;
-
-            if (item.IsPlaced &&
-                !item.TryResolveReceiver(out previousReceiver))
+            if (item.IsPlaced && !item.TryResolveReceiver(out previousReceiver))
             {
                 resultMessage =
                     "Item placement receiver could not be resolved.";
@@ -171,7 +169,13 @@ namespace EXW.Multiplayer
             item.SetLocationServer(NetworkItemLocationState.Held(
                 carrier.OwnerClientId,
                 revision));
-            carrier.SetHeldItemServer(item);
+
+            if (!carrier.AddHeldItemServer(item, out int addedIndex))
+            {
+                resultMessage = "Carrier rejected the new stack entry.";
+                return false;
+            }
+
             PlayMotion(
                 carrier,
                 item,
@@ -180,7 +184,9 @@ namespace EXW.Multiplayer
                 visualStartRotation,
                 revision);
 
-            resultMessage = $"Picked up {item.DisplayName}.";
+            resultMessage =
+                $"Picked up {item.DisplayName} ({addedIndex + 1}/" +
+                $"{carrier.CarryLimit}).";
             return true;
         }
 
@@ -211,19 +217,15 @@ namespace EXW.Multiplayer
 
             if (!resolvedItem || item == null || !item.IsSpawned)
             {
-                if (carrier.IsSpawned)
-                {
-                    carrier.ClearHeldItemServer(null);
-                }
-
-                resultMessage = "No spawned item is being carried.";
+                carrier.ClearHeldItemServer(null);
+                resultMessage = "No spawned top item is being carried.";
                 return false;
             }
 
             if (!item.IsHeld ||
                 item.Location.HolderClientId != carrier.OwnerClientId)
             {
-                resultMessage = "Carrier and item state do not agree.";
+                resultMessage = "Carrier and top item state do not agree.";
                 return false;
             }
 
@@ -258,11 +260,7 @@ namespace EXW.Multiplayer
 
             item.ApplyPreparedParentPoseServer();
             item.SetLocationServer(NetworkItemLocationState.World(revision));
-
-            if (carrier.IsSpawned)
-            {
-                carrier.ClearHeldItemServer(item);
-            }
+            carrier.RemoveHeldItemServer(item);
 
             PlayMotion(
                 carrier,
@@ -276,6 +274,49 @@ namespace EXW.Multiplayer
                 ? $"Dropped {item.DisplayName} during disconnect cleanup."
                 : $"Dropped {item.DisplayName}.";
             return true;
+        }
+
+        public static bool TryDropAll(
+            NetworkItemCarrier carrier,
+            out string resultMessage,
+            bool disconnectCleanup = false)
+        {
+            resultMessage = string.Empty;
+
+            if (carrier == null)
+            {
+                resultMessage = "Carrier is missing.";
+                return false;
+            }
+
+            int droppedCount = 0;
+            int safety = carrier.HeldItemCount + 1;
+
+            while (carrier.HeldItemCount > 0 && safety-- > 0)
+            {
+                int countBeforeDrop = carrier.HeldItemCount;
+
+                if (!TryDrop(
+                        carrier,
+                        out string dropMessage,
+                        disconnectCleanup))
+                {
+                    // TryDrop removes an unresolved top reference so cleanup
+                    // can continue with the remaining valid items.
+                    if (carrier.HeldItemCount < countBeforeDrop)
+                    {
+                        continue;
+                    }
+
+                    resultMessage = dropMessage;
+                    return false;
+                }
+
+                droppedCount++;
+            }
+
+            resultMessage = $"Dropped {droppedCount} carried item(s).";
+            return droppedCount > 0;
         }
 
         public static bool TryReceive(
@@ -294,7 +335,12 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (!carrier.TryGetHeldItem(out NetworkWorldItem item) ||
+            if (!receiver.TryFindPlacementCandidateServer(
+                    carrier,
+                    context,
+                    out NetworkWorldItem item,
+                    out NetworkItemPlacementPlan plan,
+                    out resultMessage) ||
                 !ValidateServerPair(carrier, item, out resultMessage))
             {
                 return false;
@@ -303,17 +349,7 @@ namespace EXW.Multiplayer
             if (!item.IsHeld ||
                 item.Location.HolderClientId != carrier.OwnerClientId)
             {
-                resultMessage = "Carrier and item state do not agree.";
-                return false;
-            }
-
-            if (!receiver.TryBuildPlacementPlanServer(
-                    item,
-                    carrier,
-                    context,
-                    out NetworkItemPlacementPlan plan,
-                    out resultMessage))
-            {
+                resultMessage = "Carrier and selected item state do not agree.";
                 return false;
             }
 
@@ -321,7 +357,7 @@ namespace EXW.Multiplayer
                 NetworkItemDestinationDisposition.Consume)
             {
                 string itemName = item.DisplayName;
-                carrier.ClearHeldItemServer(item);
+                carrier.RemoveHeldItemServer(item);
                 receiver.CommitPlacementServer(item, plan);
                 item.NetworkObject.Despawn(true);
                 resultMessage = $"Discarded {itemName}.";
@@ -343,7 +379,8 @@ namespace EXW.Multiplayer
                     false))
             {
                 item.CancelPreparedParentPoseServer();
-                resultMessage = "NGO could not parent the item to this receiver.";
+                resultMessage =
+                    "NGO could not parent the item to this receiver.";
                 return false;
             }
 
@@ -353,7 +390,8 @@ namespace EXW.Multiplayer
                 receiver.NetworkObject,
                 plan.SlotIndex,
                 revision));
-            carrier.ClearHeldItemServer(item);
+            carrier.RemoveHeldItemServer(item);
+
             PlayMotion(
                 carrier,
                 item,
@@ -425,7 +463,6 @@ namespace EXW.Multiplayer
             }
 
             NetworkManager manager = carrier.NetworkManager;
-
             if (manager == null || manager != item.NetworkManager ||
                 !manager.IsListening)
             {

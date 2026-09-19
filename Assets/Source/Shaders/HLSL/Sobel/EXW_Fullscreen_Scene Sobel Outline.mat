@@ -32,7 +32,7 @@ Material:
     - _FadeStart: 20
     - _FarIntensity: 0.35
     - _Intensity: 1
-    - _NormalDepthGate: 0.03
+    - _NormalDepthGate: 0.2
     - _NormalSoftness: 0.2
     - _NormalThreshold: 0.001
     - _NormalWeight: 5

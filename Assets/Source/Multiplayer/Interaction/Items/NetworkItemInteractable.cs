@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace EXW.Multiplayer
 {
-    /// <summary>
-    /// Interaction endpoint for the carry capability. The actual transaction is
-    /// delegated to NetworkItemTransferService.
-    /// </summary>
     [RequireComponent(typeof(NetworkWorldItem))]
     [RequireComponent(typeof(NetworkCarryable))]
     [DisallowMultipleComponent]
@@ -14,14 +10,12 @@ namespace EXW.Multiplayer
     public sealed class NetworkItemInteractable : NetworkInteractable
     {
         [InfoBox(
-            "Display name comes from NetworkWorldItem. E requests a server-owned " +
-            "pickup or one-slot swap; no client takes ownership of the item.")]
-        [TitleGroup("Item")]
-        [Required]
+            "Pickup pushes into the replicated carry stack. When the stack is " +
+            "full, interacting swaps only its top item.")]
+        [TitleGroup("Item"), Required]
         [SerializeField] private NetworkWorldItem item;
 
-        [TitleGroup("Item")]
-        [Required]
+        [TitleGroup("Item"), Required]
         [SerializeField] private NetworkCarryable carryable;
 
         protected override void Reset()
@@ -40,8 +34,7 @@ namespace EXW.Multiplayer
             NetworkInteractionController interactor)
         {
             return base.IsAvailableLocally(interactor) &&
-                   item != null &&
-                   !item.IsHeld;
+                   item != null && !item.IsHeld;
         }
 
         public override string GetInteractionDisplayName(
@@ -64,15 +57,14 @@ namespace EXW.Multiplayer
                 return "Carrier Missing";
             }
 
-            if (!carrier.HasHeldItem)
+            if (carrier.ContainsHeldItem(item))
             {
-                return "Pick Up";
+                return "Holding";
             }
 
-            return carrier.TryGetHeldItem(out NetworkWorldItem heldItem) &&
-                   heldItem == item
-                ? "Holding"
-                : "Swap";
+            return carrier.IsCarryLimitReached()
+                ? "Swap Top"
+                : $"Pick Up ({carrier.HeldItemCount}/{carrier.CarryLimit})";
         }
 
         protected override bool CanInteractServer(
@@ -97,8 +89,7 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (carrier.TryGetHeldItem(out NetworkWorldItem heldItem) &&
-                heldItem == item)
+            if (carrier.ContainsHeldItem(item))
             {
                 rejectionMessage = "You are already holding this item.";
                 return false;

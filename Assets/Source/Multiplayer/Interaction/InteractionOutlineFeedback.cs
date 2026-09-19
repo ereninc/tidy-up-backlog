@@ -14,11 +14,7 @@ namespace EXW.Multiplayer
 
         [SerializeField]
         private Renderer outlineRenderer;
-
-        [Header("Outline")]
-        [SerializeField]
-        private Color outlineColor = Color.white;
-
+        
         private void Reset()
         {
             AutoAssignReferences();

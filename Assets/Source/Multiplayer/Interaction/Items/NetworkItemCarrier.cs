@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,27 +8,42 @@ using UnityEngine.InputSystem;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// One-slot hand carried by a network player. The server owns the item and
-    /// every transfer; the client only requests a drop.
+    /// Server-authoritative carried-item stack. Items remain parented directly
+    /// to the player NetworkObject; the stack only supplies ordering and poses.
     /// </summary>
     [RequireComponent(typeof(NetworkObject))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Multiplayer/Items/Network Item Carrier")]
     public sealed class NetworkItemCarrier : NetworkBehaviour
     {
-        private readonly NetworkVariable<NetworkObjectReference> _heldItem =
-            new NetworkVariable<NetworkObjectReference>(
-                default,
+        private readonly NetworkList<NetworkObjectReference> _heldItems =
+            new NetworkList<NetworkObjectReference>();
+
+        private readonly NetworkVariable<int> _carryLimit =
+            new NetworkVariable<int>(
+                1,
                 NetworkVariableReadPermission.Everyone,
                 NetworkVariableWritePermission.Server);
 
         [InfoBox(
-            "ItemCarryAnchor may be a normal child under the camera/player. NGO " +
-            "parents the item NetworkObject to the player NetworkObject root and " +
-            "uses this anchor only to calculate the replicated local grip pose.")]
+            "Every held item stays parented to the player NetworkObject root. " +
+            "ItemCarryAnchor and the stack steps only calculate local poses.")]
         [TitleGroup("Carry Pose")]
         [Required]
         [SerializeField] private Transform itemCarryAnchor;
+
+        [TitleGroup("Carry Pose")]
+        [Tooltip("Anchor-local offset added once per stack index.")]
+        [SerializeField] private Vector3 stackLocalPositionStep =
+            new Vector3(0f, 0.035f, 0f);
+
+        [TitleGroup("Carry Pose")]
+        [Tooltip("Optional anchor-local rotation added once per stack index.")]
+        [SerializeField] private Vector3 stackLocalEulerStep;
+
+        [TitleGroup("Carry Limit")]
+        [MinValue(1)]
+        [SerializeField] private int defaultCarryLimit = 1;
 
         [TitleGroup("Drop")]
         [SerializeField] private Key dropKey = Key.G;
@@ -54,9 +70,6 @@ namespace EXW.Multiplayer
         [SerializeField] private bool requireLockedCursorForInput = true;
 
         [TitleGroup("Drop Safety")]
-        [Tooltip(
-            "Keeps the final drop pose outside this player's body instead of " +
-            "letting the item spawn inside the movement collider.")]
         [SerializeField] private bool preventPlayerOverlapOnDrop = true;
 
         [TitleGroup("Drop Safety")]
@@ -65,34 +78,23 @@ namespace EXW.Multiplayer
         [SerializeField] private float playerDropPadding = 0.08f;
 
         [TitleGroup("Drop Safety")]
-        [Tooltip(
-            "Player movement/body colliders. Trigger colliders are ignored. " +
-            "AUTO ASSIGN CARRY ANCHOR fills this from the player hierarchy.")]
         [SerializeField] private Collider[] playerBodyColliders;
 
-        [ShowInInspector]
-        [Sirenix.OdinInspector.ReadOnly]
-        [BoxGroup("Live Carrier")]
+        [ShowInInspector, ReadOnly, BoxGroup("Live Carrier")]
         public static NetworkItemCarrier Local { get; private set; }
 
-        [ShowInInspector]
-        [Sirenix.OdinInspector.ReadOnly]
-        [BoxGroup("Live Carrier")]
-        public bool HasHeldItem => TryGetHeldItem(out _);
+        [ShowInInspector, ReadOnly, BoxGroup("Live Carrier")]
+        public bool HasHeldItem => HeldItemCount > 0;
 
-        [ShowInInspector]
-        [Sirenix.OdinInspector.ReadOnly]
-        [BoxGroup("Live Carrier")]
-        public int CarryLimit => 1;
+        [ShowInInspector, ReadOnly, BoxGroup("Live Carrier")]
+        public int CarryLimit => IsSpawned
+            ? Mathf.Max(1, _carryLimit.Value)
+            : Mathf.Max(1, defaultCarryLimit);
 
-        [ShowInInspector]
-        [Sirenix.OdinInspector.ReadOnly]
-        [BoxGroup("Live Carrier")]
-        public int HeldItemCount => HasHeldItem ? 1 : 0;
+        [ShowInInspector, ReadOnly, BoxGroup("Live Carrier")]
+        public int HeldItemCount => _heldItems.Count;
 
-        [ShowInInspector]
-        [Sirenix.OdinInspector.ReadOnly]
-        [BoxGroup("Live Carrier")]
+        [ShowInInspector, ReadOnly, BoxGroup("Live Carrier")]
         public string HeldItemName => TryGetHeldItem(out NetworkWorldItem item)
             ? item.DisplayName
             : "Empty";
@@ -100,13 +102,36 @@ namespace EXW.Multiplayer
         public string DropKeyDisplayName => dropKey.ToString();
         public Transform ItemCarryAnchor => itemCarryAnchor;
 
+        /// <summary>Compatibility event: previous/current top item.</summary>
         public event Action<NetworkWorldItem, NetworkWorldItem> HeldItemChanged;
+        public event Action HeldStackChanged;
+        public event Action<int, int> CarryLimitChanged;
 
-        private NetworkWorldItem _cachedHeldItem;
+        private NetworkWorldItem _cachedTopItem;
 
         private bool CanDropFromInspector =>
             Application.isPlaying && IsSpawned && IsOwner &&
             !GameplayInputGate.IsBlocked && HasHeldItem;
+
+        private readonly struct ReflowMotion
+        {
+            public readonly ulong NetworkObjectId;
+            public readonly NetworkItemMotionPresenter Presenter;
+            public readonly Vector3 StartPosition;
+            public readonly Quaternion StartRotation;
+
+            public ReflowMotion(
+                NetworkWorldItem item,
+                NetworkItemMotionPresenter presenter,
+                Vector3 startPosition,
+                Quaternion startRotation)
+            {
+                NetworkObjectId = item.NetworkObjectId;
+                Presenter = presenter;
+                StartPosition = startPosition;
+                StartRotation = startRotation;
+            }
+        }
 
         private void Reset()
         {
@@ -122,15 +147,23 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             AutoAssignReferences();
-            _heldItem.OnValueChanged += HandleHeldItemReferenceChanged;
+
+            _heldItems.OnListChanged += HandleHeldItemsChanged;
+            _carryLimit.OnValueChanged += HandleCarryLimitChanged;
+
+            if (IsServer)
+            {
+                _carryLimit.Value = Mathf.Max(1, defaultCarryLimit);
+            }
 
             if (IsOwner)
             {
                 Local = this;
             }
 
-            RefreshHeldItemCache();
+            RefreshTopItemCache();
 
             if (IsServer && NetworkManager != null)
             {
@@ -141,23 +174,13 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkDespawn()
         {
-            // Fallback for abrupt disconnects where the player NetworkObject is
-            // despawned before the manager-level disconnect callback reaches us.
             if (IsServer && NetworkManager != null &&
-                NetworkManager.IsListening &&
-                TryGetHeldItemForServerCleanup(out _))
+                NetworkManager.IsListening && HasHeldItem)
             {
-                NetworkItemTransferService.TryDrop(
+                NetworkItemTransferService.TryDropAll(
                     this,
-                    out string cleanupMessage,
+                    out _,
                     true);
-
-                if (!string.IsNullOrWhiteSpace(cleanupMessage))
-                {
-                    Debug.Log(
-                        $"[ItemCarrier] {cleanupMessage}",
-                        this);
-                }
             }
 
             if (IsServer && NetworkManager != null)
@@ -166,32 +189,27 @@ namespace EXW.Multiplayer
                     HandleClientDisconnected;
             }
 
-            _heldItem.OnValueChanged -= HandleHeldItemReferenceChanged;
+            _heldItems.OnListChanged -= HandleHeldItemsChanged;
+            _carryLimit.OnValueChanged -= HandleCarryLimitChanged;
 
             if (Local == this)
             {
                 Local = null;
             }
 
-            NetworkWorldItem previous = _cachedHeldItem;
-            _cachedHeldItem = null;
+            NetworkWorldItem previous = _cachedTopItem;
+            _cachedTopItem = null;
             HeldItemChanged?.Invoke(previous, null);
+            HeldStackChanged?.Invoke();
             base.OnNetworkDespawn();
         }
 
         public override void OnLostOwnership()
         {
-            // NGO also invokes this on the server when a client loses ownership.
-            // It is the earliest reliable abrupt-disconnect cleanup hook for the
-            // client-owned player object.
             if (IsServer && NetworkManager != null &&
-                NetworkManager.IsListening &&
-                TryGetHeldItemForServerCleanup(out _))
+                NetworkManager.IsListening && HasHeldItem)
             {
-                NetworkItemTransferService.TryDrop(
-                    this,
-                    out _,
-                    true);
+                NetworkItemTransferService.TryDropAll(this, out _, true);
             }
 
             base.OnLostOwnership();
@@ -212,26 +230,70 @@ namespace EXW.Multiplayer
             }
 
             Keyboard keyboard = Keyboard.current;
-
             if (keyboard == null)
             {
                 return;
             }
 
             var keyControl = keyboard[dropKey];
-
             if (keyControl != null && keyControl.wasPressedThisFrame)
             {
                 RequestDropServerRpc();
             }
         }
 
+        #region Carry Limit
+
+        [Button]
+        public void IncreaseCarryLimit(int amount = 1)
+        {
+            if (amount > 0)
+            {
+                SetCarryLimit(amount + CarryLimit);
+            }
+        }
+
+        [Button]
+        public void SetCarryLimit(int value)
+        {
+            if (!IsSpawned || !IsServer)
+            {
+                Debug.LogWarning(
+                    "Carry limit can only be changed by the spawned server carrier.",
+                    this);
+                return;
+            }
+
+            _carryLimit.Value = Mathf.Max(1, value);
+        }
+
+        [Button]
+        public void ResetCarryLimitToDefault()
+        {
+            SetCarryLimit(defaultCarryLimit);
+        }
+
+        public bool IsCarryLimitReached()
+        {
+            return HeldItemCount >= CarryLimit;
+        }
+
+        #endregion
+
         public bool TryGetHeldItem(out NetworkWorldItem item)
+        {
+            return TryGetHeldItemAt(HeldItemCount - 1, out item);
+        }
+
+        public bool TryGetHeldItemAt(
+            int stackIndex,
+            out NetworkWorldItem item)
         {
             item = null;
 
-            if (!IsSpawned || NetworkManager == null ||
-                !_heldItem.Value.TryGet(
+            if (NetworkManager == null ||
+                stackIndex < 0 || stackIndex >= _heldItems.Count ||
+                !_heldItems[stackIndex].TryGet(
                     out NetworkObject itemObject,
                     NetworkManager))
             {
@@ -241,20 +303,169 @@ namespace EXW.Multiplayer
             return itemObject.TryGetComponent(out item) && item != null;
         }
 
-        internal bool TryGetHeldItemForServerCleanup(
-            out NetworkWorldItem item)
+        public bool TryGetStackIndex(
+            NetworkWorldItem item,
+            out int stackIndex)
         {
-            item = null;
+            stackIndex = -1;
 
-            if (NetworkManager == null || !NetworkManager.IsServer ||
-                !_heldItem.Value.TryGet(
-                    out NetworkObject itemObject,
-                    NetworkManager))
+            if (item == null)
             {
                 return false;
             }
 
-            return itemObject.TryGetComponent(out item) && item != null;
+            for (int i = 0; i < _heldItems.Count; i++)
+            {
+                if (TryGetHeldItemAt(i, out NetworkWorldItem candidate) &&
+                    candidate == item)
+                {
+                    stackIndex = i;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool ContainsHeldItem(NetworkWorldItem item)
+        {
+            return TryGetStackIndex(item, out _);
+        }
+
+        internal bool TryGetHeldItemForServerCleanup(
+            out NetworkWorldItem item)
+        {
+            item = null;
+            return NetworkManager != null &&
+                   NetworkManager.IsServer &&
+                   TryGetHeldItem(out item);
+        }
+
+        internal bool AddHeldItemServer(
+            NetworkWorldItem item,
+            out int stackIndex)
+        {
+            stackIndex = -1;
+
+            if (!CanWriteStackServer() || item == null ||
+                ContainsHeldItem(item) || IsCarryLimitReached())
+            {
+                return false;
+            }
+
+            stackIndex = _heldItems.Count;
+            _heldItems.Add(
+                new NetworkObjectReference(item.NetworkObject));
+            return true;
+        }
+
+        internal bool RemoveHeldItemServer(NetworkWorldItem item)
+        {
+            if (!CanWriteStackServer())
+            {
+                return false;
+            }
+
+            int removeIndex;
+            if (item == null)
+            {
+                removeIndex = _heldItems.Count - 1;
+            }
+            else if (!TryGetStackIndex(item, out removeIndex))
+            {
+                return false;
+            }
+
+            if (removeIndex < 0 || removeIndex >= _heldItems.Count)
+            {
+                return false;
+            }
+
+            List<ReflowMotion> motions =
+                CaptureReflowMotions(removeIndex + 1);
+
+            _heldItems.RemoveAt(removeIndex);
+            ReflowStackServer(removeIndex, motions);
+            return true;
+        }
+
+        // Compatibility with existing item cleanup code.
+        internal void SetHeldItemServer(NetworkWorldItem item)
+        {
+            AddHeldItemServer(item, out _);
+        }
+
+        // Null removes an unresolved top reference; a concrete item removes
+        // that exact stack entry and closes the gap above it.
+        internal void ClearHeldItemServer(NetworkWorldItem expectedItem)
+        {
+            RemoveHeldItemServer(expectedItem);
+        }
+
+        internal bool TryGetCarryWorldPose(
+            NetworkCarryable carryable,
+            int stackIndex,
+            out Vector3 worldPosition,
+            out Quaternion worldRotation)
+        {
+            Transform anchor = itemCarryAnchor != null
+                ? itemCarryAnchor
+                : transform;
+
+            Vector3 positionOffset = carryable != null
+                ? carryable.GripPositionOffset
+                : Vector3.zero;
+            positionOffset += stackLocalPositionStep * stackIndex;
+
+            Quaternion gripRotation = carryable != null
+                ? carryable.GripRotationOffset
+                : Quaternion.identity;
+            Quaternion stackRotation = Quaternion.Euler(
+                stackLocalEulerStep * stackIndex);
+
+            worldPosition = anchor.TransformPoint(positionOffset);
+            worldRotation = anchor.rotation * stackRotation * gripRotation;
+
+            return NetworkInteractionValidation.IsFinite(worldPosition) &&
+                   IsFinite(worldRotation);
+        }
+
+        internal bool TryGetCarryLocalPose(
+            NetworkCarryable carryable,
+            int stackIndex,
+            out Vector3 localPosition,
+            out Quaternion localRotation)
+        {
+            if (!TryGetCarryWorldPose(
+                    carryable,
+                    stackIndex,
+                    out Vector3 worldPosition,
+                    out Quaternion worldRotation))
+            {
+                localPosition = Vector3.zero;
+                localRotation = Quaternion.identity;
+                return false;
+            }
+
+            localPosition = transform.InverseTransformPoint(worldPosition);
+            localRotation = Quaternion.Inverse(transform.rotation) *
+                            worldRotation;
+
+            return NetworkInteractionValidation.IsFinite(localPosition) &&
+                   IsFinite(localRotation);
+        }
+
+        // Compatibility overload: pose of the current top item.
+        internal bool TryGetCarryLocalPose(
+            NetworkCarryable carryable,
+            out Vector3 localPosition,
+            out Quaternion localRotation)
+        {
+            return TryGetCarryLocalPose(
+                carryable,
+                Mathf.Max(0, HeldItemCount - 1),
+                out localPosition,
+                out localRotation);
         }
 
         [Button("AUTO ASSIGN CARRY ANCHOR")]
@@ -262,7 +473,6 @@ namespace EXW.Multiplayer
         {
             if (itemCarryAnchor == null)
             {
-                Transform existing = null;
                 Transform[] children =
                     GetComponentsInChildren<Transform>(true);
 
@@ -270,14 +480,9 @@ namespace EXW.Multiplayer
                 {
                     if (children[i].name == "ItemCarryAnchor")
                     {
-                        existing = children[i];
+                        itemCarryAnchor = children[i];
                         break;
                     }
-                }
-
-                if (existing != null)
-                {
-                    itemCarryAnchor = existing;
                 }
             }
 
@@ -289,7 +494,7 @@ namespace EXW.Multiplayer
             }
         }
 
-        [Button("DROP HELD ITEM")]
+        [Button("DROP TOP ITEM")]
         [EnableIf(nameof(CanDropFromInspector))]
         public void RequestDropFromInspector()
         {
@@ -299,38 +504,6 @@ namespace EXW.Multiplayer
             }
         }
 
-        internal void SetHeldItemServer(NetworkWorldItem item)
-        {
-            if (!IsServer || item == null)
-            {
-                return;
-            }
-
-            _heldItem.Value = new NetworkObjectReference(item.NetworkObject);
-        }
-
-        internal void ClearHeldItemServer(NetworkWorldItem expectedItem)
-        {
-            if (!IsServer)
-            {
-                return;
-            }
-
-            if (expectedItem != null &&
-                TryGetHeldItem(out NetworkWorldItem current) &&
-                current != expectedItem)
-            {
-                return;
-            }
-
-            _heldItem.Value = default;
-        }
-
-        /// <summary>
-        /// Sends one discrete motion cue through the already-existing player
-        /// NetworkBehaviour. Every peer performs the visual interpolation
-        /// locally; item transforms are not streamed per frame.
-        /// </summary>
         internal void BroadcastItemMotionServer(
             NetworkWorldItem item,
             Vector3 startWorldPosition,
@@ -348,32 +521,6 @@ namespace EXW.Multiplayer
                 startWorldPosition,
                 startWorldRotation,
                 targetRevision);
-        }
-
-        internal bool TryGetCarryLocalPose(
-            NetworkCarryable carryable,
-            out Vector3 localPosition,
-            out Quaternion localRotation)
-        {
-            Transform anchor = itemCarryAnchor != null
-                ? itemCarryAnchor
-                : transform;
-
-            Vector3 worldPosition = anchor.TransformPoint(
-                carryable != null
-                    ? carryable.GripPositionOffset
-                    : Vector3.zero);
-            Quaternion worldRotation = anchor.rotation *
-                                       (carryable != null
-                                           ? carryable.GripRotationOffset
-                                           : Quaternion.identity);
-
-            localPosition = transform.InverseTransformPoint(worldPosition);
-            localRotation = Quaternion.Inverse(transform.rotation) *
-                            worldRotation;
-
-            return NetworkInteractionValidation.IsFinite(localPosition) &&
-                   IsFinite(localRotation);
         }
 
         internal bool TryGetDefaultDropPoseServer(
@@ -415,10 +562,7 @@ namespace EXW.Multiplayer
                 clearance = presentation.PlacementClearance;
             }
 
-            if (TryFindDropSurface(
-                    probeOrigin,
-                    item,
-                    out RaycastHit hit))
+            if (TryFindDropSurface(probeOrigin, item, out RaycastHit hit))
             {
                 worldPosition = hit.point + hit.normal * clearance;
             }
@@ -436,13 +580,103 @@ namespace EXW.Multiplayer
                    IsFinite(worldRotation);
         }
 
+        private List<ReflowMotion> CaptureReflowMotions(int firstOldIndex)
+        {
+            var result = new List<ReflowMotion>(
+                Mathf.Max(0, HeldItemCount - firstOldIndex));
+
+            for (int i = firstOldIndex; i < HeldItemCount; i++)
+            {
+                if (!TryGetHeldItemAt(i, out NetworkWorldItem shiftedItem) ||
+                    !shiftedItem.TryGetComponent(
+                        out NetworkItemMotionPresenter presenter) ||
+                    !presenter.TryCaptureCurrentVisualPose(
+                        out Vector3 startPosition,
+                        out Quaternion startRotation))
+                {
+                    continue;
+                }
+
+                result.Add(new ReflowMotion(
+                    shiftedItem,
+                    presenter,
+                    startPosition,
+                    startRotation));
+            }
+
+            return result;
+        }
+
+        private void ReflowStackServer(
+            int firstNewIndex,
+            IReadOnlyList<ReflowMotion> motions)
+        {
+            if (!CanWriteStackServer())
+            {
+                return;
+            }
+
+            for (int i = firstNewIndex; i < HeldItemCount; i++)
+            {
+                if (!TryGetHeldItemAt(i, out NetworkWorldItem shiftedItem) ||
+                    !shiftedItem.TryGetComponent(
+                        out NetworkCarryable carryable) ||
+                    !TryGetCarryLocalPose(
+                        carryable,
+                        i,
+                        out Vector3 localPosition,
+                        out Quaternion localRotation))
+                {
+                    continue;
+                }
+
+                shiftedItem.transform.localPosition = localPosition;
+                shiftedItem.transform.localRotation = localRotation;
+
+                uint revision = shiftedItem.NextRevisionServer();
+                shiftedItem.SetLocationServer(
+                    NetworkItemLocationState.Held(
+                        OwnerClientId,
+                        revision));
+
+                for (int motionIndex = 0;
+                     motionIndex < motions.Count;
+                     motionIndex++)
+                {
+                    ReflowMotion motion = motions[motionIndex];
+
+                    if (motion.NetworkObjectId !=
+                        shiftedItem.NetworkObjectId)
+                    {
+                        continue;
+                    }
+
+                    if (motion.Presenter != null)
+                    {
+                        BroadcastItemMotionServer(
+                            shiftedItem,
+                            motion.StartPosition,
+                            motion.StartRotation,
+                            revision);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        private bool CanWriteStackServer()
+        {
+            return NetworkManager != null &&
+                   NetworkManager.IsServer;
+        }
+
         private float CalculateSafeDropDistance(
             NetworkWorldItem item,
             Vector3 forward)
         {
             const float fallbackPlayerReach = 0.45f;
             const float fallbackItemRadius = 0.3f;
-
             float playerReach = 0f;
 
             if (playerBodyColliders != null)
@@ -450,7 +684,6 @@ namespace EXW.Multiplayer
                 for (int i = 0; i < playerBodyColliders.Length; i++)
                 {
                     Collider bodyCollider = playerBodyColliders[i];
-
                     if (!IsUsablePlayerBodyCollider(bodyCollider, item))
                     {
                         continue;
@@ -472,13 +705,10 @@ namespace EXW.Multiplayer
                 }
             }
 
-            playerReach = Mathf.Max(
-                fallbackPlayerReach,
-                playerReach);
-
-            float itemRadius = CalculateItemHorizontalRadius(item);
-            itemRadius = Mathf.Max(fallbackItemRadius, itemRadius);
-
+            playerReach = Mathf.Max(fallbackPlayerReach, playerReach);
+            float itemRadius = Mathf.Max(
+                fallbackItemRadius,
+                CalculateItemHorizontalRadius(item));
             return playerReach + itemRadius + playerDropPadding;
         }
 
@@ -496,19 +726,12 @@ namespace EXW.Multiplayer
 
             for (int i = 0; i < renderers.Length; i++)
             {
-                Renderer itemRenderer = renderers[i];
-
-                if (itemRenderer == null)
+                if (renderers[i] != null)
                 {
-                    continue;
+                    radius = Mathf.Max(
+                        radius,
+                        renderers[i].bounds.extents.magnitude);
                 }
-
-                // Use the full bounding-sphere radius because the case may be
-                // upright in hand and flat after applying DropRotationOffset.
-                float horizontalRadius =
-                    itemRenderer.bounds.extents.magnitude;
-
-                radius = Mathf.Max(radius, horizontalRadius);
             }
 
             return radius;
@@ -518,8 +741,7 @@ namespace EXW.Multiplayer
             Collider bodyCollider,
             NetworkWorldItem heldItem)
         {
-            if (bodyCollider == null ||
-                !bodyCollider.enabled ||
+            if (bodyCollider == null || !bodyCollider.enabled ||
                 bodyCollider.isTrigger ||
                 !bodyCollider.gameObject.activeInHierarchy)
             {
@@ -547,7 +769,6 @@ namespace EXW.Multiplayer
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit hit = hits[i];
-
                 if (hit.collider == null ||
                     ShouldIgnoreDropSurface(hit.collider, heldItem) ||
                     hit.distance >= bestDistance)
@@ -588,8 +809,6 @@ namespace EXW.Multiplayer
                 }
             }
 
-            // A player body must never be interpreted as the floor under a
-            // dropped item. This also prevents dropping onto another player.
             return candidate.GetComponentInParent<NetworkItemCarrier>() != null;
         }
 
@@ -641,40 +860,43 @@ namespace EXW.Multiplayer
                 return;
             }
 
-            NetworkItemTransferService.TryDrop(
+            NetworkItemTransferService.TryDropAll(
                 this,
-                out string rejectionMessage,
+                out string message,
                 true);
 
-            if (!string.IsNullOrWhiteSpace(rejectionMessage))
+            if (!string.IsNullOrWhiteSpace(message))
             {
-                Debug.LogWarning(
-                    "[ItemCarrier] Disconnect cleanup could not drop item: " +
-                    rejectionMessage,
-                    this);
+                Debug.Log($"[ItemCarrier] {message}", this);
             }
         }
 
-        private void HandleHeldItemReferenceChanged(
-            NetworkObjectReference previous,
-            NetworkObjectReference current)
+        private void HandleHeldItemsChanged(
+            NetworkListEvent<NetworkObjectReference> changeEvent)
         {
-            RefreshHeldItemCache();
+            RefreshTopItemCache();
+            HeldStackChanged?.Invoke();
         }
 
-        private void RefreshHeldItemCache()
+        private void HandleCarryLimitChanged(int previous, int current)
         {
-            NetworkWorldItem previous = _cachedHeldItem;
-            TryGetHeldItem(out _cachedHeldItem);
+            CarryLimitChanged?.Invoke(previous, current);
+        }
 
-            if (previous != _cachedHeldItem)
+        private void RefreshTopItemCache()
+        {
+            NetworkWorldItem previous = _cachedTopItem;
+            TryGetHeldItem(out _cachedTopItem);
+
+            if (previous != _cachedTopItem)
             {
-                HeldItemChanged?.Invoke(previous, _cachedHeldItem);
+                HeldItemChanged?.Invoke(previous, _cachedTopItem);
             }
         }
 
         private void ValidateConfiguration()
         {
+            defaultCarryLimit = Mathf.Max(1, defaultCarryLimit);
             dropForwardDistance = Mathf.Max(0.2f, dropForwardDistance);
             groundProbeHeight = Mathf.Max(0.1f, groundProbeHeight);
             groundProbeDistance = Mathf.Max(0.1f, groundProbeDistance);
@@ -683,10 +905,8 @@ namespace EXW.Multiplayer
 
         private static bool IsFinite(Quaternion value)
         {
-            return IsFinite(value.x) &&
-                   IsFinite(value.y) &&
-                   IsFinite(value.z) &&
-                   IsFinite(value.w);
+            return IsFinite(value.x) && IsFinite(value.y) &&
+                   IsFinite(value.z) && IsFinite(value.w);
         }
 
         private static bool IsFinite(float value)

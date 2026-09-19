@@ -3,9 +3,8 @@ using UnityEngine;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// One local-only ghost shared by every game-case shelf slot in the scene.
-    /// It only moves the configured visual to the focused slot's next valid
-    /// pose and toggles its renderers. The visual keeps its own material.
+    /// One local-only shelf ghost. It searches the local carry stack from top
+    /// to bottom and previews the first game case accepted by the focused slot.
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu(
@@ -15,7 +14,6 @@ namespace EXW.Multiplayer
         public static GameCaseShelfGhostPresenter Instance { get; private set; }
 
         [Header("Ghost Renderers")]
-        [Tooltip("All renderers owned by this single global ghost.")]
         [SerializeField]
         private Renderer[] controlledRenderers =
             System.Array.Empty<Renderer>();
@@ -72,9 +70,6 @@ namespace EXW.Multiplayer
             }
         }
 
-        /// <summary>
-        /// Called locally by the focused slot's signal object.
-        /// </summary>
         public void Focus(NetworkGameCaseShelfDestination destination)
         {
             if (!isActiveAndEnabled || destination == null)
@@ -86,10 +81,6 @@ namespace EXW.Multiplayer
             RefreshPreview();
         }
 
-        /// <summary>
-        /// Clears focus only when the caller still owns the current focus.
-        /// This keeps slot-to-slot hand-off safe in either callback order.
-        /// </summary>
         public void ClearFocus(NetworkGameCaseShelfDestination destination)
         {
             if (_focusedDestination != destination)
@@ -107,11 +98,8 @@ namespace EXW.Multiplayer
 
             if (_focusedDestination == null ||
                 carrier == null ||
-                !carrier.TryGetHeldItem(out NetworkWorldItem heldItem) ||
-                heldItem == null ||
-                !heldItem.TryGetComponent(out NetworkGameCase gameCase) ||
-                !_focusedDestination.TryGetPreviewWorldPose(
-                    gameCase,
+                !TryFindPreviewPose(
+                    carrier,
                     out Vector3 worldPosition,
                     out Quaternion worldRotation))
             {
@@ -121,6 +109,37 @@ namespace EXW.Multiplayer
 
             transform.SetPositionAndRotation(worldPosition, worldRotation);
             SetRenderersVisible(true);
+        }
+
+        private bool TryFindPreviewPose(
+            NetworkItemCarrier carrier,
+            out Vector3 worldPosition,
+            out Quaternion worldRotation)
+        {
+            worldPosition = Vector3.zero;
+            worldRotation = Quaternion.identity;
+
+            for (int i = carrier.HeldItemCount - 1; i >= 0; i--)
+            {
+                if (!carrier.TryGetHeldItemAt(
+                        i,
+                        out NetworkWorldItem heldItem) ||
+                    !heldItem.TryGetComponent(
+                        out NetworkGameCase gameCase))
+                {
+                    continue;
+                }
+
+                if (_focusedDestination.TryGetPreviewWorldPose(
+                        gameCase,
+                        out worldPosition,
+                        out worldRotation))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void SetRenderersVisible(bool visible)
@@ -144,7 +163,8 @@ namespace EXW.Multiplayer
             if (controlledRenderers == null ||
                 controlledRenderers.Length == 0)
             {
-                controlledRenderers = GetComponentsInChildren<Renderer>(true);
+                controlledRenderers =
+                    GetComponentsInChildren<Renderer>(true);
             }
         }
     }

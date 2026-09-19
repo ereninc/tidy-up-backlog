@@ -163,11 +163,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCase
   sceneCaseIndex: 2
   combinedRenderer: {fileID: 4844845932129268465}
-  lowPlaytimeColor: {r: 0.1154503, g: 0.13503504, b: 0.2603773, a: 1}
-  mediumPlaytimeColor: {r: 0.25471687, g: 0.4150943, b: 1, a: 1}
-  highPlaytimeColor: {r: 1, g: 0.7394873, b: 0.031372547, a: 1}
+  lowPlaytimeColor: {r: 0.09524385, g: 0.21459568, b: 0.554717, a: 1}
+  mediumPlaytimeColor: {r: 0.3226415, g: 0.67860603, b: 1, a: 1}
+  highPlaytimeColor: {r: 1, g: 0.66023904, b: 0.031372547, a: 1}
   blueAtHours: 8
-  goldAtHours: 30
+  goldAtHours: 24
 --- !u!114 &6678711445758127724
 MonoBehaviour:
   m_ObjectHideFlags: 0
