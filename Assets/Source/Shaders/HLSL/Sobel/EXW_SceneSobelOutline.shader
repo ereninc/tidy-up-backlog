@@ -2,51 +2,23 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 {
     Properties
     {
-        [HDR]
-        _OutlineColor(
-            "Outline Color",
-            Color
-        ) = (0.015, 0.02, 0.035, 0.45)
+        [HDR] _OutlineColor("Outline Color", Color) = (0.015, 0.02, 0.035, 0.45)
+        _Thickness("Thickness (Pixels)", Range(1.0, 6.0)) = 2.0
 
-        _Thickness(
-            "Thickness",
-            Range(0.5, 4.0)
-        ) = 1.0
+        _DepthThreshold("Depth Threshold", Range(0.0001, 0.05)) = 0.004
+        _DepthSoftness("Depth Softness", Range(0.0001, 0.05)) = 0.003
+        _DepthWeight("Depth Weight", Range(0.0, 5.0)) = 1.0
 
-        _DepthThreshold(
-            "Depth Threshold",
-            Range(0.0001, 0.05)
-        ) = 0.004
+        _NormalThreshold("Normal Threshold", Range(0.001, 1.0)) = 0.18
+        _NormalSoftness("Normal Softness", Range(0.001, 1.0)) = 0.10
+        _NormalWeight("Normal Weight", Range(0.0, 5.0)) = 1.0
+        _NormalDepthGate("Normal Depth Gate", Range(0.001, 0.20)) = 0.03
 
-        _DepthSoftness(
-            "Depth Softness",
-            Range(0.0001, 0.05)
-        ) = 0.003
+        _FadeStart("Distance Fade Start", Float) = 20.0
+        _FadeEnd("Distance Fade End", Float) = 80.0
+        _FarIntensity("Far Outline Intensity", Range(0.0, 1.0)) = 0.35
 
-        _DepthWeight(
-            "Depth Weight",
-            Range(0.0, 5.0)
-        ) = 1.0
-
-        _NormalThreshold(
-            "Normal Threshold",
-            Range(0.001, 1.0)
-        ) = 0.18
-
-        _NormalSoftness(
-            "Normal Softness",
-            Range(0.001, 1.0)
-        ) = 0.10
-
-        _NormalWeight(
-            "Normal Weight",
-            Range(0.0, 5.0)
-        ) = 1.0
-
-        _Intensity(
-            "Intensity",
-            Range(0.0, 1.0)
-        ) = 1.0
+        _Intensity("Intensity", Range(0.0, 1.0)) = 1.0
     }
 
     SubShader
@@ -59,7 +31,7 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
         Pass
         {
-            Name "Scene Sobel Outline"
+            Name "Scene Stylized Outline"
 
             ZTest Always
             ZWrite Off
@@ -68,22 +40,16 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
             HLSLPROGRAM
 
             #pragma target 3.5
-
             #pragma vertex Vert
             #pragma fragment Frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
-
                 float4 _OutlineColor;
-
                 float _Thickness;
 
                 float _DepthThreshold;
@@ -93,425 +59,174 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 float _NormalThreshold;
                 float _NormalSoftness;
                 float _NormalWeight;
+                float _NormalDepthGate;
+
+                float _FadeStart;
+                float _FadeEnd;
+                float _FarIntensity;
 
                 float _Intensity;
-
             CBUFFER_END
-
-            /*
-             * ---------------------------------------------------------
-             * DEPTH HELPERS
-             * ---------------------------------------------------------
-             */
-
-            float GetRawDepth(float2 uv)
-            {
-                return SampleSceneDepth(uv);
-            }
 
             bool IsBackgroundDepth(float rawDepth)
             {
-                /*
-                 * Unity reversed-Z:
-                 *
-                 * Near = 1
-                 * Far / sky = 0
-                 *
-                 * Non reversed-Z:
-                 *
-                 * Near = 0
-                 * Far / sky = 1
-                 */
                 #if UNITY_REVERSED_Z
-
                     return rawDepth <= 0.00001;
-
                 #else
-
                     return rawDepth >= 0.99999;
-
                 #endif
             }
 
-            float GetEyeDepth(float2 uv)
+            float RawToEyeDepth(float rawDepth)
             {
-                float rawDepth =
-                    GetRawDepth(uv);
-
-                return LinearEyeDepth(
-                    rawDepth,
-                    _ZBufferParams);
+                return LinearEyeDepth(rawDepth, _ZBufferParams);
             }
 
-            /*
-             * ---------------------------------------------------------
-             * DEPTH SOBEL
-             * ---------------------------------------------------------
-             */
+            // Bir komsu sample hem silhouette/depth hem de normal crease bilgisi toplar.
+            // Depth tek tarafli hesaplanir: cizgi yakin objenin icinde kalir ve sky'a tasmaz.
+            void AccumulateEdgeSample(
+                float2 neighborUv,
+                float centerEyeDepth,
+                float3 centerNormal,
+                inout float depthDifference,
+                inout float normalDifference)
+            {
+                neighborUv = saturate(neighborUv);
 
-            float GetDepthEdge(
+                float neighborRawDepth = SampleSceneDepth(neighborUv);
+
+                if (IsBackgroundDepth(neighborRawDepth))
+                {
+                    depthDifference = 1.0;
+                    return;
+                }
+
+                float neighborEyeDepth = RawToEyeDepth(neighborRawDepth);
+                float depthBase = max(min(centerEyeDepth, neighborEyeDepth), 0.05);
+                float relativeDepthDifference =
+                    abs(neighborEyeDepth - centerEyeDepth) / depthBase;
+
+                // Sadece merkezden daha uzaktaki komsular foreground silhouette uretir.
+                float inwardDepthDifference =
+                    max(neighborEyeDepth - centerEyeDepth, 0.0) /
+                    max(centerEyeDepth, 0.05);
+
+                depthDifference = max(depthDifference, inwardDepthDifference);
+
+                // Farkli derinlikteki objelerin normalleri birbirine karistirilmaz.
+                // Silhouette depth tarafindan, ayni yuzeydeki kiriklar normal tarafindan bulunur.
+                if (relativeDepthDifference <= _NormalDepthGate)
+                {
+                    float3 neighborNormal = SampleSceneNormals(neighborUv);
+                    float neighborLengthSq = dot(neighborNormal, neighborNormal);
+
+                    if (neighborLengthSq > 0.0001)
+                    {
+                        neighborNormal *= rsqrt(neighborLengthSq);
+                        float normalDelta =
+                            1.0 - saturate(dot(centerNormal, neighborNormal));
+
+                        normalDifference = max(normalDifference, normalDelta);
+                    }
+                }
+            }
+
+            void GetEdgeDifferences(
                 float2 uv,
-                float2 texel)
+                float2 pixelSize,
+                float centerEyeDepth,
+                float3 centerNormal,
+                out float depthDifference,
+                out float normalDifference)
             {
-                float d00 =
-                    GetEyeDepth(
-                        uv + texel * float2(-1, 1));
+                depthDifference = 0.0;
+                normalDifference = 0.0;
 
-                float d10 =
-                    GetEyeDepth(
-                        uv + texel * float2(0, 1));
+                float2 cardinal = pixelSize * _Thickness;
+                float2 diagonal = cardinal * 0.70710678;
 
-                float d20 =
-                    GetEyeDepth(
-                        uv + texel * float2(1, 1));
+                // Sekiz yone thickness kadar bakmak, tek pass'te objenin icine dogru
+                // dolu ve ekran-pikseli bazli bir outline bandi verir.
+                AccumulateEdgeSample(uv + float2( cardinal.x, 0.0), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2(-cardinal.x, 0.0), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2(0.0,  cardinal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2(0.0, -cardinal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
 
-                float d01 =
-                    GetEyeDepth(
-                        uv + texel * float2(-1, 0));
-
-                float d21 =
-                    GetEyeDepth(
-                        uv + texel * float2(1, 0));
-
-                float d02 =
-                    GetEyeDepth(
-                        uv + texel * float2(-1, -1));
-
-                float d12 =
-                    GetEyeDepth(
-                        uv + texel * float2(0, -1));
-
-                float d22 =
-                    GetEyeDepth(
-                        uv + texel * float2(1, -1));
-
-                float gx =
-                    -d00 +
-                     d20 +
-                    -2.0 * d01 +
-                     2.0 * d21 +
-                    -d02 +
-                     d22;
-
-                float gy =
-                     d00 +
-                     2.0 * d10 +
-                     d20 +
-                    -d02 +
-                    -2.0 * d12 +
-                    -d22;
-
-                float gradient =
-                    sqrt(
-                        gx * gx +
-                        gy * gy);
-
-                float nearestDepth =
-                    min(
-                        min(
-                            min(d00, d10),
-                            min(d20, d01)),
-                        min(
-                            min(d21, d02),
-                            min(d12, d22)));
-
-                nearestDepth =
-                    max(
-                        nearestDepth,
-                        0.05);
-
-                return
-                    gradient /
-                    nearestDepth;
+                AccumulateEdgeSample(uv + float2( diagonal.x,  diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2(-diagonal.x,  diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2( diagonal.x, -diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(uv + float2(-diagonal.x, -diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
             }
 
-            /*
-             * ---------------------------------------------------------
-             * NORMAL EDGE
-             * ---------------------------------------------------------
-             */
-
-            float GetNormalEdge(
-                float2 uv,
-                float2 texel)
+            half4 Frag(Varyings input) : SV_Target
             {
-                /*
-                 * Çok önemli:
-                 *
-                 * Sky/background'ın normal texture değeri valid geometry
-                 * normal'i değil.
-                 *
-                 * Background üzerinde normal edge hesaplamazsak
-                 * bütün sky'ın outlineColor ile boyanmasını engelleriz.
-                 */
-                float centerRawDepth =
-                    GetRawDepth(uv);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-                if (IsBackgroundDepth(
-                        centerRawDepth))
+                float2 uv = input.texcoord;
+                half4 sceneColor = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv);
+
+                float centerRawDepth = SampleSceneDepth(uv);
+
+                // Background pixel'larini boyamayarak dis halo yerine inward outline uretiriz.
+                if (IsBackgroundDepth(centerRawDepth))
                 {
-                    return 0.0;
+                    return sceneColor;
                 }
 
-                float3 center =
-                    SampleSceneNormals(uv);
+                float centerEyeDepth = RawToEyeDepth(centerRawDepth);
+                float3 centerNormal = SampleSceneNormals(uv);
+                float centerNormalLengthSq = dot(centerNormal, centerNormal);
 
-                float centerLengthSq =
-                    dot(
-                        center,
-                        center);
-
-                if (centerLengthSq <
-                    0.0001)
+                if (centerNormalLengthSq > 0.0001)
                 {
-                    return 0.0;
+                    centerNormal *= rsqrt(centerNormalLengthSq);
+                }
+                else
+                {
+                    centerNormal = float3(0.0, 0.0, 1.0);
                 }
 
-                center =
-                    normalize(center);
+                float depthDifference;
+                float normalDifference;
 
-                float edge =
-                    0.0;
+                GetEdgeDifferences(
+                    uv,
+                    rcp(_ScaledScreenParams.xy),
+                    centerEyeDepth,
+                    centerNormal,
+                    depthDifference,
+                    normalDifference);
 
-                /*
-                 * LEFT
-                 */
+                depthDifference *= _DepthWeight;
+                normalDifference *= _NormalWeight;
 
-                float2 leftUv =
-                    uv +
-                    texel *
-                    float2(-1, 0);
+                float depthEdge = smoothstep(
+                    _DepthThreshold,
+                    _DepthThreshold + _DepthSoftness,
+                    depthDifference);
 
-                float leftDepth =
-                    GetRawDepth(leftUv);
+                float normalEdge = smoothstep(
+                    _NormalThreshold,
+                    _NormalThreshold + _NormalSoftness,
+                    normalDifference);
 
-                if (!IsBackgroundDepth(
-                        leftDepth))
-                {
-                    float3 left =
-                        SampleSceneNormals(
-                            leftUv);
+                float edge = max(depthEdge, normalEdge);
 
-                    float leftLengthSq =
-                        dot(left, left);
+                // Uzakta ince geometri ve normal texture kaynakli shimmer'i yumusatir.
+                float fadeRange = max(_FadeEnd - _FadeStart, 0.001);
+                float fadeT = saturate((centerEyeDepth - _FadeStart) / fadeRange);
+                float distanceMultiplier = lerp(1.0, _FarIntensity, fadeT);
 
-                    if (leftLengthSq >
-                        0.0001)
-                    {
-                        left =
-                            normalize(left);
+                edge = saturate(
+                    edge *
+                    distanceMultiplier *
+                    _Intensity *
+                    _OutlineColor.a);
 
-                        edge =
-                            max(
-                                edge,
-                                1.0 -
-                                saturate(
-                                    dot(
-                                        center,
-                                        left)));
-                    }
-                }
-
-                /*
-                 * RIGHT
-                 */
-
-                float2 rightUv =
-                    uv +
-                    texel *
-                    float2(1, 0);
-
-                float rightDepth =
-                    GetRawDepth(rightUv);
-
-                if (!IsBackgroundDepth(
-                        rightDepth))
-                {
-                    float3 right =
-                        SampleSceneNormals(
-                            rightUv);
-
-                    float rightLengthSq =
-                        dot(right, right);
-
-                    if (rightLengthSq >
-                        0.0001)
-                    {
-                        right =
-                            normalize(right);
-
-                        edge =
-                            max(
-                                edge,
-                                1.0 -
-                                saturate(
-                                    dot(
-                                        center,
-                                        right)));
-                    }
-                }
-
-                /*
-                 * UP
-                 */
-
-                float2 upUv =
-                    uv +
-                    texel *
-                    float2(0, 1);
-
-                float upDepth =
-                    GetRawDepth(upUv);
-
-                if (!IsBackgroundDepth(
-                        upDepth))
-                {
-                    float3 up =
-                        SampleSceneNormals(
-                            upUv);
-
-                    float upLengthSq =
-                        dot(up, up);
-
-                    if (upLengthSq >
-                        0.0001)
-                    {
-                        up =
-                            normalize(up);
-
-                        edge =
-                            max(
-                                edge,
-                                1.0 -
-                                saturate(
-                                    dot(
-                                        center,
-                                        up)));
-                    }
-                }
-
-                /*
-                 * DOWN
-                 */
-
-                float2 downUv =
-                    uv +
-                    texel *
-                    float2(0, -1);
-
-                float downDepth =
-                    GetRawDepth(downUv);
-
-                if (!IsBackgroundDepth(
-                        downDepth))
-                {
-                    float3 down =
-                        SampleSceneNormals(
-                            downUv);
-
-                    float downLengthSq =
-                        dot(down, down);
-
-                    if (downLengthSq >
-                        0.0001)
-                    {
-                        down =
-                            normalize(down);
-
-                        edge =
-                            max(
-                                edge,
-                                1.0 -
-                                saturate(
-                                    dot(
-                                        center,
-                                        down)));
-                    }
-                }
-
-                return edge;
-            }
-
-            /*
-             * ---------------------------------------------------------
-             * FRAGMENT
-             * ---------------------------------------------------------
-             */
-
-            half4 Frag(
-                Varyings input
-            ) : SV_Target
-            {
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(
-                    input);
-
-                float2 uv =
-                    input.texcoord;
-
-                half4 sceneColor =
-                    SAMPLE_TEXTURE2D_X(
-                        _BlitTexture,
-                        sampler_LinearClamp,
-                        uv);
-
-                /*
-                 * Eğer şu anki pixel tamamen background/sky ise
-                 * normal detection çalışmayacak.
-                 *
-                 * Fakat geometry'nin sky ile birleştiği sınır
-                 * depth Sobel tarafından hâlâ bulunabilir.
-                 */
-
-                float2 texel =
-                    (
-                        1.0 /
-                        _ScaledScreenParams.xy
-                    ) *
-                    _Thickness;
-
-                float depthDifference =
-                    GetDepthEdge(
-                        uv,
-                        texel) *
-                    _DepthWeight;
-
-                float normalDifference =
-                    GetNormalEdge(
-                        uv,
-                        texel) *
-                    _NormalWeight;
-
-                float depthEdge =
-                    smoothstep(
-                        _DepthThreshold,
-                        _DepthThreshold +
-                        _DepthSoftness,
-                        depthDifference);
-
-                float normalEdge =
-                    smoothstep(
-                        _NormalThreshold,
-                        _NormalThreshold +
-                        _NormalSoftness,
-                        normalDifference);
-
-                float edge =
-                    max(
-                        depthEdge,
-                        normalEdge);
-
-                edge =
-                    saturate(
-                        edge *
-                        _Intensity *
-                        _OutlineColor.a);
-
-                sceneColor.rgb =
-                    lerp(
-                        sceneColor.rgb,
-                        _OutlineColor.rgb,
-                        edge);
-
+                sceneColor.rgb = lerp(sceneColor.rgb, _OutlineColor.rgb, edge);
                 return sceneColor;
             }
 

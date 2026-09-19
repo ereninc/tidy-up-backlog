@@ -28,11 +28,15 @@ Material:
     - _DepthSoftness: 0.05
     - _DepthThreshold: 0.05
     - _DepthWeight: 1
+    - _FadeEnd: 80
+    - _FadeStart: 20
+    - _FarIntensity: 0.35
     - _Intensity: 1
+    - _NormalDepthGate: 0.03
     - _NormalSoftness: 0.2
     - _NormalThreshold: 0.001
     - _NormalWeight: 5
-    - _Thickness: 1.22
+    - _Thickness: 1.44
     m_Colors:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_BuildTextureStacks: []
