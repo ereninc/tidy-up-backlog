@@ -401526,8 +401526,9 @@ GameObject:
   - component: {fileID: 1687958281638649840}
   - component: {fileID: 1433102748296713988}
   - component: {fileID: 8710225319878891516}
+  - component: {fileID: 8710225319878891517}
   m_Layer: 5
-  m_Name: MoneyText
+  m_Name: WalletText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401890,6 +401891,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8710225319878891517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2516183072040611565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3796a6cb4ee82174295537aba718bfec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.SharedWalletTextPresenter
+  balanceText: {fileID: 8710225319878891516}
+  prefix: $
+  suffix: 
+  useThousandsSeparator: 1
+  walletNotReadyText: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
