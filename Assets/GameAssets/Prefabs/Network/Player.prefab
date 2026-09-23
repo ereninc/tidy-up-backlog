@@ -916,8 +916,8 @@ MonoBehaviour:
   controller: {fileID: 795283008596254863}
   showCrosshair: 1
   showInteractionPrompt: 1
-  showDiagnostics: 1
-  diagnosticsToggleKey: 101
+  showDiagnostics: 0
+  diagnosticsToggleKey: 102
   diagnosticsWidth: 420
   accentColor: {r: 0.25, g: 0.9, b: 1, a: 1}
 --- !u!114 &3945192400672264063
