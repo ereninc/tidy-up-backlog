@@ -9,11 +9,6 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
         _DepthSoftness("Depth Softness", Range(0.0001, 0.05)) = 0.003
         _DepthWeight("Depth Weight", Range(0.0, 5.0)) = 1.0
 
-        _NormalThreshold("Normal Threshold", Range(0.001, 1.0)) = 0.18
-        _NormalSoftness("Normal Softness", Range(0.001, 1.0)) = 0.10
-        _NormalWeight("Normal Weight", Range(0.0, 5.0)) = 1.0
-        _NormalDepthGate("Normal Depth Gate", Range(0.001, 0.20)) = 0.03
-
         _FadeStart("Distance Fade Start", Float) = 20.0
         _FadeEnd("Distance Fade End", Float) = 80.0
         _FarIntensity("Far Outline Intensity", Range(0.0, 1.0)) = 0.35
@@ -46,7 +41,6 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _OutlineColor;
@@ -55,11 +49,6 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 float _DepthThreshold;
                 float _DepthSoftness;
                 float _DepthWeight;
-
-                float _NormalThreshold;
-                float _NormalSoftness;
-                float _NormalWeight;
-                float _NormalDepthGate;
 
                 float _FadeStart;
                 float _FadeEnd;
@@ -82,18 +71,14 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 return LinearEyeDepth(rawDepth, _ZBufferParams);
             }
 
-            // Bir komsu sample hem silhouette/depth hem de normal crease bilgisi toplar.
-            // Depth tek tarafli hesaplanir: cizgi yakin objenin icinde kalir ve sky'a tasmaz.
+            // Yalnızca merkezin arkasındaki komşular kenar üretir.
+            // Böylece çizgi objenin içinde kalır, gökyüzüne taşmaz.
             void AccumulateEdgeSample(
                 float2 neighborUv,
                 float centerEyeDepth,
-                float3 centerNormal,
-                inout float depthDifference,
-                inout float normalDifference)
+                inout float depthDifference)
             {
-                neighborUv = saturate(neighborUv);
-
-                float neighborRawDepth = SampleSceneDepth(neighborUv);
+                float neighborRawDepth = SampleSceneDepth(saturate(neighborUv));
 
                 if (IsBackgroundDepth(neighborRawDepth))
                 {
@@ -102,60 +87,59 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 }
 
                 float neighborEyeDepth = RawToEyeDepth(neighborRawDepth);
-                float depthBase = max(min(centerEyeDepth, neighborEyeDepth), 0.05);
-                float relativeDepthDifference =
-                    abs(neighborEyeDepth - centerEyeDepth) / depthBase;
 
-                // Sadece merkezden daha uzaktaki komsular foreground silhouette uretir.
                 float inwardDepthDifference =
                     max(neighborEyeDepth - centerEyeDepth, 0.0) /
                     max(centerEyeDepth, 0.05);
 
-                depthDifference = max(depthDifference, inwardDepthDifference);
-
-                // Farkli derinlikteki objelerin normalleri birbirine karistirilmaz.
-                // Silhouette depth tarafindan, ayni yuzeydeki kiriklar normal tarafindan bulunur.
-                if (relativeDepthDifference <= _NormalDepthGate)
-                {
-                    float3 neighborNormal = SampleSceneNormals(neighborUv);
-                    float neighborLengthSq = dot(neighborNormal, neighborNormal);
-
-                    if (neighborLengthSq > 0.0001)
-                    {
-                        neighborNormal *= rsqrt(neighborLengthSq);
-                        float normalDelta =
-                            1.0 - saturate(dot(centerNormal, neighborNormal));
-
-                        normalDifference = max(normalDifference, normalDelta);
-                    }
-                }
+                depthDifference = max(
+                    depthDifference,
+                    inwardDepthDifference);
             }
 
-            void GetEdgeDifferences(
+            float GetDepthDifference(
                 float2 uv,
                 float2 pixelSize,
-                float centerEyeDepth,
-                float3 centerNormal,
-                out float depthDifference,
-                out float normalDifference)
+                float centerEyeDepth)
             {
-                depthDifference = 0.0;
-                normalDifference = 0.0;
+                float depthDifference = 0.0;
 
                 float2 cardinal = pixelSize * _Thickness;
                 float2 diagonal = cardinal * 0.70710678;
 
-                // Sekiz yone thickness kadar bakmak, tek pass'te objenin icine dogru
-                // dolu ve ekran-pikseli bazli bir outline bandi verir.
-                AccumulateEdgeSample(uv + float2( cardinal.x, 0.0), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2(-cardinal.x, 0.0), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2(0.0,  cardinal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2(0.0, -cardinal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(
+                    uv + float2( cardinal.x, 0.0),
+                    centerEyeDepth, depthDifference);
 
-                AccumulateEdgeSample(uv + float2( diagonal.x,  diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2(-diagonal.x,  diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2( diagonal.x, -diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
-                AccumulateEdgeSample(uv + float2(-diagonal.x, -diagonal.y), centerEyeDepth, centerNormal, depthDifference, normalDifference);
+                AccumulateEdgeSample(
+                    uv + float2(-cardinal.x, 0.0),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2(0.0,  cardinal.y),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2(0.0, -cardinal.y),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2( diagonal.x,  diagonal.y),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2(-diagonal.x,  diagonal.y),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2( diagonal.x, -diagonal.y),
+                    centerEyeDepth, depthDifference);
+
+                AccumulateEdgeSample(
+                    uv + float2(-diagonal.x, -diagonal.y),
+                    centerEyeDepth, depthDifference);
+
+                return depthDifference;
             }
 
             half4 Frag(Varyings input) : SV_Target
@@ -163,6 +147,7 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
                 float2 uv = input.texcoord;
+
                 half4 sceneColor = SAMPLE_TEXTURE2D_X(
                     _BlitTexture,
                     sampler_LinearClamp,
@@ -170,55 +155,34 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
                 float centerRawDepth = SampleSceneDepth(uv);
 
-                // Background pixel'larini boyamayarak dis halo yerine inward outline uretiriz.
                 if (IsBackgroundDepth(centerRawDepth))
                 {
                     return sceneColor;
                 }
 
                 float centerEyeDepth = RawToEyeDepth(centerRawDepth);
-                float3 centerNormal = SampleSceneNormals(uv);
-                float centerNormalLengthSq = dot(centerNormal, centerNormal);
 
-                if (centerNormalLengthSq > 0.0001)
-                {
-                    centerNormal *= rsqrt(centerNormalLengthSq);
-                }
-                else
-                {
-                    centerNormal = float3(0.0, 0.0, 1.0);
-                }
-
-                float depthDifference;
-                float normalDifference;
-
-                GetEdgeDifferences(
+                float depthDifference = GetDepthDifference(
                     uv,
                     rcp(_ScaledScreenParams.xy),
-                    centerEyeDepth,
-                    centerNormal,
-                    depthDifference,
-                    normalDifference);
+                    centerEyeDepth);
 
-                depthDifference *= _DepthWeight;
-                normalDifference *= _NormalWeight;
-
-                float depthEdge = smoothstep(
+                float edge = smoothstep(
                     _DepthThreshold,
                     _DepthThreshold + _DepthSoftness,
-                    depthDifference);
+                    depthDifference * _DepthWeight);
 
-                float normalEdge = smoothstep(
-                    _NormalThreshold,
-                    _NormalThreshold + _NormalSoftness,
-                    normalDifference);
+                float fadeRange = max(
+                    _FadeEnd - _FadeStart,
+                    0.001);
 
-                float edge = max(depthEdge, normalEdge);
+                float fadeT = saturate(
+                    (centerEyeDepth - _FadeStart) / fadeRange);
 
-                // Uzakta ince geometri ve normal texture kaynakli shimmer'i yumusatir.
-                float fadeRange = max(_FadeEnd - _FadeStart, 0.001);
-                float fadeT = saturate((centerEyeDepth - _FadeStart) / fadeRange);
-                float distanceMultiplier = lerp(1.0, _FarIntensity, fadeT);
+                float distanceMultiplier = lerp(
+                    1.0,
+                    _FarIntensity,
+                    fadeT);
 
                 edge = saturate(
                     edge *
@@ -226,7 +190,11 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                     _Intensity *
                     _OutlineColor.a);
 
-                sceneColor.rgb = lerp(sceneColor.rgb, _OutlineColor.rgb, edge);
+                sceneColor.rgb = lerp(
+                    sceneColor.rgb,
+                    _OutlineColor.rgb,
+                    edge);
+
                 return sceneColor;
             }
 

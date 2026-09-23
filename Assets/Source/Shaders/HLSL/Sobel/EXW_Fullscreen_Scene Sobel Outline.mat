@@ -25,19 +25,19 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _DepthSoftness: 0.05
+    - _DepthSoftness: 0.003
     - _DepthThreshold: 0.05
-    - _DepthWeight: 1
+    - _DepthWeight: 1.38
     - _FadeEnd: 80
     - _FadeStart: 20
-    - _FarIntensity: 0.35
+    - _FarIntensity: 0.6
     - _Intensity: 1
     - _NormalDepthGate: 0.2
     - _NormalSoftness: 0.2
     - _NormalThreshold: 0.001
     - _NormalWeight: 5
-    - _Thickness: 1.44
+    - _Thickness: 1.8
     m_Colors:
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.8}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
