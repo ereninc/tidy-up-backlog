@@ -325,6 +325,34 @@ namespace EXW.Multiplayer
             NetworkInteractionContext context,
             out string resultMessage)
         {
+            if (receiver != null &&
+                receiver.TryGetComponent(
+                    out NetworkGameCaseShelfBatchPlacement batchPlacement))
+            {
+                return batchPlacement.TryBeginServer(
+                    carrier,
+                    receiver,
+                    context,
+                    out resultMessage);
+            }
+
+            return TryReceiveSingle(
+                carrier,
+                receiver,
+                context,
+                out resultMessage);
+        }
+
+        /// <summary>
+        /// Performs exactly one server-authoritative receiver transaction.
+        /// Batch shelf placement reuses this method once per animated case.
+        /// </summary>
+        internal static bool TryReceiveSingle(
+            NetworkItemCarrier carrier,
+            NetworkItemReceiver receiver,
+            NetworkInteractionContext context,
+            out string resultMessage)
+        {
             resultMessage = string.Empty;
 
             if (carrier == null || receiver == null ||

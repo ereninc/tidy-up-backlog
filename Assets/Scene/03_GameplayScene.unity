@@ -9925,6 +9925,7 @@ GameObject:
   - component: {fileID: 59076920}
   - component: {fileID: 59076919}
   - component: {fileID: 59076918}
+  - component: {fileID: 59076924}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -10065,6 +10066,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &59076924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59076916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &59248298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12793,6 +12808,7 @@ GameObject:
   - component: {fileID: 82522576}
   - component: {fileID: 82522575}
   - component: {fileID: 82522574}
+  - component: {fileID: 82522580}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -12933,6 +12949,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &82522580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82522572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &82541743
 GameObject:
   m_ObjectHideFlags: 0
@@ -15501,6 +15531,7 @@ GameObject:
   - component: {fileID: 92985363}
   - component: {fileID: 92985362}
   - component: {fileID: 92985361}
+  - component: {fileID: 92985367}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -15641,6 +15672,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &92985367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92985359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &93492999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22411,6 +22456,7 @@ GameObject:
   - component: {fileID: 134560824}
   - component: {fileID: 134560823}
   - component: {fileID: 134560822}
+  - component: {fileID: 134560828}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -22551,6 +22597,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &134560828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134560820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &134690846
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29568,6 +29628,7 @@ GameObject:
   - component: {fileID: 174727031}
   - component: {fileID: 174727030}
   - component: {fileID: 174727029}
+  - component: {fileID: 174727035}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -29708,6 +29769,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &174727035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174727027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &175143298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31109,6 +31184,7 @@ GameObject:
   - component: {fileID: 181909006}
   - component: {fileID: 181909005}
   - component: {fileID: 181909004}
+  - component: {fileID: 181909010}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -31249,6 +31325,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &181909010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181909002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &182796977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32945,6 +33035,7 @@ GameObject:
   - component: {fileID: 191542634}
   - component: {fileID: 191542633}
   - component: {fileID: 191542632}
+  - component: {fileID: 191542638}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -33085,6 +33176,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &191542638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191542630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &191620860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33610,6 +33715,7 @@ GameObject:
   - component: {fileID: 195141706}
   - component: {fileID: 195141705}
   - component: {fileID: 195141704}
+  - component: {fileID: 195141710}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -33750,6 +33856,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &195141710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195141702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &195822650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35238,6 +35358,7 @@ GameObject:
   - component: {fileID: 204219949}
   - component: {fileID: 204219948}
   - component: {fileID: 204219947}
+  - component: {fileID: 204219953}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -35378,6 +35499,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &204219953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204219945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &204278967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39993,6 +40128,7 @@ GameObject:
   - component: {fileID: 228662314}
   - component: {fileID: 228662313}
   - component: {fileID: 228662312}
+  - component: {fileID: 228662318}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -40133,6 +40269,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &228662318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228662310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &228933864
 GameObject:
   m_ObjectHideFlags: 0
@@ -48272,6 +48422,7 @@ GameObject:
   - component: {fileID: 273165887}
   - component: {fileID: 273165886}
   - component: {fileID: 273165885}
+  - component: {fileID: 273165891}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -48412,6 +48563,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &273165891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273165883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &273279642
 GameObject:
   m_ObjectHideFlags: 0
@@ -54745,6 +54910,7 @@ GameObject:
   - component: {fileID: 310139441}
   - component: {fileID: 310139440}
   - component: {fileID: 310139439}
+  - component: {fileID: 310139445}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -54885,6 +55051,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &310139445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310139437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &310171717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55923,6 +56103,7 @@ GameObject:
   - component: {fileID: 316869495}
   - component: {fileID: 316869494}
   - component: {fileID: 316869493}
+  - component: {fileID: 316869499}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -56063,6 +56244,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &316869499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316869491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &317372599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57951,6 +58146,7 @@ GameObject:
   - component: {fileID: 327064937}
   - component: {fileID: 327064936}
   - component: {fileID: 327064935}
+  - component: {fileID: 327064941}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -58091,6 +58287,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &327064941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327064933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &327167268
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59005,6 +59215,7 @@ GameObject:
   - component: {fileID: 331120828}
   - component: {fileID: 331120827}
   - component: {fileID: 331120826}
+  - component: {fileID: 331120832}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -59145,6 +59356,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &331120832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331120824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &331166534
 GameObject:
   m_ObjectHideFlags: 0
@@ -62389,6 +62614,7 @@ GameObject:
   - component: {fileID: 349463587}
   - component: {fileID: 349463586}
   - component: {fileID: 349463585}
+  - component: {fileID: 349463591}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -62529,6 +62755,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &349463591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349463583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &349768559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62799,6 +63039,7 @@ GameObject:
   - component: {fileID: 351668752}
   - component: {fileID: 351668751}
   - component: {fileID: 351668750}
+  - component: {fileID: 351668756}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -62939,6 +63180,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &351668756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351668748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &351964165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69461,6 +69716,7 @@ GameObject:
   - component: {fileID: 385426233}
   - component: {fileID: 385426232}
   - component: {fileID: 385426231}
+  - component: {fileID: 385426237}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -69601,6 +69857,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &385426237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385426229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &386578547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73200,6 +73470,7 @@ GameObject:
   - component: {fileID: 403126780}
   - component: {fileID: 403126779}
   - component: {fileID: 403126778}
+  - component: {fileID: 403126784}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -73340,6 +73611,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &403126784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403126776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &404663228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77637,6 +77922,7 @@ GameObject:
   - component: {fileID: 429112732}
   - component: {fileID: 429112731}
   - component: {fileID: 429112730}
+  - component: {fileID: 429112736}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -77777,6 +78063,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &429112736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429112728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &429560626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78503,6 +78803,7 @@ GameObject:
   - component: {fileID: 433798267}
   - component: {fileID: 433798266}
   - component: {fileID: 433798265}
+  - component: {fileID: 433798271}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -78643,6 +78944,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &433798271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433798263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &434428328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80358,6 +80673,7 @@ GameObject:
   - component: {fileID: 439905932}
   - component: {fileID: 439905931}
   - component: {fileID: 439905930}
+  - component: {fileID: 439905936}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -80498,6 +80814,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &439905936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439905928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &440180775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86467,6 +86797,7 @@ GameObject:
   - component: {fileID: 472298416}
   - component: {fileID: 472298415}
   - component: {fileID: 472298414}
+  - component: {fileID: 472298420}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -86607,6 +86938,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &472298420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472298412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &472389758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89236,6 +89581,7 @@ GameObject:
   - component: {fileID: 482414624}
   - component: {fileID: 482414623}
   - component: {fileID: 482414622}
+  - component: {fileID: 482414628}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -89376,6 +89722,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &482414628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482414620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &482456033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95368,6 +95728,7 @@ GameObject:
   - component: {fileID: 516144343}
   - component: {fileID: 516144342}
   - component: {fileID: 516144341}
+  - component: {fileID: 516144347}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -95508,6 +95869,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &516144347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516144339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &516325825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95992,6 +96367,7 @@ GameObject:
   - component: {fileID: 519638969}
   - component: {fileID: 519638968}
   - component: {fileID: 519638967}
+  - component: {fileID: 519638973}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -96132,6 +96508,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &519638973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519638965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &519757470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97685,6 +98075,7 @@ GameObject:
   - component: {fileID: 526793822}
   - component: {fileID: 526793821}
   - component: {fileID: 526793820}
+  - component: {fileID: 526793826}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -97825,6 +98216,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &526793826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526793818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &527121829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99251,6 +99656,7 @@ GameObject:
   - component: {fileID: 537116250}
   - component: {fileID: 537116249}
   - component: {fileID: 537116248}
+  - component: {fileID: 537116254}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -99391,6 +99797,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &537116254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537116246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &537854089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99975,6 +100395,7 @@ GameObject:
   - component: {fileID: 539944926}
   - component: {fileID: 539944925}
   - component: {fileID: 539944924}
+  - component: {fileID: 539944930}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -100115,6 +100536,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &539944930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539944922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &540157877
 GameObject:
   m_ObjectHideFlags: 0
@@ -101130,6 +101565,7 @@ GameObject:
   - component: {fileID: 546590188}
   - component: {fileID: 546590187}
   - component: {fileID: 546590186}
+  - component: {fileID: 546590192}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -101270,6 +101706,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &546590192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546590184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &546868070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102830,6 +103280,7 @@ GameObject:
   - component: {fileID: 552467397}
   - component: {fileID: 552467396}
   - component: {fileID: 552467395}
+  - component: {fileID: 552467401}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -102970,6 +103421,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &552467401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552467393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &552721179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105814,6 +106279,7 @@ GameObject:
   - component: {fileID: 565454762}
   - component: {fileID: 565454761}
   - component: {fileID: 565454760}
+  - component: {fileID: 565454766}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -105954,6 +106420,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &565454766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565454758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &565853286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109592,6 +110072,7 @@ GameObject:
   - component: {fileID: 584660829}
   - component: {fileID: 584660828}
   - component: {fileID: 584660827}
+  - component: {fileID: 584660833}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -109732,6 +110213,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &584660833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584660825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &584900438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114862,6 +115357,7 @@ GameObject:
   - component: {fileID: 613509582}
   - component: {fileID: 613509581}
   - component: {fileID: 613509580}
+  - component: {fileID: 613509586}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -115002,6 +115498,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &613509586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613509578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &614386250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121767,6 +122277,7 @@ GameObject:
   - component: {fileID: 653837894}
   - component: {fileID: 653837893}
   - component: {fileID: 653837892}
+  - component: {fileID: 653837898}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -121907,6 +122418,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &653837898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653837890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &653861433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -122092,6 +122617,7 @@ GameObject:
   - component: {fileID: 654849955}
   - component: {fileID: 654849954}
   - component: {fileID: 654849953}
+  - component: {fileID: 654849959}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -122232,6 +122758,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &654849959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654849951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &655747320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124065,6 +124605,7 @@ GameObject:
   - component: {fileID: 665122588}
   - component: {fileID: 665122587}
   - component: {fileID: 665122586}
+  - component: {fileID: 665122592}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -124205,6 +124746,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &665122592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665122584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &665463625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124910,6 +125465,7 @@ GameObject:
   - component: {fileID: 671208232}
   - component: {fileID: 671208231}
   - component: {fileID: 671208230}
+  - component: {fileID: 671208236}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -125050,6 +125606,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &671208236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671208228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &671231564
 GameObject:
   m_ObjectHideFlags: 0
@@ -127961,6 +128531,7 @@ GameObject:
   - component: {fileID: 675831633}
   - component: {fileID: 675831632}
   - component: {fileID: 675831631}
+  - component: {fileID: 675831637}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -128101,6 +128672,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &675831637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675831629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &676524631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129291,6 +129876,7 @@ GameObject:
   - component: {fileID: 683361546}
   - component: {fileID: 683361545}
   - component: {fileID: 683361544}
+  - component: {fileID: 683361550}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -129431,6 +130017,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &683361550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683361542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &683405824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132470,6 +133070,7 @@ GameObject:
   - component: {fileID: 706676750}
   - component: {fileID: 706676749}
   - component: {fileID: 706676748}
+  - component: {fileID: 706676754}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -132610,6 +133211,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &706676754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706676746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &707158554
 GameObject:
   m_ObjectHideFlags: 0
@@ -137742,6 +138357,7 @@ GameObject:
   - component: {fileID: 729815382}
   - component: {fileID: 729815381}
   - component: {fileID: 729815380}
+  - component: {fileID: 729815386}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -137882,6 +138498,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &729815386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729815378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &729930633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141298,6 +141928,7 @@ GameObject:
   - component: {fileID: 747432433}
   - component: {fileID: 747432432}
   - component: {fileID: 747432431}
+  - component: {fileID: 747432437}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -141438,6 +142069,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &747432437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747432429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &747958958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142823,6 +143468,7 @@ GameObject:
   - component: {fileID: 757365134}
   - component: {fileID: 757365133}
   - component: {fileID: 757365132}
+  - component: {fileID: 757365138}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -142963,6 +143609,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &757365138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757365130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &757648998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145763,6 +146423,7 @@ GameObject:
   - component: {fileID: 770966044}
   - component: {fileID: 770966045}
   - component: {fileID: 770966046}
+  - component: {fileID: 770966047}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -145903,6 +146564,20 @@ MonoBehaviour:
   disableWorldColliders: 1
   disableRigidbodyCollisions: 1
   hierarchySyncFrames: 120
+--- !u!114 &770966047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770966039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &771756418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147703,6 +148378,7 @@ GameObject:
   - component: {fileID: 783695760}
   - component: {fileID: 783695759}
   - component: {fileID: 783695758}
+  - component: {fileID: 783695764}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -147843,6 +148519,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &783695764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783695756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &783790032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150204,6 +150894,7 @@ GameObject:
   - component: {fileID: 797008643}
   - component: {fileID: 797008642}
   - component: {fileID: 797008641}
+  - component: {fileID: 797008647}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -150344,6 +151035,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &797008647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797008639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &797051831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155505,6 +156210,7 @@ GameObject:
   - component: {fileID: 821711480}
   - component: {fileID: 821711479}
   - component: {fileID: 821711478}
+  - component: {fileID: 821711484}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -155645,6 +156351,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &821711484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821711476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &821844078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158720,6 +159440,7 @@ GameObject:
   - component: {fileID: 846493074}
   - component: {fileID: 846493073}
   - component: {fileID: 846493072}
+  - component: {fileID: 846493078}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -158860,6 +159581,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &846493078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846493070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &848696845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -164513,6 +165248,7 @@ GameObject:
   - component: {fileID: 877801708}
   - component: {fileID: 877801707}
   - component: {fileID: 877801706}
+  - component: {fileID: 877801712}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -164653,6 +165389,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &877801712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877801704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &877948315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175061,6 +175811,7 @@ GameObject:
   - component: {fileID: 939350499}
   - component: {fileID: 939350498}
   - component: {fileID: 939350497}
+  - component: {fileID: 939350503}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -175201,6 +175952,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &939350503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939350495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &939872010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176839,6 +177604,7 @@ GameObject:
   - component: {fileID: 951182957}
   - component: {fileID: 951182956}
   - component: {fileID: 951182955}
+  - component: {fileID: 951182961}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -176979,6 +177745,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &951182961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951182953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &951952980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179515,6 +180295,7 @@ GameObject:
   - component: {fileID: 968215272}
   - component: {fileID: 968215271}
   - component: {fileID: 968215270}
+  - component: {fileID: 968215276}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -179655,6 +180436,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &968215276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968215268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &968288731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181231,6 +182026,7 @@ GameObject:
   - component: {fileID: 976070544}
   - component: {fileID: 976070543}
   - component: {fileID: 976070542}
+  - component: {fileID: 976070548}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -181371,6 +182167,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &976070548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976070540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &976264122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184182,6 +184992,7 @@ GameObject:
   - component: {fileID: 991721198}
   - component: {fileID: 991721197}
   - component: {fileID: 991721196}
+  - component: {fileID: 991721202}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -184322,6 +185133,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &991721202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991721194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &991831753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185231,6 +186056,7 @@ GameObject:
   - component: {fileID: 1001029766}
   - component: {fileID: 1001029765}
   - component: {fileID: 1001029764}
+  - component: {fileID: 1001029770}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -185371,6 +186197,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1001029770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001029762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1001368984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189329,6 +190169,7 @@ GameObject:
   - component: {fileID: 1032447785}
   - component: {fileID: 1032447784}
   - component: {fileID: 1032447783}
+  - component: {fileID: 1032447789}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -189469,6 +190310,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1032447789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032447781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1032618519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191045,6 +191900,7 @@ GameObject:
   - component: {fileID: 1040289125}
   - component: {fileID: 1040289124}
   - component: {fileID: 1040289123}
+  - component: {fileID: 1040289129}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -191185,6 +192041,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1040289129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040289121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1040900007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194874,6 +195744,7 @@ GameObject:
   - component: {fileID: 1064499716}
   - component: {fileID: 1064499715}
   - component: {fileID: 1064499714}
+  - component: {fileID: 1064499720}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -195014,6 +195885,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1064499720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064499712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1064618755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200907,6 +201792,7 @@ GameObject:
   - component: {fileID: 1099679019}
   - component: {fileID: 1099679018}
   - component: {fileID: 1099679017}
+  - component: {fileID: 1099679023}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -201047,6 +201933,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1099679023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099679015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1099821854
 GameObject:
   m_ObjectHideFlags: 0
@@ -201062,6 +201962,7 @@ GameObject:
   - component: {fileID: 1099821858}
   - component: {fileID: 1099821857}
   - component: {fileID: 1099821856}
+  - component: {fileID: 1099821862}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -201202,6 +202103,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1099821862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099821854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1101597961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205506,6 +206421,7 @@ GameObject:
   - component: {fileID: 1130761936}
   - component: {fileID: 1130761935}
   - component: {fileID: 1130761934}
+  - component: {fileID: 1130761940}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -205646,6 +206562,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1130761940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130761932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1131602678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -208848,6 +209778,7 @@ GameObject:
   - component: {fileID: 1149575821}
   - component: {fileID: 1149575820}
   - component: {fileID: 1149575819}
+  - component: {fileID: 1149575825}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -208988,6 +209919,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1149575825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149575817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1150365250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209642,6 +210587,7 @@ GameObject:
   - component: {fileID: 1156639607}
   - component: {fileID: 1156639606}
   - component: {fileID: 1156639605}
+  - component: {fileID: 1156639611}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -209782,6 +210728,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1156639611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156639603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1156959515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -212118,6 +213078,7 @@ GameObject:
   - component: {fileID: 1170603260}
   - component: {fileID: 1170603259}
   - component: {fileID: 1170603258}
+  - component: {fileID: 1170603264}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -212258,6 +213219,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1170603264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170603256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1170864173
 GameObject:
   m_ObjectHideFlags: 0
@@ -233538,6 +234513,7 @@ GameObject:
   - component: {fileID: 1283599380}
   - component: {fileID: 1283599379}
   - component: {fileID: 1283599378}
+  - component: {fileID: 1283599384}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -233678,6 +234654,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1283599384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283599376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1283821657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237445,6 +238435,7 @@ GameObject:
   - component: {fileID: 1302979721}
   - component: {fileID: 1302979720}
   - component: {fileID: 1302979719}
+  - component: {fileID: 1302979725}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -237585,6 +238576,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1302979725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302979717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1303930327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -238528,6 +239533,7 @@ GameObject:
   - component: {fileID: 1307056620}
   - component: {fileID: 1307056619}
   - component: {fileID: 1307056618}
+  - component: {fileID: 1307056624}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -238668,6 +239674,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1307056624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307056616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1307190756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -239995,6 +241015,7 @@ GameObject:
   - component: {fileID: 1311881353}
   - component: {fileID: 1311881352}
   - component: {fileID: 1311881351}
+  - component: {fileID: 1311881357}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -240135,6 +241156,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1311881357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311881349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1312987943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245613,6 +246648,7 @@ GameObject:
   - component: {fileID: 1341962350}
   - component: {fileID: 1341962349}
   - component: {fileID: 1341962348}
+  - component: {fileID: 1341962354}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -245753,6 +246789,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1341962354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341962346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1342232520
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246588,6 +247638,7 @@ GameObject:
   - component: {fileID: 1346445847}
   - component: {fileID: 1346445846}
   - component: {fileID: 1346445845}
+  - component: {fileID: 1346445851}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -246728,6 +247779,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1346445851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346445843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1346641868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247199,6 +248264,7 @@ GameObject:
   - component: {fileID: 1349296212}
   - component: {fileID: 1349296211}
   - component: {fileID: 1349296210}
+  - component: {fileID: 1349296216}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -247339,6 +248405,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1349296216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349296208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1350705389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247916,6 +248996,7 @@ GameObject:
   - component: {fileID: 1353285407}
   - component: {fileID: 1353285406}
   - component: {fileID: 1353285405}
+  - component: {fileID: 1353285411}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -248056,6 +249137,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1353285411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353285403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1353551369
 GameObject:
   m_ObjectHideFlags: 0
@@ -249214,6 +250309,7 @@ GameObject:
   - component: {fileID: 1360937098}
   - component: {fileID: 1360937097}
   - component: {fileID: 1360937096}
+  - component: {fileID: 1360937102}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -249354,6 +250450,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1360937102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360937094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1362602378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -254700,6 +255810,7 @@ GameObject:
   - component: {fileID: 1391176448}
   - component: {fileID: 1391176447}
   - component: {fileID: 1391176446}
+  - component: {fileID: 1391176452}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -254840,6 +255951,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1391176452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391176444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1391638454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -259862,6 +260987,7 @@ GameObject:
   - component: {fileID: 1419564436}
   - component: {fileID: 1419564435}
   - component: {fileID: 1419564434}
+  - component: {fileID: 1419564440}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -260002,6 +261128,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1419564440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419564432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1420043783
 GameObject:
   m_ObjectHideFlags: 0
@@ -264490,6 +265630,7 @@ GameObject:
   - component: {fileID: 1449904418}
   - component: {fileID: 1449904417}
   - component: {fileID: 1449904416}
+  - component: {fileID: 1449904422}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -264630,6 +265771,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1449904422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449904414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1450001711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -265722,6 +266877,7 @@ GameObject:
   - component: {fileID: 1458522808}
   - component: {fileID: 1458522807}
   - component: {fileID: 1458522806}
+  - component: {fileID: 1458522812}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -265862,6 +267018,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1458522812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458522804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1458530663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269739,6 +270909,7 @@ GameObject:
   - component: {fileID: 1480006691}
   - component: {fileID: 1480006690}
   - component: {fileID: 1480006689}
+  - component: {fileID: 1480006695}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -269879,6 +271050,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1480006695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480006687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1480412357
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274098,6 +275283,7 @@ GameObject:
   - component: {fileID: 1498378469}
   - component: {fileID: 1498378468}
   - component: {fileID: 1498378467}
+  - component: {fileID: 1498378473}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -274238,6 +275424,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1498378473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498378465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1499164999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -274933,6 +276133,7 @@ GameObject:
   - component: {fileID: 1502766073}
   - component: {fileID: 1502766072}
   - component: {fileID: 1502766071}
+  - component: {fileID: 1502766077}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -275073,6 +276274,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1502766077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502766069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1502846178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277324,6 +278539,7 @@ GameObject:
   - component: {fileID: 1515788320}
   - component: {fileID: 1515788319}
   - component: {fileID: 1515788318}
+  - component: {fileID: 1515788324}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -277464,6 +278680,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1515788324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515788316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1515908097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -281163,6 +282393,7 @@ GameObject:
   - component: {fileID: 1535584888}
   - component: {fileID: 1535584887}
   - component: {fileID: 1535584886}
+  - component: {fileID: 1535584892}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -281303,6 +282534,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1535584892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535584884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1535588681
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288177,6 +289422,7 @@ GameObject:
   - component: {fileID: 1573724326}
   - component: {fileID: 1573724325}
   - component: {fileID: 1573724324}
+  - component: {fileID: 1573724330}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -288317,6 +289563,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1573724330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573724322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1574108783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297370,6 +298630,7 @@ GameObject:
   - component: {fileID: 1596726217}
   - component: {fileID: 1596726216}
   - component: {fileID: 1596726215}
+  - component: {fileID: 1596726221}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -297510,6 +298771,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1596726221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596726213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1597585040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -298656,6 +299931,7 @@ GameObject:
   - component: {fileID: 1602911880}
   - component: {fileID: 1602911879}
   - component: {fileID: 1602911878}
+  - component: {fileID: 1602911884}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -298796,6 +300072,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1602911884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602911876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1603043556
 GameObject:
   m_ObjectHideFlags: 0
@@ -298811,6 +300101,7 @@ GameObject:
   - component: {fileID: 1603043560}
   - component: {fileID: 1603043559}
   - component: {fileID: 1603043558}
+  - component: {fileID: 1603043564}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -298951,6 +300242,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1603043564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603043556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1603186822
 GameObject:
   m_ObjectHideFlags: 0
@@ -301326,6 +302631,7 @@ GameObject:
   - component: {fileID: 1615417476}
   - component: {fileID: 1615417475}
   - component: {fileID: 1615417474}
+  - component: {fileID: 1615417480}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -301466,6 +302772,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1615417480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615417472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1615641561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318104,6 +319424,7 @@ GameObject:
   - component: {fileID: 1689296306}
   - component: {fileID: 1689296305}
   - component: {fileID: 1689296304}
+  - component: {fileID: 1689296310}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -318244,6 +319565,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1689296310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689296302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1690856498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -324149,6 +325484,7 @@ GameObject:
   - component: {fileID: 1728959452}
   - component: {fileID: 1728959451}
   - component: {fileID: 1728959450}
+  - component: {fileID: 1728959456}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -324289,6 +325625,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1728959456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728959448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1729542110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -326725,6 +328075,7 @@ GameObject:
   - component: {fileID: 1743514916}
   - component: {fileID: 1743514915}
   - component: {fileID: 1743514914}
+  - component: {fileID: 1743514920}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -326865,6 +328216,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1743514920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743514912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1744013762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -328280,6 +329645,7 @@ GameObject:
   - component: {fileID: 1750955703}
   - component: {fileID: 1750955702}
   - component: {fileID: 1750955701}
+  - component: {fileID: 1750955707}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -328420,6 +329786,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1750955707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750955699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1751089377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -329926,6 +331306,7 @@ GameObject:
   - component: {fileID: 1761086593}
   - component: {fileID: 1761086592}
   - component: {fileID: 1761086591}
+  - component: {fileID: 1761086597}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -330066,6 +331447,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1761086597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761086589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1761093835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -330676,6 +332071,7 @@ GameObject:
   - component: {fileID: 1765347928}
   - component: {fileID: 1765347927}
   - component: {fileID: 1765347926}
+  - component: {fileID: 1765347932}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -330816,6 +332212,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1765347932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765347924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &1765434170
 GameObject:
   m_ObjectHideFlags: 0
@@ -330831,6 +332241,7 @@ GameObject:
   - component: {fileID: 1765434174}
   - component: {fileID: 1765434173}
   - component: {fileID: 1765434172}
+  - component: {fileID: 1765434178}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -330971,6 +332382,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1765434178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765434170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1765728024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -333356,6 +334781,7 @@ GameObject:
   - component: {fileID: 1781456899}
   - component: {fileID: 1781456898}
   - component: {fileID: 1781456897}
+  - component: {fileID: 1781456903}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -333496,6 +334922,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1781456903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781456895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1783136208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334235,6 +335675,7 @@ GameObject:
   - component: {fileID: 1786950047}
   - component: {fileID: 1786950046}
   - component: {fileID: 1786950045}
+  - component: {fileID: 1786950051}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -334375,6 +335816,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1786950051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786950043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1787329526
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -344149,6 +345604,7 @@ GameObject:
   - component: {fileID: 1848294312}
   - component: {fileID: 1848294311}
   - component: {fileID: 1848294310}
+  - component: {fileID: 1848294316}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -344289,6 +345745,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1848294316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848294308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1848603857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -350000,6 +351470,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792ab13986a840e40833185ac96a80ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCase
+--- !u!1001 &1879348794
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000000044703484
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.00000017881393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.4999999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.50000006
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_MotionVectors
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fc52d83ce66de544c8a02572b3143a65, type: 2}
+    - target: {fileID: 919132149155446097, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
+      propertyPath: m_Name
+      value: Indicator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b25b6b95d52d00040be84e32ba2c1b39, type: 3}
 --- !u!1001 &1879445258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -352109,6 +353672,7 @@ GameObject:
   - component: {fileID: 1890038261}
   - component: {fileID: 1890038260}
   - component: {fileID: 1890038259}
+  - component: {fileID: 1890038265}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -352249,6 +353813,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1890038265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890038257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1891035185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -367468,6 +369046,7 @@ GameObject:
   - component: {fileID: 1984949820}
   - component: {fileID: 1984949819}
   - component: {fileID: 1984949818}
+  - component: {fileID: 1984949824}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -367608,6 +369187,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1984949824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984949816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1985989941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369447,6 +371040,7 @@ GameObject:
   - component: {fileID: 1993374895}
   - component: {fileID: 1993374894}
   - component: {fileID: 1993374893}
+  - component: {fileID: 1993374899}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -369587,6 +371181,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &1993374899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993374891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &1993512381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -370738,6 +372346,7 @@ GameObject:
   - component: {fileID: 2000505625}
   - component: {fileID: 2000505624}
   - component: {fileID: 2000505623}
+  - component: {fileID: 2000505629}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -370878,6 +372487,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2000505629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000505621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &2001481168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373675,6 +375298,7 @@ GameObject:
   - component: {fileID: 2014097593}
   - component: {fileID: 2014097592}
   - component: {fileID: 2014097591}
+  - component: {fileID: 2014097597}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -373815,6 +375439,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2014097597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014097589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &2014424431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -375981,6 +377619,7 @@ GameObject:
   - component: {fileID: 2024455595}
   - component: {fileID: 2024455594}
   - component: {fileID: 2024455593}
+  - component: {fileID: 2024455599}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -376121,6 +377760,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2024455599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024455591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &2025018343
 GameObject:
   m_ObjectHideFlags: 0
@@ -377187,6 +378840,7 @@ GameObject:
   - component: {fileID: 2029257793}
   - component: {fileID: 2029257792}
   - component: {fileID: 2029257791}
+  - component: {fileID: 2029257797}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -377327,6 +378981,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2029257797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029257789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &2029497591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -378849,6 +380517,7 @@ GameObject:
   - component: {fileID: 2037839212}
   - component: {fileID: 2037839211}
   - component: {fileID: 2037839210}
+  - component: {fileID: 2037839216}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -378989,6 +380658,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2037839216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037839208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &2037874448
 GameObject:
   m_ObjectHideFlags: 0
@@ -381794,6 +383477,7 @@ GameObject:
   - component: {fileID: 2056319964}
   - component: {fileID: 2056319963}
   - component: {fileID: 2056319962}
+  - component: {fileID: 2056319968}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -381934,6 +383618,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2056319968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056319960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1 &2056560507
 GameObject:
   m_ObjectHideFlags: 0
@@ -396879,6 +398577,7 @@ GameObject:
   - component: {fileID: 2141433399}
   - component: {fileID: 2141433398}
   - component: {fileID: 2141433397}
+  - component: {fileID: 2141433403}
   m_Layer: 0
   m_Name: ShelfSlot_01
   m_TagString: Untagged
@@ -397019,6 +398718,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.6700823, z: 0.4650612}
   m_Center: {x: 0, y: -0.02120915, z: 0.0624485}
+--- !u!114 &2141433403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141433395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ab648e65ae454683ba4c6f63ce7fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfBatchPlacement
+  intervalSeconds: 0.09
+  maximumCasesPerInteraction: 32
 --- !u!1001 &2141493334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398767,3 +400480,4 @@ SceneRoots:
   - {fileID: 1898547793}
   - {fileID: 2003243157}
   - {fileID: 136722336}
+  - {fileID: 1879348794}
