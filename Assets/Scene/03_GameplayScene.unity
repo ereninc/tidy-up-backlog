@@ -883,7 +883,7 @@ Transform:
   m_GameObject: {fileID: 3551393}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2467,7 +2467,7 @@ Transform:
   m_GameObject: {fileID: 13340423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7753,7 +7753,7 @@ Transform:
   m_GameObject: {fileID: 43655095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10002,6 +10002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &59076921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10700,7 +10701,7 @@ Transform:
   m_GameObject: {fileID: 65370696}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10816,7 +10817,7 @@ Transform:
   m_GameObject: {fileID: 66253607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11128,7 +11129,7 @@ Transform:
   m_GameObject: {fileID: 68073215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11996,7 +11997,7 @@ Transform:
   m_GameObject: {fileID: 76565894}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12885,6 +12886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &82522577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12988,7 +12990,7 @@ Transform:
   m_GameObject: {fileID: 82541743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14039,7 +14041,7 @@ Transform:
   m_GameObject: {fileID: 86710579}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15608,6 +15610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &92985364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16935,7 +16938,7 @@ Transform:
   m_GameObject: {fileID: 100370659}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20055,7 +20058,7 @@ Transform:
   m_GameObject: {fileID: 121713098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22533,6 +22536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &134560825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25673,7 +25677,7 @@ Transform:
   m_GameObject: {fileID: 151672312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26173,7 +26177,7 @@ Transform:
   m_GameObject: {fileID: 153842743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29826,6 +29830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &174727032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31446,6 +31451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &181909007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33297,6 +33303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &191542635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33977,6 +33984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &195141707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35620,6 +35628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &204219950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38548,7 +38557,7 @@ Transform:
   m_GameObject: {fileID: 219925678}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40390,6 +40399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &228662315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41930,7 +41940,7 @@ Transform:
   m_GameObject: {fileID: 235914423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48820,6 +48830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &273165888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51245,7 +51256,7 @@ Transform:
   m_GameObject: {fileID: 286135337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54210,7 +54221,7 @@ Transform:
   m_GameObject: {fileID: 300107810}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -54411,7 +54422,7 @@ Transform:
   m_GameObject: {fileID: 301913189}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55444,6 +55455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &310139442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56637,6 +56649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &316869496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57871,7 +57884,7 @@ Transform:
   m_GameObject: {fileID: 321134709}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57987,7 +58000,7 @@ Transform:
   m_GameObject: {fileID: 321835495}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58680,6 +58693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &327064938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59749,6 +59763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &331120829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61035,7 +61050,7 @@ Transform:
   m_GameObject: {fileID: 339399998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -63148,6 +63163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &349463588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63573,6 +63589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &351668753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69117,7 +69134,7 @@ Transform:
   m_GameObject: {fileID: 381601298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70250,6 +70267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &385426234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71203,7 +71221,7 @@ Transform:
   m_GameObject: {fileID: 389291454}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -72043,7 +72061,7 @@ Transform:
   m_GameObject: {fileID: 393872649}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74004,6 +74022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &403126781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75503,7 +75522,7 @@ Transform:
   m_GameObject: {fileID: 413336642}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76558,7 +76577,7 @@ Transform:
   m_GameObject: {fileID: 419389610}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -78456,6 +78475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &429112733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78984,7 +79004,7 @@ Transform:
   m_GameObject: {fileID: 430958236}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79337,6 +79357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &433798268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81207,6 +81228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &439905933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81779,7 +81801,7 @@ Transform:
   m_GameObject: {fileID: 443616188}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87406,6 +87428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &472298417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87679,7 +87702,7 @@ Transform:
   m_GameObject: {fileID: 473216275}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90190,6 +90213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &482414625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90888,7 +90912,7 @@ Transform:
   m_GameObject: {fileID: 484740459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93815,7 +93839,7 @@ Transform:
   m_GameObject: {fileID: 504100075}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96337,6 +96361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &516144344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96976,6 +97001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &519638970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98806,6 +98832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &526793823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100387,6 +100414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &537116251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101126,6 +101154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &539944927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101229,7 +101258,7 @@ Transform:
   m_GameObject: {fileID: 540157877}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102296,6 +102325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &546590189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104011,6 +104041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &552467398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104539,7 +104570,7 @@ Transform:
   m_GameObject: {fileID: 553693408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -105335,7 +105366,7 @@ Transform:
   m_GameObject: {fileID: 558543243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -107010,6 +107041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &565454763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109147,7 +109179,7 @@ Transform:
   m_GameObject: {fileID: 577358181}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110803,6 +110835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &584660830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111246,7 +111279,7 @@ Transform:
   m_GameObject: {fileID: 586120173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113478,7 +113511,7 @@ Transform:
   m_GameObject: {fileID: 599815245}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116088,6 +116121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &613509583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121008,7 +121042,7 @@ Transform:
   m_GameObject: {fileID: 636740252}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121660,7 +121694,7 @@ Transform:
   m_GameObject: {fileID: 639555506}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -123144,6 +123178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &653837895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123484,6 +123519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &654849956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125472,6 +125508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &665122589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126332,6 +126369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &671208233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129398,6 +129436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &675831634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130743,6 +130782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &683361547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131356,7 +131396,7 @@ Transform:
   m_GameObject: {fileID: 688787807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -131812,7 +131852,7 @@ Transform:
   m_GameObject: {fileID: 691638736}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133937,6 +133977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &706676751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138246,7 +138287,7 @@ Transform:
   m_GameObject: {fileID: 722594511}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -139224,6 +139265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &729815383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142442,7 +142484,7 @@ Transform:
   m_GameObject: {fileID: 745366028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -142795,6 +142837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &747432434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144335,6 +144378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &757365135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147314,6 +147358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &770966045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149245,6 +149290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &783695761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151761,6 +151807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &797008644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156469,7 +156516,7 @@ Transform:
   m_GameObject: {fileID: 818389319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157077,6 +157124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &821711481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157609,7 +157657,7 @@ Transform:
   m_GameObject: {fileID: 824329473}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160307,6 +160355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &846493075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166190,6 +166239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &877801709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173093,7 +173143,7 @@ Transform:
   m_GameObject: {fileID: 921230728}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -174566,7 +174616,7 @@ Transform:
   m_GameObject: {fileID: 927216260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176684,7 +176734,7 @@ Transform:
   m_GameObject: {fileID: 939234677}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -176867,6 +176917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &939350500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177055,7 +177106,7 @@ Transform:
   m_GameObject: {fileID: 939889660}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -177681,7 +177732,7 @@ Transform:
   m_GameObject: {fileID: 946103472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178307,7 +178358,7 @@ Transform:
   m_GameObject: {fileID: 950791563}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178660,6 +178711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &951182958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180614,7 +180666,7 @@ Transform:
   m_GameObject: {fileID: 962252475}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -181351,6 +181403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &968215273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182899,7 +182952,7 @@ Transform:
   m_GameObject: {fileID: 975226702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -183082,6 +183135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &976070545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183891,7 +183945,7 @@ Transform:
   m_GameObject: {fileID: 979582995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -186144,6 +186198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &991721199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187208,6 +187263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1001029767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188671,7 +188727,7 @@ Transform:
   m_GameObject: {fileID: 1012347389}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189608,7 +189664,7 @@ Transform:
   m_GameObject: {fileID: 1018536268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -191321,6 +191377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1032447786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193052,6 +193109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1040289126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196896,6 +196954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1064499717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201264,7 +201323,7 @@ Transform:
   m_GameObject: {fileID: 1088233598}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -202944,6 +203003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1099679020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203114,6 +203174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1099821859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203821,7 +203882,7 @@ Transform:
   m_GameObject: {fileID: 1106315125}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -207573,6 +207634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1130761937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209768,7 +209830,7 @@ Transform:
   m_GameObject: {fileID: 1144292085}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -210930,6 +210992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1149575822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211739,6 +211802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1156639608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212300,7 +212364,7 @@ Transform:
   m_GameObject: {fileID: 1160309837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214230,6 +214294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1170603261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214711,7 +214776,7 @@ Transform:
   m_GameObject: {fileID: 1172378724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220550,7 +220615,7 @@ Transform:
   m_GameObject: {fileID: 1206384187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220666,7 +220731,7 @@ Transform:
   m_GameObject: {fileID: 1207429792}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -221547,7 +221612,7 @@ Transform:
   m_GameObject: {fileID: 1211892863}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -223983,7 +224048,7 @@ Transform:
   m_GameObject: {fileID: 1221489896}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224517,7 +224582,7 @@ Transform:
   m_GameObject: {fileID: 1224997502}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -227822,7 +227887,7 @@ Transform:
   m_GameObject: {fileID: 1239810873}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -234887,7 +234952,7 @@ Transform:
   m_GameObject: {fileID: 1278957946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -235665,6 +235730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1283599381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239587,6 +239653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1302979722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240685,6 +240752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1307056621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242167,6 +242235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1311881354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247800,6 +247869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1341962351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248790,6 +248860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1346445848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249318,7 +249389,7 @@ Transform:
   m_GameObject: {fileID: 1348877652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -249416,6 +249487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1349296213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250148,6 +250220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1353285408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251461,6 +251534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1360937099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253689,7 +253763,7 @@ Transform:
   m_GameObject: {fileID: 1374422519}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -257084,6 +257158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1391176449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260208,7 +260283,7 @@ Transform:
   m_GameObject: {fileID: 1404325617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -262261,6 +262336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1419564437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266904,6 +266980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1449904419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267517,7 +267594,7 @@ Transform:
   m_GameObject: {fileID: 1453237820}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -268151,6 +268228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1458522809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269828,7 +269906,7 @@ Transform:
   m_GameObject: {fileID: 1465890556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -272258,6 +272336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1480006692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275861,7 +275940,7 @@ Transform:
   m_GameObject: {fileID: 1496257500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -276632,6 +276711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1498378470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277482,6 +277562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1502766074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279888,6 +279969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1515788321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283742,6 +283824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1535584889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290503,7 +290586,7 @@ Transform:
   m_GameObject: {fileID: 1570038350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -290771,6 +290854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1573724327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296752,7 +296836,7 @@ Transform:
   m_GameObject: {fileID: 1584610635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -298102,7 +298186,7 @@ Transform:
   m_GameObject: {fileID: 1590306085}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -299979,6 +300063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1596726218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301280,6 +301365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1602911881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301450,6 +301536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1603043561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303596,7 +303683,7 @@ Transform:
   m_GameObject: {fileID: 1612100159}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -303882,7 +303969,7 @@ Transform:
   m_GameObject: {fileID: 1614920086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -303980,6 +304067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1615417477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304423,7 +304511,7 @@ Transform:
   m_GameObject: {fileID: 1617812632}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305350,7 +305438,7 @@ Transform:
   m_GameObject: {fileID: 1622295687}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305806,7 +305894,7 @@ Transform:
   m_GameObject: {fileID: 1625704289}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -306817,7 +306905,7 @@ Transform:
   m_GameObject: {fileID: 1632672736}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -310078,7 +310166,7 @@ Transform:
   m_GameObject: {fileID: 1646303082}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -311410,7 +311498,7 @@ Transform:
   m_GameObject: {fileID: 1653666633}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -316249,7 +316337,7 @@ Transform:
   m_GameObject: {fileID: 1671720169}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -320773,6 +320861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1689296307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326833,6 +326922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1728959453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329424,6 +329514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1743514917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330994,6 +331085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1750955704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332655,6 +332747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1761086594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333420,6 +333513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1765347929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333590,6 +333684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1765434175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336130,6 +336225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1781456900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337024,6 +337120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1786950048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340204,7 +340301,7 @@ Transform:
   m_GameObject: {fileID: 1806991881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -344104,7 +344201,7 @@ Transform:
   m_GameObject: {fileID: 1830286441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -346953,6 +347050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1848294313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347141,7 +347239,7 @@ Transform:
   m_GameObject: {fileID: 1848932585}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -354928,6 +355026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1890038262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358160,7 +358259,7 @@ Transform:
   m_GameObject: {fileID: 1912375868}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -360079,7 +360178,7 @@ Transform:
   m_GameObject: {fileID: 1922213806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -362091,7 +362190,7 @@ Transform:
   m_GameObject: {fileID: 1939784019}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -370302,6 +370401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1984949821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370881,7 +370981,7 @@ Transform:
   m_GameObject: {fileID: 1986727361}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -371943,7 +372043,7 @@ Transform:
   m_GameObject: {fileID: 1991190438}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -372296,6 +372396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &1993374896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372824,7 +372925,7 @@ Transform:
   m_GameObject: {fileID: 1996015209}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -373602,6 +373703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2000505626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374440,7 +374542,7 @@ Transform:
   m_GameObject: {fileID: 2005660893}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -376116,7 +376218,7 @@ Transform:
   m_GameObject: {fileID: 2012902315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -376554,6 +376656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2014097594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378875,6 +378978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2024455596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378978,7 +379082,7 @@ Transform:
   m_GameObject: {fileID: 2025018343}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -380096,6 +380200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2029257794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380369,7 +380474,7 @@ Transform:
   m_GameObject: {fileID: 2029957966}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -381505,7 +381610,7 @@ Transform:
   m_GameObject: {fileID: 2036768009}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -381773,6 +381878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2037839213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381876,7 +381982,7 @@ Transform:
   m_GameObject: {fileID: 2037874448}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -382114,7 +382220,7 @@ Transform:
   m_GameObject: {fileID: 2039268379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -383915,7 +384021,7 @@ Transform:
   m_GameObject: {fileID: 2051676290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -384855,6 +384961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2056319965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386262,7 +386369,7 @@ Transform:
   m_GameObject: {fileID: 2064806800}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -389464,7 +389571,7 @@ Transform:
   m_GameObject: {fileID: 2081285342}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -389750,7 +389857,7 @@ Transform:
   m_GameObject: {fileID: 2083388315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -391495,7 +391602,7 @@ Transform:
   m_GameObject: {fileID: 2095380734}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -393355,7 +393462,7 @@ Transform:
   m_GameObject: {fileID: 2107855791}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.425, y: 0, z: 0}
+  m_LocalPosition: {x: -0.375, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -399955,6 +400062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185cece437a9fa49abb9eed7aeae212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseShelfSlotState
+  completionReward: 100
 --- !u!114 &2141433400
 MonoBehaviour:
   m_ObjectHideFlags: 0

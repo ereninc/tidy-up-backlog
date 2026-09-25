@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3070506066
+  GlobalObjectIdHash: 1423656030
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -182,7 +182,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.InteractionOutlineFeedback
   interactable: {fileID: 8392574663449016452}
   outlineRenderer: {fileID: 0}
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &5995530946966573179
 MonoBehaviour:
   m_ObjectHideFlags: 0
