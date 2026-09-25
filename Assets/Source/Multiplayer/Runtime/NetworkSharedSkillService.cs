@@ -144,6 +144,60 @@ namespace EXW.Multiplayer
             return true;
         }
 
+        /// <summary>Development and future upgrade-system server API.</summary>
+        public bool ResetAllCooldownsServer()
+        {
+            if (!IsServer || !IsSpawned)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < _skillStates.Count; i++)
+            {
+                SharedSkillRuntimeState state = _skillStates[i];
+
+                if (state.CooldownEndsAt <= 0d)
+                {
+                    continue;
+                }
+
+                state.CooldownEndsAt = 0d;
+                _skillStates[i] = state;
+            }
+
+            return true;
+        }
+
+        /// <summary>Development and future upgrade-system server API.</summary>
+        public bool UnlockAllSkillsServer()
+        {
+            if (!IsServer || !IsSpawned)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < _skillStates.Count; i++)
+            {
+                SharedSkillRuntimeState state = _skillStates[i];
+
+                if (state.IsUnlocked)
+                {
+                    continue;
+                }
+
+                state.IsUnlocked = true;
+
+                if (state.Level == 0)
+                {
+                    state.Level = 1;
+                }
+
+                _skillStates[i] = state;
+            }
+
+            return true;
+        }
+
         [ServerRpc(RequireOwnership = false)]
         private void RequestUseSkillServerRpc(
             int skillId,

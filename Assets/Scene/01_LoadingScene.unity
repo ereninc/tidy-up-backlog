@@ -1416,6 +1416,7 @@ GameObject:
   - component: {fileID: 1852577422}
   - component: {fileID: 1852577424}
   - component: {fileID: 1852577425}
+  - component: {fileID: 1852577426}
   m_Layer: 0
   m_Name: NetworkRuntime
   m_TagString: Untagged
@@ -1679,6 +1680,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.SharedProgressionBootstrap
   sharedProgressionPrefab: {fileID: 6025769457997013937, guid: 3c43a256ccb65364a8878fcd769743f6, type: 3}
+--- !u!114 &1852577426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852577409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380c2c52c0ece074fa691c630cc49ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.SharedDevelopmentIMGUI
+  allowInNonDevelopmentBuild: 1
+  toggleKey: 38
+  unlockCursorWhileOpen: 1
+  referenceWidth: 1920
+  referenceHeight: 1080
+  minimumScale: 0.75
+  maximumScale: 2
+  overrideFont: {fileID: 12800000, guid: b98b508b0e77d9448a6e31499d20efb7, type: 3}
+  initialPosition: {x: 28, y: 80}
+  panelSize: {x: 500, y: 665}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

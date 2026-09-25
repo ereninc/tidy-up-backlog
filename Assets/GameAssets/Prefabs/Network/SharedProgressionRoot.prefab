@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6025769457997013937}
   - component: {fileID: 7396282437372264367}
   - component: {fileID: 2815145001645951694}
+  - component: {fileID: 4167431190195580374}
   m_Layer: 0
   m_Name: SharedProgressionRoot
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3982985275
+  GlobalObjectIdHash: 1084067547
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -83,3 +84,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkSharedSkillService
   catalog: {fileID: 11400000, guid: 760021747dfccd84498efbab82097f05, type: 2}
+--- !u!114 &4167431190195580374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114327789270390114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba57f7396683d148b78e72ef3ac691a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkSharedDevelopmentService
+  allowInNonDevelopmentBuild: 1
+  allowRemoteClients: 1
+  maxMoneyDeltaPerCommand: 100
+  maxCarryDeltaPerCommand: 1
