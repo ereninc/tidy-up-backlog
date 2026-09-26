@@ -36,7 +36,7 @@ public sealed class GameCaseDistributionWindow : EditorWindow
 
     public static bool IsDrawingLasso { get; private set; }
 
-    [MenuItem("Tools/Rogue Duck/Game Case Distribution")]
+    [MenuItem("Tools/Game Case Distribution")]
     public static void Open()
     {
         GetWindow<GameCaseDistributionWindow>(WindowTitle);

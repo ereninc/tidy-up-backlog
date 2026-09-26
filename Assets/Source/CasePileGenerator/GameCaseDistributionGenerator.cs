@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public sealed class GameCaseDistributionGenerator : MonoBehaviour
@@ -51,6 +52,23 @@ public sealed class GameCaseDistributionGenerator : MonoBehaviour
     [SerializeField] private float angularDamping = 0.1f;
     [SerializeField] private bool keepPrefabRigidbodyKinematicAfterBake = true;
 
+    [Header("Escape Safety")]
+    [Tooltip("Allows a natural spill around the drawn polygon, but rescues cases that travel farther than this.")]
+    [Min(0f)]
+    [SerializeField] private float allowedSpillDistance = 1.5f;
+    [Tooltip("A case below its own sampled floor height by this amount is considered to have fallen through the map.")]
+    [FormerlySerializedAs("maximumAllowedFallBelowZone")]
+    [Min(0.01f)]
+    [SerializeField] private float maximumAllowedFallBelowSurface = 0.25f;
+    [Tooltip("Height above a newly sampled valid surface when an escaped case is rescued.")]
+    [Min(0.05f)]
+    [SerializeField] private float rescueDropHeight = 0.75f;
+    [Tooltip("Extra simulation time guaranteed after the most recent rescue, so corrected cases cannot remain in the air.")]
+    [Min(0.1f)]
+    [SerializeField] private float postRescueSettleTime = 1.5f;
+    [Tooltip("Discrete preserves the original loose pile behavior. Use Continuous Speculative only if the rescue system triggers too often on very thin floors.")]
+    [SerializeField] private CollisionDetectionMode collisionDetectionDuringBake = CollisionDetectionMode.Discrete;
+
     [Header("Safety")]
     [Tooltip("Temporarily freezes unrelated dynamic rigidbodies while editor physics is simulated.")]
     [SerializeField] private bool freezeOtherDynamicRigidbodies = true;
@@ -77,6 +95,11 @@ public sealed class GameCaseDistributionGenerator : MonoBehaviour
     public float LinearDamping => linearDamping;
     public float AngularDamping => angularDamping;
     public bool KeepPrefabRigidbodyKinematicAfterBake => keepPrefabRigidbodyKinematicAfterBake;
+    public float AllowedSpillDistance => allowedSpillDistance;
+    public float MaximumAllowedFallBelowSurface => maximumAllowedFallBelowSurface;
+    public float RescueDropHeight => rescueDropHeight;
+    public float PostRescueSettleTime => postRescueSettleTime;
+    public CollisionDetectionMode BakeCollisionDetection => collisionDetectionDuringBake;
     public bool FreezeOtherDynamicRigidbodies => freezeOtherDynamicRigidbodies;
     public Transform ZonesRoot => zonesRoot;
     public Transform GeneratedRoot => generatedRoot;
@@ -138,5 +161,9 @@ public sealed class GameCaseDistributionGenerator : MonoBehaviour
         batchSize = Mathf.Max(1, batchSize);
         pointSampleAttempts = Mathf.Max(1, pointSampleAttempts);
         caseMass = Mathf.Max(0.001f, caseMass);
+        allowedSpillDistance = Mathf.Max(0f, allowedSpillDistance);
+        maximumAllowedFallBelowSurface = Mathf.Max(0.01f, maximumAllowedFallBelowSurface);
+        rescueDropHeight = Mathf.Max(0.05f, rescueDropHeight);
+        postRescueSettleTime = Mathf.Max(0.1f, postRescueSettleTime);
     }
 }

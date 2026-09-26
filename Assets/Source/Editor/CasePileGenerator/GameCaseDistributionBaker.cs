@@ -13,6 +13,10 @@ public static class GameCaseDistributionBaker
         public Rigidbody Rigidbody;
         public bool RigidbodyWasAdded;
         public RigidbodyState OriginalState;
+        public Quaternion SafeSpawnRotation;
+        public float SampledSurfaceY;
+        public int RescueCount;
+        public int StepsSinceLastRescue;
     }
 
     private readonly struct RigidbodyState
@@ -249,6 +253,7 @@ public static class GameCaseDistributionBaker
         var frozenBodies = new List<FrozenBody>();
         SimulationMode oldSimulationMode = Physics.simulationMode;
         int failedSamples = 0;
+        int discardedCases = 0;
         bool completed = false;
 
         try
@@ -257,6 +262,7 @@ public static class GameCaseDistributionBaker
                 FreezeOtherBodies(frozenBodies);
 
             Physics.simulationMode = SimulationMode.Script;
+
             int spawned = 0;
 
             while (spawned < requestedCount)
@@ -284,6 +290,9 @@ public static class GameCaseDistributionBaker
                 {
                     SimulateForDuration(
                         generator,
+                        zone,
+                        cases,
+                        random,
                         generator.BatchSimulationTime,
                         $"{zone.name}: dropping {spawned}/{requestedCount}",
                         OverallProgress(zoneIndex, zoneTotal, spawned / (float)requestedCount));
@@ -291,18 +300,22 @@ public static class GameCaseDistributionBaker
             }
 
             Physics.SyncTransforms();
-            SimulateUntilSettled(generator, cases, zone.name, zoneIndex, zoneTotal);
+            SimulateUntilSettled(generator, zone, cases, random, zone.name, zoneIndex, zoneTotal);
             Physics.SyncTransforms();
+            discardedCases = RemoveInvalidCases(generator, zone, cases);
             BakeCases(generator, cases);
             completed = true;
 
             MarkSceneDirty(generator.gameObject);
 
-            if (failedSamples > 0)
+            int rescuedCases = cases.Sum(item => item.RescueCount);
+
+            if (failedSamples > 0 || discardedCases > 0 || rescuedCases > 0)
             {
                 Debug.LogWarning(
                     $"[GameCaseDistribution] {zone.name}: generated {cases.Count}/{requestedCount}. " +
-                    $"{failedSamples} points could not find a valid surface. Check Surface/Blocker masks or enlarge the zone.",
+                    $"Invalid surface samples: {failedSamples}, safety rescues: {rescuedCases}, " +
+                    $"discarded after validation: {discardedCases}.",
                     zone);
             }
             else
@@ -362,6 +375,8 @@ public static class GameCaseDistributionBaker
             Range(random, 0f, 360f),
             Range(random, -generator.InitialTilt, generator.InitialTilt));
 
+        Quaternion safeSpawnRotation = instance.transform.rotation;
+
         Rigidbody body = instance.GetComponent<Rigidbody>();
         bool wasAdded = !body;
 
@@ -374,7 +389,7 @@ public static class GameCaseDistributionBaker
         body.mass = generator.CaseMass;
         body.linearDamping = generator.LinearDamping;
         body.angularDamping = generator.AngularDamping;
-        body.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        body.collisionDetectionMode = generator.BakeCollisionDetection;
         body.interpolation = RigidbodyInterpolation.None;
 
         Vector2 direction = RandomInsideUnitCircle(random);
@@ -386,7 +401,10 @@ public static class GameCaseDistributionBaker
             GameObject = instance,
             Rigidbody = body,
             RigidbodyWasAdded = wasAdded,
-            OriginalState = originalState
+            OriginalState = originalState,
+            SafeSpawnRotation = safeSpawnRotation,
+            SampledSurfaceY = surfacePoint.y,
+            StepsSinceLastRescue = int.MaxValue
         };
     }
 
@@ -417,6 +435,9 @@ public static class GameCaseDistributionBaker
 
     private static void SimulateForDuration(
         GameCaseDistributionGenerator generator,
+        GameCaseSpawnZone zone,
+        List<SimulatedCase> cases,
+        System.Random random,
         float duration,
         string message,
         float progress)
@@ -426,6 +447,7 @@ public static class GameCaseDistributionBaker
         for (int i = 0; i < steps; i++)
         {
             Physics.Simulate(generator.SimulationStep);
+            RescueEscapedCases(generator, zone, cases, random);
 
             if (i % 10 != 0)
                 continue;
@@ -442,18 +464,32 @@ public static class GameCaseDistributionBaker
 
     private static void SimulateUntilSettled(
         GameCaseDistributionGenerator generator,
+        GameCaseSpawnZone zone,
         List<SimulatedCase> cases,
+        System.Random random,
         string zoneName,
         int zoneIndex,
         int zoneTotal)
     {
-        int maxSteps = Mathf.CeilToInt(generator.SettleTime / generator.SimulationStep);
+        int baseMaxSteps = Mathf.CeilToInt(generator.SettleTime / generator.SimulationStep);
+        int rescueGraceSteps = Mathf.CeilToInt(generator.PostRescueSettleTime / generator.SimulationStep);
+        int absoluteMaxSteps = baseMaxSteps + rescueGraceSteps * 3;
+        int deadline = baseMaxSteps;
         int consecutiveSleepingFrames = 0;
         const int requiredSleepingFrames = 15;
 
-        for (int step = 0; step < maxSteps; step++)
+        for (int step = 0; step < deadline && step < absoluteMaxSteps; step++)
         {
             Physics.Simulate(generator.SimulationStep);
+            int rescued = RescueEscapedCases(generator, zone, cases, random);
+
+            if (rescued > 0)
+            {
+                deadline = Mathf.Min(
+                    absoluteMaxSteps,
+                    Mathf.Max(deadline, step + rescueGraceSteps));
+            }
+
             bool allSleeping = true;
 
             for (int i = 0; i < cases.Count; i++)
@@ -469,13 +505,26 @@ public static class GameCaseDistributionBaker
 
             consecutiveSleepingFrames = allSleeping ? consecutiveSleepingFrames + 1 : 0;
 
-            if (consecutiveSleepingFrames >= requiredSleepingFrames)
+            bool rescueGraceCompleted = true;
+
+            for (int i = 0; i < cases.Count; i++)
+            {
+                SimulatedCase item = cases[i];
+
+                if (item.RescueCount > 0 && item.StepsSinceLastRescue < rescueGraceSteps)
+                {
+                    rescueGraceCompleted = false;
+                    break;
+                }
+            }
+
+            if (consecutiveSleepingFrames >= requiredSleepingFrames && rescueGraceCompleted)
                 break;
 
             if (step % 10 != 0)
                 continue;
 
-            float zoneProgress = step / (float)Mathf.Max(1, maxSteps);
+            float zoneProgress = step / (float)Mathf.Max(1, deadline);
             float overallProgress = OverallProgress(zoneIndex, zoneTotal, zoneProgress);
 
             if (EditorUtility.DisplayCancelableProgressBar(
@@ -486,6 +535,97 @@ public static class GameCaseDistributionBaker
                 throw new OperationCanceledException();
             }
         }
+    }
+
+    private static int RescueEscapedCases(
+        GameCaseDistributionGenerator generator,
+        GameCaseSpawnZone zone,
+        List<SimulatedCase> cases,
+        System.Random random)
+    {
+        int rescued = 0;
+
+        for (int i = 0; i < cases.Count; i++)
+        {
+            SimulatedCase item = cases[i];
+
+            if (!item.GameObject || !item.Rigidbody)
+                continue;
+
+            if (IsCaseWithinSafetyLimits(generator, zone, item))
+            {
+                if (item.RescueCount > 0 && item.StepsSinceLastRescue < int.MaxValue)
+                    item.StepsSinceLastRescue++;
+
+                continue;
+            }
+
+            if (!zone.TrySampleSurface(random, generator.PointSampleAttempts, out Vector3 safeSurfacePoint))
+                continue;
+
+            rescued++;
+            item.RescueCount++;
+            item.StepsSinceLastRescue = 0;
+            item.SampledSurfaceY = safeSurfacePoint.y;
+
+            float retryOffset = Mathf.Min(0.35f, item.RescueCount * 0.04f);
+            Vector3 resetPosition = safeSurfacePoint +
+                                    Vector3.up * (generator.RescueDropHeight + retryOffset);
+            item.Rigidbody.position = resetPosition;
+            item.Rigidbody.rotation = item.SafeSpawnRotation;
+            item.Rigidbody.linearVelocity = Vector3.zero;
+            item.Rigidbody.angularVelocity = Vector3.zero;
+            item.Rigidbody.WakeUp();
+        }
+
+        return rescued;
+    }
+
+    private static int RemoveInvalidCases(
+        GameCaseDistributionGenerator generator,
+        GameCaseSpawnZone zone,
+        List<SimulatedCase> cases)
+    {
+        int removed = 0;
+        int requiredPostRescueSteps = Mathf.CeilToInt(
+            generator.PostRescueSettleTime / generator.SimulationStep);
+
+        for (int i = cases.Count - 1; i >= 0; i--)
+        {
+            SimulatedCase item = cases[i];
+            bool rescueHadTimeToSettle =
+                item.RescueCount == 0 || item.StepsSinceLastRescue >= requiredPostRescueSteps;
+
+            if (item.GameObject &&
+                rescueHadTimeToSettle &&
+                IsCaseWithinSafetyLimits(generator, zone, item))
+            {
+                continue;
+            }
+
+            if (item.GameObject)
+                UnityEngine.Object.DestroyImmediate(item.GameObject);
+
+            cases.RemoveAt(i);
+            removed++;
+        }
+
+        return removed;
+    }
+
+    private static bool IsCaseWithinSafetyLimits(
+        GameCaseDistributionGenerator generator,
+        GameCaseSpawnZone zone,
+        SimulatedCase item)
+    {
+        Vector3 position = item.Rigidbody
+            ? item.Rigidbody.position
+            : item.GameObject.transform.position;
+
+        if (position.y < item.SampledSurfaceY - generator.MaximumAllowedFallBelowSurface)
+            return false;
+
+        return zone.ContainsWorldPoint(position, generator.AllowedSpillDistance);
     }
 
     private static void FreezeOtherBodies(List<FrozenBody> frozenBodies)

@@ -138,6 +138,29 @@ public sealed class GameCaseSpawnZone : MonoBehaviour
         return center / points.Count;
     }
 
+    public bool ContainsWorldPoint(Vector3 worldPoint, float worldTolerance = 0f)
+    {
+        if (!IsValid)
+            return false;
+
+        Vector3 local = transform.InverseTransformPoint(worldPoint);
+        var localPoint = new Vector2(local.x, local.z);
+
+        if (GameCasePolygonUtility.ContainsPoint(points, localPoint))
+            return true;
+
+        if (worldTolerance <= 0f)
+            return false;
+
+        float largestHorizontalScale = Mathf.Max(
+            0.0001f,
+            Mathf.Max(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.z)));
+
+        float localTolerance = worldTolerance / largestHorizontalScale;
+        return GameCasePolygonUtility.DistanceToEdgesSquared(points, localPoint) <=
+               localTolerance * localTolerance;
+    }
+
     public bool TrySampleSurface(System.Random random, int maxAttempts, out Vector3 surfacePoint)
     {
         surfacePoint = default;

@@ -78,6 +78,23 @@ public static class GameCasePolygonUtility
         return Rect.MinMaxRect(minX, minY, maxX, maxY);
     }
 
+    public static float DistanceToEdgesSquared(IReadOnlyList<Vector2> polygon, Vector2 point)
+    {
+        if (polygon == null || polygon.Count == 0)
+            return float.PositiveInfinity;
+
+        float closest = float.PositiveInfinity;
+
+        for (int i = 0; i < polygon.Count; i++)
+        {
+            Vector2 a = polygon[i];
+            Vector2 b = polygon[(i + 1) % polygon.Count];
+            closest = Mathf.Min(closest, DistanceToSegmentSquared(point, a, b));
+        }
+
+        return closest;
+    }
+
     public static bool IsSimple(IReadOnlyList<Vector2> points)
     {
         if (points == null || points.Count < 3)
