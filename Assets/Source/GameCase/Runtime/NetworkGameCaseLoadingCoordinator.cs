@@ -49,6 +49,12 @@ namespace EXW.Multiplayer
         private string gameplaySceneName =
             "GameScene";
 
+        [Tooltip(
+            "Keeps the completed progress bar visible briefly before NGO " +
+            "opens the gameplay scene.")]
+        [SerializeField, Min(0f)]
+        private float fullBarHoldSeconds = 0.35f;
+
         [Header("Game Case Set")]
         [SerializeField, Min(1)]
         private int requiredDistinctGames = 50;
@@ -1004,6 +1010,10 @@ namespace EXW.Multiplayer
                 appIds,
                 playtimes);
 
+            SetLocalProgress(
+                Mathf.Max(LocalProgress, 0.40f),
+                "Game manifest ready");
+
             GameCaseCoverCache cache =
                 GameCaseCoverCache.GetOrCreate();
 
@@ -1243,8 +1253,8 @@ namespace EXW.Multiplayer
         private void HandleLocalCoversReady()
         {
             SetLocalProgress(
-                1f,
-                "Ready");
+                0.98f,
+                "Waiting for everyone to finish packing");
 
             if (IsServer)
             {
@@ -1311,9 +1321,63 @@ namespace EXW.Multiplayer
                 1f,
                 "Opening gameplay scene");
 
-            NetworkManager.SceneManager.LoadScene(
-                gameplaySceneName,
-                LoadSceneMode.Single);
+            ShowGameplayOpeningClientRpc();
+
+            StartCoroutine(
+                LoadGameplaySceneAfterFullBar());
+        }
+
+        [ClientRpc]
+        private void ShowGameplayOpeningClientRpc()
+        {
+            // The host already applied this locally before sending the RPC.
+            if (IsServer)
+            {
+                return;
+            }
+
+            SetLocalProgress(
+                1f,
+                "Opening gameplay scene");
+        }
+
+        private IEnumerator LoadGameplaySceneAfterFullBar()
+        {
+            float deadline =
+                Time.realtimeSinceStartup +
+                Mathf.Max(0f, fullBarHoldSeconds);
+
+            while (Time.realtimeSinceStartup < deadline)
+            {
+                yield return null;
+            }
+
+            if (!IsServer ||
+                NetworkManager == null ||
+                !NetworkManager.IsListening ||
+                NetworkManager.SceneManager == null)
+            {
+                _sceneLoadRequested = false;
+
+                FailLoadingServer(
+                    "The server stopped before gameplay could open.");
+
+                yield break;
+            }
+
+            SceneEventProgressStatus result =
+                NetworkManager.SceneManager.LoadScene(
+                    gameplaySceneName,
+                    LoadSceneMode.Single);
+
+            if (result != SceneEventProgressStatus.Started)
+            {
+                _sceneLoadRequested = false;
+
+                FailLoadingServer(
+                    $"NGO rejected scene '{gameplaySceneName}' load: " +
+                    result + ".");
+            }
         }
 
         private void HandleClientDisconnected(
@@ -1371,6 +1435,40 @@ namespace EXW.Multiplayer
             LocalProgress =
                 Mathf.Clamp01(
                     progress);
+
+            LocalStatus =
+                status ??
+                string.Empty;
+
+            LocalProgressChanged?.Invoke(
+                LocalProgress,
+                LocalStatus);
+
+            // Before the manifest exists, only the server performs the Steam
+            // and validation work. Mirror that preparation progress so remote
+            // clients do not stare at an empty bar while the host is busy.
+            if (IsServer &&
+                IsSpawned &&
+                !_manifestReady.Value)
+            {
+                ShowPreparationProgressClientRpc(
+                    LocalProgress,
+                    LocalStatus);
+            }
+        }
+
+        [ClientRpc]
+        private void ShowPreparationProgressClientRpc(
+            float progress,
+            string status)
+        {
+            if (IsServer)
+            {
+                return;
+            }
+
+            LocalProgress =
+                Mathf.Clamp01(progress);
 
             LocalStatus =
                 status ??
