@@ -194408,7 +194408,7 @@ MonoBehaviour:
   m_ScrollWheelAction: {fileID: -5753627110077296739, guid: 3ac5a772ae3878c459d228ed078b93e0, type: 3}
   m_TrackedDevicePositionAction: {fileID: 4477209791800885804, guid: 3ac5a772ae3878c459d228ed078b93e0, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 6407383697345643047, guid: 3ac5a772ae3878c459d228ed078b93e0, type: 3}
-  m_DeselectOnBackgroundClick: 1
+  m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
