@@ -2584,6 +2584,7 @@ GameObject:
   - component: {fileID: 263444203}
   - component: {fileID: 263444206}
   - component: {fileID: 263444205}
+  - component: {fileID: 263444207}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -2650,6 +2651,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263444202}
   m_CullTransparentMesh: 1
+--- !u!114 &263444207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263444202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 4087204851473609420}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &271576703
 GameObject:
   m_ObjectHideFlags: 0
@@ -5580,6 +5600,7 @@ GameObject:
   - component: {fileID: 657845194}
   - component: {fileID: 657845196}
   - component: {fileID: 657845195}
+  - component: {fileID: 657845197}
   m_Layer: 5
   m_Name: LobbyRoomPanel
   m_TagString: Untagged
@@ -5652,6 +5673,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657845193}
   m_CullTransparentMesh: 1
+--- !u!114 &657845197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657845193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 0}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &716937515 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9100442870706956231, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
@@ -7122,6 +7162,7 @@ GameObject:
   - component: {fileID: 891597320}
   - component: {fileID: 891597322}
   - component: {fileID: 891597321}
+  - component: {fileID: 891597323}
   m_Layer: 5
   m_Name: BusyOverlay
   m_TagString: Untagged
@@ -7188,6 +7229,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891597319}
   m_CullTransparentMesh: 1
+--- !u!114 &891597323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891597319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 0}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &928428373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7734,6 +7794,7 @@ GameObject:
   - component: {fileID: 1010506985}
   - component: {fileID: 1010506987}
   - component: {fileID: 1010506986}
+  - component: {fileID: 1010506988}
   m_Layer: 5
   m_Name: CreateLobbyModal
   m_TagString: Untagged
@@ -7805,6 +7866,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010506984}
   m_CullTransparentMesh: 1
+--- !u!114 &1010506988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010506984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 0}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1035035171
 GameObject:
   m_ObjectHideFlags: 0
@@ -8108,6 +8188,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &1036262643 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
+  m_PrefabInstance: {fileID: 1036262639}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036262641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1052498427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8650,6 +8741,7 @@ GameObject:
   - component: {fileID: 1171050981}
   - component: {fileID: 1171050983}
   - component: {fileID: 1171050982}
+  - component: {fileID: 1171050984}
   m_Layer: 5
   m_Name: SettingPanel
   m_TagString: Untagged
@@ -8718,6 +8810,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171050980}
   m_CullTransparentMesh: 1
+--- !u!114 &1171050984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171050980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 885273810}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1171062102
 GameObject:
   m_ObjectHideFlags: 0
@@ -9860,6 +9971,7 @@ GameObject:
   - component: {fileID: 1299638595}
   - component: {fileID: 1299638597}
   - component: {fileID: 1299638596}
+  - component: {fileID: 1299638598}
   m_Layer: 5
   m_Name: FailureOverlay
   m_TagString: Untagged
@@ -9926,6 +10038,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299638594}
   m_CullTransparentMesh: 1
+--- !u!114 &1299638598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299638594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 0}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1309725362
 GameObject:
   m_ObjectHideFlags: 0
@@ -10163,6 +10294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1315014838}
+  - component: {fileID: 1315014839}
   m_Layer: 5
   m_Name: CreditsPanel
   m_TagString: Untagged
@@ -10192,6 +10324,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1315014839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315014837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 1036262643}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1321691000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11352,6 +11503,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1590569474}
   - component: {fileID: 1590569475}
+  - component: {fileID: 1590569477}
+  - component: {fileID: 1590569476}
   m_Layer: 5
   m_Name: ScreenController
   m_TagString: Untagged
@@ -11394,6 +11547,35 @@ MonoBehaviour:
   screens:
   - {fileID: 1309964187}
   activeScreen: {fileID: 1309964187}
+--- !u!114 &1590569476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590569473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34f2afc5ab236b4ea5024c786cb6603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIFocusCoordinator
+  eventSystem: {fileID: 1171062105}
+  uiInputModule: {fileID: 1171062106}
+  inputModeTracker: {fileID: 1590569477}
+  initialPanel: {fileID: 0}
+  settings: {fileID: 11400000, guid: dc39e92dc48c29744808c251617b7e74, type: 2}
+--- !u!114 &1590569477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590569473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c274efd0370dc46aa5c8cd74ce0954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIInputModeTracker
 --- !u!1 &1615581385
 GameObject:
   m_ObjectHideFlags: 0
@@ -14454,6 +14636,7 @@ GameObject:
   - component: {fileID: 2136346481}
   - component: {fileID: 2136346483}
   - component: {fileID: 2136346482}
+  - component: {fileID: 2136346484}
   m_Layer: 5
   m_Name: CoopPanel
   m_TagString: Untagged
@@ -14525,6 +14708,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2136346480}
   m_CullTransparentMesh: 1
+--- !u!114 &2136346484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136346480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569476}
+  defaultSelection: {fileID: 980535212}
+  backButton: {fileID: 0}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &234741397980085012
 GameObject:
   m_ObjectHideFlags: 0
