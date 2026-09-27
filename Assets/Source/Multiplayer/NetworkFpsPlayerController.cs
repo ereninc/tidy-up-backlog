@@ -7,24 +7,29 @@ using UnityEngine.InputSystem;
 namespace EXW.Multiplayer
 {
     /// <summary>
-    /// Minimal owner-only FPS controller for the networking vertical slice.
-    /// It intentionally uses Keyboard.current and Mouse.current so no Input Action
-    /// asset is required for this test. Production input can replace this later.
+    /// Owner-only FPS motor. All gameplay input comes from the local
+    /// NetworkPlayerInputReader, while CharacterController and NGO transform
+    /// synchronization keep their existing responsibilities.
     /// </summary>
     [RequireComponent(typeof(NetworkObject))]
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(OwnerNetworkTransform))]
+    [RequireComponent(typeof(NetworkPlayerInputReader))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Multiplayer/Network FPS Player Controller")]
     public sealed class NetworkFpsPlayerController : NetworkBehaviour
     {
         [InfoBox(
             "Only the owning client enables this CharacterController, camera and " +
-            "input. Press Escape to release the cursor; left-click the Game view to " +
-            "lock it again.")]
+            "input. Mouse and gamepad use separate look-speed settings because " +
+            "mouse delta and stick input have different units.")]
         [TitleGroup("References")]
         [Required]
         [SerializeField] private CharacterController characterController;
+
+        [TitleGroup("References")]
+        [Required]
+        [SerializeField] private NetworkPlayerInputReader inputReader;
 
         [TitleGroup("References")]
         [Required]
@@ -59,9 +64,19 @@ namespace EXW.Multiplayer
         [TitleGroup("Movement")]
         [SerializeField] private float gravity = -22f;
 
-        [TitleGroup("Look")]
+        [TitleGroup("Look/Mouse")]
         [MinValue(0.001f)]
         [SerializeField] private float mouseSensitivity = 0.08f;
+
+        [TitleGroup("Look/Gamepad")]
+        [MinValue(1f)]
+        [SuffixLabel("deg/s")]
+        [SerializeField] private float gamepadLookSpeed = 180f;
+
+        [TitleGroup("Look/Gamepad")]
+        [Range(0.1f, 2f)]
+        [Tooltip("Vertical stick speed relative to horizontal stick speed.")]
+        [SerializeField] private float gamepadVerticalMultiplier = 0.85f;
 
         [TitleGroup("Look")]
         [Range(30f, 89f)]
@@ -101,6 +116,11 @@ namespace EXW.Multiplayer
         private bool IsPlayMode => Application.isPlaying;
         public bool GameplayEnabled => _gameplayEnabled;
 
+        private void Awake()
+        {
+            AutoAssignReferences();
+        }
+
         private void Reset()
         {
             AutoAssignReferences();
@@ -108,16 +128,27 @@ namespace EXW.Multiplayer
 
         private void OnValidate()
         {
+            AutoAssignReferences();
+
             walkSpeed = Mathf.Max(0.1f, walkSpeed);
             sprintSpeed = Mathf.Max(walkSpeed, sprintSpeed);
             jumpHeight = Mathf.Max(0f, jumpHeight);
             gravity = Mathf.Min(-0.01f, gravity);
             mouseSensitivity = Mathf.Max(0.001f, mouseSensitivity);
+            gamepadLookSpeed = Mathf.Max(1f, gamepadLookSpeed);
+            gamepadVerticalMultiplier = Mathf.Clamp(
+                gamepadVerticalMultiplier,
+                0.1f,
+                2f);
             verticalLookLimit = Mathf.Clamp(verticalLookLimit, 30f, 89f);
         }
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+
+            AutoAssignReferences();
+            inputReader?.SetGameplayEnabled(_gameplayEnabled);
             ConfigureOwnership(IsOwner && _gameplayEnabled);
 
             if (!IsOwner)
@@ -146,6 +177,7 @@ namespace EXW.Multiplayer
             }
 
             ConfigureOwnership(false);
+            base.OnNetworkDespawn();
         }
 
         private void OnDisable()
@@ -160,7 +192,8 @@ namespace EXW.Multiplayer
         {
             if (!_gameplayEnabled || !IsSpawned || !IsOwner ||
                 characterController == null ||
-                !characterController.enabled)
+                !characterController.enabled ||
+                inputReader == null)
             {
                 return;
             }
@@ -187,15 +220,20 @@ namespace EXW.Multiplayer
         /// </summary>
         public void SetGameplayEnabled(bool enabled)
         {
-            if (_gameplayEnabled == enabled &&
-                (!IsSpawned || characterController == null ||
-                 characterController.enabled == (enabled && IsOwner)))
+            bool ownershipAlreadyConfigured =
+                !IsSpawned ||
+                characterController == null ||
+                characterController.enabled == (enabled && IsOwner);
+
+            if (_gameplayEnabled == enabled && ownershipAlreadyConfigured)
             {
+                inputReader?.SetGameplayEnabled(enabled);
                 return;
             }
 
             _gameplayEnabled = enabled;
             _verticalVelocity = 0f;
+            inputReader?.SetGameplayEnabled(enabled);
             ConfigureOwnership(IsSpawned && IsOwner && enabled);
 
             if (!IsOwner)
@@ -219,6 +257,11 @@ namespace EXW.Multiplayer
             if (characterController == null)
             {
                 characterController = GetComponent<CharacterController>();
+            }
+
+            if (inputReader == null)
+            {
+                inputReader = GetComponent<NetworkPlayerInputReader>();
             }
 
             if (playerCamera == null)
@@ -312,6 +355,19 @@ namespace EXW.Multiplayer
                 return;
             }
 
+            // A gamepad has no pointer click with which to reclaim gameplay.
+            // When a stick/button makes it the active device, immediately hide
+            // and lock the cursor while the gameplay input gate is open.
+            if (inputReader != null && inputReader.IsGamepad)
+            {
+                if (Cursor.lockState != CursorLockMode.Locked)
+                {
+                    LockCursor();
+                }
+
+                return;
+            }
+
             if (mouse != null &&
                 mouse.leftButton.wasPressedThisFrame &&
                 Cursor.lockState != CursorLockMode.Locked &&
@@ -329,18 +385,44 @@ namespace EXW.Multiplayer
 
         private void UpdateLook()
         {
-            Mouse mouse = Mouse.current;
+            bool mouseCursorIsReleased =
+                inputReader != null &&
+                !inputReader.IsGamepad &&
+                Cursor.lockState != CursorLockMode.Locked;
 
-            if (mouse == null ||
-                cameraPitchRoot == null ||
-                Cursor.lockState != CursorLockMode.Locked)
+            if (cameraPitchRoot == null ||
+                inputReader == null ||
+                !inputReader.CanReadGameplayInput ||
+                mouseCursorIsReleased)
             {
                 return;
             }
 
-            Vector2 mouseDelta = mouse.delta.ReadValue();
-            float yawDelta = mouseDelta.x * mouseSensitivity;
-            float pitchDelta = mouseDelta.y * mouseSensitivity;
+            Vector2 lookInput = inputReader.Look;
+
+            if (lookInput.sqrMagnitude <= 0.000001f)
+            {
+                return;
+            }
+
+            float yawDelta;
+            float pitchDelta;
+
+            if (inputReader.IsGamepad)
+            {
+                yawDelta =
+                    lookInput.x * gamepadLookSpeed * Time.unscaledDeltaTime;
+                pitchDelta =
+                    lookInput.y *
+                    gamepadLookSpeed *
+                    gamepadVerticalMultiplier *
+                    Time.unscaledDeltaTime;
+            }
+            else
+            {
+                yawDelta = lookInput.x * mouseSensitivity;
+                pitchDelta = lookInput.y * mouseSensitivity;
+            }
 
             transform.Rotate(0f, yawDelta, 0f, Space.Self);
 
@@ -355,36 +437,14 @@ namespace EXW.Multiplayer
 
         private void UpdateMovement()
         {
-            Keyboard keyboard = Keyboard.current;
-
-            if (keyboard == null)
+            if (inputReader == null || !inputReader.CanReadGameplayInput)
             {
                 return;
             }
 
-            Vector2 moveInput = Vector2.zero;
-
-            if (keyboard.aKey.isPressed)
-            {
-                moveInput.x -= 1f;
-            }
-
-            if (keyboard.dKey.isPressed)
-            {
-                moveInput.x += 1f;
-            }
-
-            if (keyboard.sKey.isPressed)
-            {
-                moveInput.y -= 1f;
-            }
-
-            if (keyboard.wKey.isPressed)
-            {
-                moveInput.y += 1f;
-            }
-
-            moveInput = Vector2.ClampMagnitude(moveInput, 1f);
+            Vector2 moveInput = Vector2.ClampMagnitude(
+                inputReader.Move,
+                1f);
 
             bool isGrounded = characterController.isGrounded;
 
@@ -395,14 +455,14 @@ namespace EXW.Multiplayer
 
             if (isGrounded &&
                 jumpHeight > 0f &&
-                keyboard.spaceKey.wasPressedThisFrame)
+                inputReader.JumpPressedThisFrame)
             {
                 _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
 
             _verticalVelocity += gravity * Time.deltaTime;
 
-            float speed = keyboard.leftShiftKey.isPressed
+            float speed = inputReader.SprintHeld
                 ? sprintSpeed
                 : walkSpeed;
 

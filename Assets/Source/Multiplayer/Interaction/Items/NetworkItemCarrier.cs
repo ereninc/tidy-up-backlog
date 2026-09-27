@@ -12,6 +12,7 @@ namespace EXW.Multiplayer
     /// to the player NetworkObject; the stack only supplies ordering and poses.
     /// </summary>
     [RequireComponent(typeof(NetworkObject))]
+    [RequireComponent(typeof(NetworkPlayerInputReader))]
     [DisallowMultipleComponent]
     [AddComponentMenu("Multiplayer/Items/Network Item Carrier")]
     public sealed class NetworkItemCarrier : NetworkBehaviour
@@ -24,6 +25,10 @@ namespace EXW.Multiplayer
                 1,
                 NetworkVariableReadPermission.Everyone,
                 NetworkVariableWritePermission.Server);
+
+        [TitleGroup("Input")]
+        [Required]
+        [SerializeField] private NetworkPlayerInputReader inputReader;
 
         [InfoBox(
             "Every held item stays parented to the player NetworkObject root. " +
@@ -108,6 +113,7 @@ namespace EXW.Multiplayer
         public event Action<int, int> CarryLimitChanged;
 
         private NetworkWorldItem _cachedTopItem;
+        private bool _inputBound;
 
         private bool CanDropFromInspector =>
             Application.isPlaying && IsSpawned && IsOwner &&
@@ -161,6 +167,7 @@ namespace EXW.Multiplayer
             if (IsOwner)
             {
                 Local = this;
+                BindOwnerInput();
             }
 
             RefreshTopItemCache();
@@ -174,6 +181,8 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkDespawn()
         {
+            UnbindOwnerInput();
+
             if (IsServer && NetworkManager != null &&
                 NetworkManager.IsListening && HasHeldItem)
             {
@@ -206,6 +215,13 @@ namespace EXW.Multiplayer
 
         public override void OnLostOwnership()
         {
+            UnbindOwnerInput();
+
+            if (Local == this)
+            {
+                Local = null;
+            }
+
             if (IsServer && NetworkManager != null &&
                 NetworkManager.IsListening && HasHeldItem)
             {
@@ -215,7 +231,48 @@ namespace EXW.Multiplayer
             base.OnLostOwnership();
         }
 
-        private void Update()
+        public override void OnGainedOwnership()
+        {
+            base.OnGainedOwnership();
+
+            if (!IsSpawned)
+            {
+                return;
+            }
+
+            Local = this;
+            BindOwnerInput();
+        }
+
+        private void BindOwnerInput()
+        {
+            AutoAssignReferences();
+
+            if (_inputBound || !IsOwner || inputReader == null)
+            {
+                return;
+            }
+
+            inputReader.DropPressed += HandleDropPressed;
+            _inputBound = true;
+        }
+
+        private void UnbindOwnerInput()
+        {
+            if (!_inputBound)
+            {
+                return;
+            }
+
+            if (inputReader != null)
+            {
+                inputReader.DropPressed -= HandleDropPressed;
+            }
+
+            _inputBound = false;
+        }
+
+        private void HandleDropPressed()
         {
             if (!IsSpawned || !IsOwner ||
                 GameplayInputGate.IsBlocked || !HasHeldItem)
@@ -229,17 +286,7 @@ namespace EXW.Multiplayer
                 return;
             }
 
-            Keyboard keyboard = Keyboard.current;
-            if (keyboard == null)
-            {
-                return;
-            }
-
-            var keyControl = keyboard[dropKey];
-            if (keyControl != null && keyControl.wasPressedThisFrame)
-            {
-                RequestDropServerRpc();
-            }
+            RequestDropServerRpc();
         }
 
         #region Carry Limit
@@ -471,6 +518,11 @@ namespace EXW.Multiplayer
         [Button("AUTO ASSIGN CARRY ANCHOR")]
         public void AutoAssignReferences()
         {
+            if (inputReader == null)
+            {
+                inputReader = GetComponent<NetworkPlayerInputReader>();
+            }
+
             if (itemCarryAnchor == null)
             {
                 Transform[] children =

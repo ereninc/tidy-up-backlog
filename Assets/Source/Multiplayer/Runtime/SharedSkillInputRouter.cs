@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace EXW.Multiplayer
 {
@@ -11,10 +11,15 @@ namespace EXW.Multiplayer
     [AddComponentMenu("Multiplayer/Progression/Shared Skill Input Router")]
     public sealed class SharedSkillInputRouter : MonoBehaviour
     {
-        [SerializeField] private bool enableNumberKeys = true;
-        [SerializeField] private bool requireLockedCursorForKeys;
+        [FormerlySerializedAs("enableNumberKeys")]
+        [SerializeField] private bool enableInputActions = true;
+
+        [FormerlySerializedAs("requireLockedCursorForKeys")]
+        [SerializeField] private bool requireLockedCursorForInput;
 
         public static SharedSkillInputRouter Instance { get; private set; }
+
+        private NetworkPlayerInputReader _inputReader;
 
         private void Awake()
         {
@@ -30,6 +35,22 @@ namespace EXW.Multiplayer
             Instance = this;
         }
 
+        private void OnEnable()
+        {
+            NetworkPlayerInputReader.LocalReaderChanged +=
+                HandleLocalReaderChanged;
+
+            BindInputReader(NetworkPlayerInputReader.Local);
+        }
+
+        private void OnDisable()
+        {
+            NetworkPlayerInputReader.LocalReaderChanged -=
+                HandleLocalReaderChanged;
+
+            BindInputReader(null);
+        }
+
         private void OnDestroy()
         {
             if (Instance == this)
@@ -38,42 +59,55 @@ namespace EXW.Multiplayer
             }
         }
 
-        private void Update()
+        private void HandleLocalReaderChanged(
+            NetworkPlayerInputReader reader)
         {
-            if (!enableNumberKeys ||
+            BindInputReader(reader);
+        }
+
+        private void BindInputReader(NetworkPlayerInputReader reader)
+        {
+            if (_inputReader == reader)
+            {
+                return;
+            }
+
+            if (_inputReader != null)
+            {
+                _inputReader.SkillPressed -= HandleSkillPressed;
+            }
+
+            _inputReader = reader;
+
+            if (_inputReader != null)
+            {
+                _inputReader.SkillPressed += HandleSkillPressed;
+            }
+        }
+
+        private void HandleSkillPressed(int oneBasedSkillIndex)
+        {
+            if (!enableInputActions ||
                 GameplayInputGate.IsBlocked ||
                 NetworkItemCarrier.Local == null)
             {
                 return;
             }
 
-            if (requireLockedCursorForKeys &&
+            if (requireLockedCursorForInput &&
                 Cursor.lockState != CursorLockMode.Locked)
             {
                 return;
             }
 
-            Keyboard keyboard = Keyboard.current;
-            if (keyboard == null)
+            int slotIndex = oneBasedSkillIndex - 1;
+
+            if (slotIndex < 0)
             {
                 return;
             }
 
-            if (keyboard.digit1Key.wasPressedThisFrame ||
-                keyboard.numpad1Key.wasPressedThisFrame)
-            {
-                UseSkillSlot(0);
-            }
-            else if (keyboard.digit2Key.wasPressedThisFrame ||
-                     keyboard.numpad2Key.wasPressedThisFrame)
-            {
-                UseSkillSlot(1);
-            }
-            else if (keyboard.digit3Key.wasPressedThisFrame ||
-                     keyboard.numpad3Key.wasPressedThisFrame)
-            {
-                UseSkillSlot(2);
-            }
+            UseSkillSlot(slotIndex);
         }
 
         public void UseSkillSlot(int slotIndex)

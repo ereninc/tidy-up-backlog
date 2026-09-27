@@ -10585,7 +10585,7 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 1052498429}
+      objectReference: {fileID: 4087204851473609420}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
@@ -12457,7 +12457,7 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 4087204851473609420}
+      objectReference: {fileID: 1387686340}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
@@ -14718,7 +14718,7 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 1744374125}
+      objectReference: {fileID: 1387686340}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2

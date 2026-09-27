@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace EXW.Multiplayer
@@ -29,7 +29,8 @@ namespace EXW.Multiplayer
         [SerializeField] private TMP_Text statusText;
 
         [Header("Behaviour")]
-        [SerializeField] private bool toggleWithEscape = true;
+        [FormerlySerializedAs("toggleWithEscape")]
+        [SerializeField] private bool toggleWithPauseAction = true;
         [Tooltip("Time.timeScale is never changed in co-op. This option affects only singleplayer.")]
         [SerializeField] private bool pauseTimeInSinglePlayer = true;
         [SerializeField] private bool lockCursorWhenResuming = true;
@@ -39,6 +40,8 @@ namespace EXW.Multiplayer
         private bool _isReturning;
         private bool _ownsTimeScale;
         private float _timeScaleBeforePause = 1f;
+        private NetworkPlayerInputReader _inputReader;
+        private bool _inputEventsBound;
 
         public bool IsOpen => _isOpen;
         public bool IsReturningToMainMenu => _isReturning;
@@ -59,37 +62,13 @@ namespace EXW.Multiplayer
         {
             ResolveCoordinator();
             BindListeners();
+            BindInputEvents();
             RefreshButtons();
-        }
-
-        private void Update()
-        {
-            ResolveCoordinator();
-
-            if (!toggleWithEscape || _isReturning)
-            {
-                return;
-            }
-
-            Keyboard keyboard = Keyboard.current;
-
-            if (keyboard == null || !keyboard.escapeKey.wasPressedThisFrame)
-            {
-                return;
-            }
-
-            if (_isOpen)
-            {
-                ClosePauseMenu();
-            }
-            else
-            {
-                OpenPauseMenu();
-            }
         }
 
         private void OnDisable()
         {
+            UnbindInputEvents();
             UnbindListeners();
             RestoreTimeScale();
             GameplayInputGate.Clear(this);
@@ -97,6 +76,7 @@ namespace EXW.Multiplayer
 
         private void OnDestroy()
         {
+            UnbindInputEvents();
             UnbindListeners();
             RestoreTimeScale();
             GameplayInputGate.Clear(this);
@@ -294,6 +274,69 @@ namespace EXW.Multiplayer
             {
                 sessionCoordinator = MultiplayerSessionCoordinator.Instance;
             }
+        }
+
+        private void BindInputEvents()
+        {
+            if (_inputEventsBound)
+            {
+                return;
+            }
+
+            NetworkPlayerInputReader.LocalReaderChanged +=
+                HandleLocalReaderChanged;
+
+            _inputEventsBound = true;
+            BindInputReader(NetworkPlayerInputReader.Local);
+        }
+
+        private void UnbindInputEvents()
+        {
+            if (_inputEventsBound)
+            {
+                NetworkPlayerInputReader.LocalReaderChanged -=
+                    HandleLocalReaderChanged;
+
+                _inputEventsBound = false;
+            }
+
+            BindInputReader(null);
+        }
+
+        private void HandleLocalReaderChanged(
+            NetworkPlayerInputReader reader)
+        {
+            BindInputReader(reader);
+        }
+
+        private void BindInputReader(NetworkPlayerInputReader reader)
+        {
+            if (_inputReader == reader)
+            {
+                return;
+            }
+
+            if (_inputReader != null)
+            {
+                _inputReader.PausePressed -= HandlePausePressed;
+            }
+
+            _inputReader = reader;
+
+            if (_inputReader != null)
+            {
+                _inputReader.PausePressed += HandlePausePressed;
+            }
+        }
+
+        private void HandlePausePressed()
+        {
+            if (!toggleWithPauseAction || _isReturning)
+            {
+                return;
+            }
+
+            TogglePauseMenu();
         }
 
         private bool CanOpenPauseMenu()
