@@ -10,6 +10,7 @@ public class SceneTool : MonoBehaviour
     private const string StartingScene = "01_LoadingScene";
     private const string MainScene = "02_MainMenuScene";
     private const string GameScene = "03_GameplayScene";
+    private const string SessionLoadingScene = "GameSessionLoadingScreen";
 
     [MenuItem("EW-ToolBar/Scene/Scene List/01_LoadingScene %1")]
     static void ToLoadingScene()
@@ -30,6 +31,13 @@ public class SceneTool : MonoBehaviour
     {
         if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             EditorSceneManager.OpenScene(Prefix + GameScene + ".unity", OpenSceneMode.Single);
+    }
+    
+    [MenuItem("EW-ToolBar/Scene/Scene List/GameSessionLoadingScreen %4")]
+    static void ToSessionLoadingScene()
+    {
+        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            EditorSceneManager.OpenScene(Prefix + SessionLoadingScene + ".unity", OpenSceneMode.Single);
     }
 }
 #endif
