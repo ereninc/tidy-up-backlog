@@ -20,4 +20,14 @@ public class InitializeHandler : ObjectModel
 			item.Initialize();
 		}
 	}
+	
+	private void Update()
+	{
+		#if UNITY_EDITOR
+		if (Input.GetKey(KeyCode.LeftControl))
+		{
+			if (Input.GetKeyDown(KeyCode.Space)) UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized;
+		}
+		#endif
+	}
 }
