@@ -1612,11 +1612,19 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2084314780}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
       objectReference: {fileID: 980535212}
+    - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
+      propertyPath: m_Navigation.m_SelectOnLeft
+      value: 
+      objectReference: {fileID: 2084314780}
+    - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -2230,7 +2238,7 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 2084314780}
+      objectReference: {fileID: 4719973649609045868}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
@@ -2238,10 +2246,10 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2349,7 +2357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
@@ -4694,18 +4702,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 1275963255}
+    m_SelectOnDown: {fileID: 1564973477}
+    m_SelectOnLeft: {fileID: 1564973477}
+    m_SelectOnRight: {fileID: 1564973477}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3372549, g: 0.15686275, b: 0.5529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4817,19 +4825,19 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 2119718741}
+      objectReference: {fileID: 1888985978}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 584676024}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 224552279}
+      objectReference: {fileID: 1275963255}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1275963255}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -7486,11 +7494,11 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 224552279}
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -7816,9 +7824,9 @@ RectTransform:
   m_Children:
   - {fileID: 15357688}
   - {fileID: 2119718740}
+  - {fileID: 1888985977}
   - {fileID: 1275963252}
   - {fileID: 607692050}
-  - {fileID: 1888985977}
   - {fileID: 584676023}
   - {fileID: 1564973475}
   m_Father: {fileID: 1309964186}
@@ -7879,8 +7887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
   coordinator: {fileID: 1590569476}
-  defaultSelection: {fileID: 0}
-  backButton: {fileID: 0}
+  defaultSelection: {fileID: 2119718741}
+  backButton: {fileID: 1564973477}
   profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
   onBackRequested:
     m_PersistentCalls:
@@ -9664,19 +9672,19 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 2119718741}
+      objectReference: {fileID: 1888985978}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 584676024}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 224552279}
+      objectReference: {fileID: 607692053}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 607692053}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -10644,8 +10652,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "default's Lobby\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 413d917a18b47ad4d999073f7adae51f, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 413d917a18b47ad4d999073f7adae51f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11270,11 +11278,11 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 584676024}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2119718741}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -13044,7 +13052,7 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 224552279}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
@@ -13052,10 +13060,10 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 980535212}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -13693,18 +13701,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 2119718741}
+    m_SelectOnDown: {fileID: 1275963255}
+    m_SelectOnLeft: {fileID: 1564973477}
+    m_SelectOnRight: {fileID: 1564973477}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3372549, g: 0.15686275, b: 0.5529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -14093,22 +14101,22 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 260242065}
+      objectReference: {fileID: 4719973649609045868}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 224552279}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
-      objectReference: {fileID: 224552279}
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1790214180}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -14212,11 +14220,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
@@ -14499,18 +14507,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_InputField
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 1564973477}
+    m_SelectOnDown: {fileID: 1888985978}
+    m_SelectOnLeft: {fileID: 1564973477}
+    m_SelectOnRight: {fileID: 1564973477}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3372549, g: 0.15686275, b: 0.5529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -14768,8 +14776,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "#CODE\u200B\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 413d917a18b47ad4d999073f7adae51f, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 413d917a18b47ad4d999073f7adae51f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15132,18 +15140,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_InputField
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 260242065}
+    m_SelectOnDown: {fileID: 2084314780}
+    m_SelectOnLeft: {fileID: 1790214180}
+    m_SelectOnRight: {fileID: 1790214180}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3372549, g: 0.15686275, b: 0.5529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

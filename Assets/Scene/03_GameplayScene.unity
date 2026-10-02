@@ -214785,11 +214785,11 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1539393457}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1539393457}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -255359,11 +255359,11 @@ PrefabInstance:
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1299062137}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1299062137}
     - target: {fileID: 4696357917514324398, guid: 303613d1f6dc8174591d0f3813be14a0, type: 3}
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
@@ -268768,6 +268768,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1590569474}
   - component: {fileID: 1590569475}
+  - component: {fileID: 1590569476}
+  - component: {fileID: 1590569477}
   m_Layer: 5
   m_Name: ScreenController
   m_TagString: Untagged
@@ -268811,6 +268813,35 @@ MonoBehaviour:
   screens:
   - {fileID: 1179217045}
   activeScreen: {fileID: 1179217045}
+--- !u!114 &1590569476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590569473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c274efd0370dc46aa5c8cd74ce0954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIInputModeTracker
+--- !u!114 &1590569477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590569473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34f2afc5ab236b4ea5024c786cb6603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIFocusCoordinator
+  eventSystem: {fileID: 1171062105}
+  uiInputModule: {fileID: 1171062106}
+  inputModeTracker: {fileID: 1590569476}
+  initialPanel: {fileID: 0}
+  settings: {fileID: 11400000, guid: dc39e92dc48c29744808c251617b7e74, type: 2}
 --- !u!1001 &1590862143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283195,6 +283226,7 @@ GameObject:
   - component: {fileID: 1676982501}
   - component: {fileID: 1676982503}
   - component: {fileID: 1676982502}
+  - component: {fileID: 1676982504}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -283263,6 +283295,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1676982500}
   m_CullTransparentMesh: 1
+--- !u!114 &1676982504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676982500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf740ee4168b9b4d87414d8e5d687a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EXW.UI.Navigation.UIPanelFocus
+  coordinator: {fileID: 1590569477}
+  defaultSelection: {fileID: 1539393457}
+  backButton: {fileID: 1299062137}
+  profile: {fileID: 11400000, guid: 4c90f3f861e1f164ba81c926ea2bb1f0, type: 2}
+  onBackRequested:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1678251503
 PrefabInstance:
   m_ObjectHideFlags: 0
