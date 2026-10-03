@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace EXW.Multiplayer
@@ -31,6 +32,10 @@ namespace EXW.Multiplayer
         [SerializeField]
         private uint directSceneTestSeed = 12345;
 
+        [Header("Late Join")]
+        [SerializeField, Min(3f)]
+        private float replicatedManifestTimeout = 20f;
+
         public int BoundCaseCount { get; private set; }
 
         public float Progress { get; private set; }
@@ -43,7 +48,7 @@ namespace EXW.Multiplayer
         public event Action
             Ready;
 
-        private bool _directGameScene;
+        private bool _coverPreparationRequired;
 
         private bool _startupFailed;
 
@@ -58,10 +63,17 @@ namespace EXW.Multiplayer
             IsReady =
                 false;
 
-            _directGameScene =
-                !GameCaseSessionPlan.IsReady;
+            if (ShouldWaitForReplicatedManifest())
+            {
+                yield return WaitForReplicatedManifest();
 
-            if (_directGameScene)
+                if (_startupFailed ||
+                    !GameCaseSessionPlan.IsReady)
+                {
+                    yield break;
+                }
+            }
+            else if (!GameCaseSessionPlan.IsReady)
             {
                 if (!TryCreateDirectScenePlan())
                 {
@@ -195,6 +207,57 @@ namespace EXW.Multiplayer
                 this);
         }
 
+        private static bool ShouldWaitForReplicatedManifest()
+        {
+            NetworkManager manager = NetworkManager.Singleton;
+
+            return manager != null &&
+                   manager.IsListening &&
+                   manager.IsClient &&
+                   !manager.IsServer;
+        }
+
+        private IEnumerator WaitForReplicatedManifest()
+        {
+            float deadline =
+                Time.realtimeSinceStartup +
+                Mathf.Max(3f, replicatedManifestTimeout);
+
+            Debug.Log(
+                "[GameCaseSceneSet] Late join detected; waiting for the " +
+                "replicated game manifest.",
+                this);
+
+            while (Time.realtimeSinceStartup < deadline)
+            {
+                NetworkGameCaseSessionManifest manifest =
+                    NetworkGameCaseSessionManifest.Instance;
+
+                if (manifest != null &&
+                    manifest.IsLocalPlanApplied)
+                {
+                    yield break;
+                }
+
+                yield return null;
+            }
+
+            if (GameCaseSessionPlan.IsReady &&
+                NetworkGameCaseSessionManifest.Instance != null &&
+                NetworkGameCaseSessionManifest.Instance.IsLocalPlanApplied)
+            {
+                yield break;
+            }
+
+            _startupFailed = true;
+
+            Debug.LogError(
+                "[GameCaseSceneSet] Late-join manifest did not arrive. " +
+                "Add NetworkGameCaseSessionManifest + NetworkObject to a " +
+                "separate root object in GameplayScene.",
+                this);
+        }
+
         private bool TryCreateDirectScenePlan()
         {
             if (directSceneTestAppIds == null ||
@@ -234,18 +297,12 @@ namespace EXW.Multiplayer
                 yield break;
             }
 
-            if (!_directGameScene)
-            {
-                Debug.LogError(
-                    "[GameCaseSceneSet] Cover Texture2DArray was not " +
-                    "ready when GameScene opened.",
-                    this);
-
-                _startupFailed =
-                    true;
-
-                yield break;
-            }
+            /*
+             * Normal entrants already built this array in LoadingScene.
+             * A late joiner skipped that scene, so it repairs the local-only
+             * cache here before binding the authored cases.
+             */
+            _coverPreparationRequired = true;
 
             cache.SetRequestsEnabled(
                 true);
@@ -342,7 +399,7 @@ namespace EXW.Multiplayer
                 cases.Length;
 
             Progress =
-                _directGameScene
+                _coverPreparationRequired
                     ? Mathf.Lerp(
                         0.25f,
                         1f,
