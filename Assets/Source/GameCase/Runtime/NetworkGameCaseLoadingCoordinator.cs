@@ -510,7 +510,7 @@ namespace EXW.Multiplayer
                     gameNameByAppId,
                     SteamBootstrap.LocalSteamId,
                     steamOnline,
-                    false);
+                    GameSessionLaunchOptions.SinglePlayerHideNsfwGames);
         }
 
         private IEnumerator BuildAndPublishManifestServer(

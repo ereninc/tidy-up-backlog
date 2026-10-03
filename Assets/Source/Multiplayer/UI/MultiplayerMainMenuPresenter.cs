@@ -12,7 +12,8 @@ namespace EXW.Multiplayer.UI
     {
         Main,
         CoopBrowser,
-        LobbyRoom
+        LobbyRoom,
+        SinglePlayerSettings
     }
 
     /// <summary>
@@ -28,6 +29,7 @@ namespace EXW.Multiplayer.UI
         [Header("Screen Roots")]
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject coopPanel;
+        [SerializeField] private GameObject singlePlayerSettingsModal;
         [SerializeField] private GameObject createLobbyModal;
         [SerializeField] private GameObject lobbyRoomPanel;
         [SerializeField] private GameObject busyOverlay;
@@ -37,6 +39,12 @@ namespace EXW.Multiplayer.UI
         [SerializeField] private Button playCoopButton;
         [SerializeField] private Button playSinglePlayerButton;
         [SerializeField] private TMP_Text playerNameText;
+
+        [Header("Singleplayer Settings")]
+        [Tooltip("When enabled, adult-only Steam games are excluded from this singleplayer session.")]
+        [SerializeField] private Toggle singlePlayerHideNsfwGamesToggle;
+        [SerializeField] private Button singlePlayerStartButton;
+        // [SerializeField] private Button singlePlayerBackButton;
 
         [Header("Previous Session (Optional)")]
         [Tooltip(
@@ -200,10 +208,48 @@ namespace EXW.Multiplayer.UI
 
         public void PlaySinglePlayer()
         {
+            OpenSinglePlayerPanel();
+        }
+
+        public void OpenSinglePlayerPanel()
+        {
             if (!EnsureRuntimeReady())
             {
                 return;
             }
+
+            if (!_sessionCoordinator.CanStartSinglePlayer)
+            {
+                ShowFailure("Singleplayer cannot start while another session operation is active.");
+                return;
+            }
+
+            if (singlePlayerSettingsModal == null)
+            {
+                ShowFailure("Assign the Singleplayer Settings Modal in the Main Menu Presenter.");
+                return;
+            }
+
+            Hide(createLobbyModal);
+            Hide(failureOverlay);
+            ShowBaseScreen(MainMenuMultiplayerScreen.SinglePlayerSettings);
+            RefreshControlAvailability();
+        }
+
+        public void StartSinglePlayerFromSettings()
+        {
+            if (!EnsureRuntimeReady() ||
+                _currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings ||
+                !_sessionCoordinator.CanStartSinglePlayer)
+            {
+                return;
+            }
+
+            // Capture the setting before NGO starts or the loading scene opens.
+            // The loading coordinator reads this local session option.
+            GameSessionLaunchOptions.ConfigureSinglePlayer(
+                singlePlayerHideNsfwGamesToggle == null ||
+                singlePlayerHideNsfwGamesToggle.isOn);
 
             SetBusy(true, "Starting singleplayer...");
 
@@ -211,10 +257,17 @@ namespace EXW.Multiplayer.UI
             {
                 SetBusy(false, string.Empty);
             }
+
+            RefreshControlAvailability();
         }
 
         public void ReturnToMainPanel()
         {
+            if (_sessionCoordinator != null && _sessionCoordinator.IsLoading)
+            {
+                return;
+            }
+
             if (_flowController != null &&
                 (_flowController.IsBusy || _flowController.IsConnected))
             {
@@ -384,7 +437,8 @@ namespace EXW.Multiplayer.UI
                 return;
             }
 
-            _returnToBrowserAfterDisconnect = true;
+            _returnToBrowserAfterDisconnect =
+                _currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings;
             _flowController.Disconnect();
         }
 
@@ -418,6 +472,7 @@ namespace EXW.Multiplayer.UI
 
             Require(mainPanel, nameof(mainPanel), missing);
             Require(coopPanel, nameof(coopPanel), missing);
+            Require(singlePlayerSettingsModal, nameof(singlePlayerSettingsModal), missing);
             Require(createLobbyModal, nameof(createLobbyModal), missing);
             Require(lobbyRoomPanel, nameof(lobbyRoomPanel), missing);
             Require(busyOverlay, nameof(busyOverlay), missing);
@@ -425,6 +480,9 @@ namespace EXW.Multiplayer.UI
 
             Require(playCoopButton, nameof(playCoopButton), missing);
             Require(playSinglePlayerButton, nameof(playSinglePlayerButton), missing);
+            Require(singlePlayerHideNsfwGamesToggle, nameof(singlePlayerHideNsfwGamesToggle), missing);
+            Require(singlePlayerStartButton, nameof(singlePlayerStartButton), missing);
+            // Require(singlePlayerBackButton, nameof(singlePlayerBackButton), missing);
             Require(openCreateLobbyButton, nameof(openCreateLobbyButton), missing);
             Require(quickJoinButton, nameof(quickJoinButton), missing);
             Require(refreshButton, nameof(refreshButton), missing);
@@ -489,6 +547,11 @@ namespace EXW.Multiplayer.UI
         {
             mainPanel = FindObject(mainPanel, transform, "MainPanel");
             coopPanel = FindObject(coopPanel, transform, "CoopPanel");
+            singlePlayerSettingsModal = FindObject(
+                singlePlayerSettingsModal,
+                transform,
+                "SingleplayerSettingsModal",
+                "SinglePlayerSettingsPanel");
             createLobbyModal = FindObject(
                 createLobbyModal,
                 transform,
@@ -512,6 +575,22 @@ namespace EXW.Multiplayer.UI
                 RootOf(mainPanel),
                 "PlayerNameText",
                 "Txt_PlayerName");
+
+            singlePlayerHideNsfwGamesToggle = FindComponent(
+                singlePlayerHideNsfwGamesToggle,
+                RootOf(singlePlayerSettingsModal),
+                "Toggle_HideNSFWGames",
+                "HideNsfwGamesToggle");
+            singlePlayerStartButton = FindComponent(
+                singlePlayerStartButton,
+                RootOf(singlePlayerSettingsModal),
+                "Btn_Start",
+                "Btn_StartSinglePlayer");
+            // singlePlayerBackButton = FindComponent(
+            //     singlePlayerBackButton,
+            //     RootOf(singlePlayerSettingsModal),
+            //     "Btn_Back",
+            //     "Btn_Close");
 
             rejoinSessionPanel = FindObject(
                 rejoinSessionPanel,
@@ -854,7 +933,10 @@ namespace EXW.Multiplayer.UI
         private void HandleFlowFailed(string message)
         {
             SetBusy(false, string.Empty);
-            ShowBaseScreen(MainMenuMultiplayerScreen.CoopBrowser);
+            if (_currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings)
+            {
+                ShowBaseScreen(MainMenuMultiplayerScreen.CoopBrowser);
+            }
             ShowFailure(message);
         }
 
@@ -883,7 +965,8 @@ namespace EXW.Multiplayer.UI
 
         private void HandleSessionEnded(MultiplayerSessionRole role)
         {
-            _returnToBrowserAfterDisconnect = true;
+            _returnToBrowserAfterDisconnect =
+                _currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings;
         }
 
         private void HandleSessionStateChanged(GameSessionState state)
@@ -961,7 +1044,10 @@ namespace EXW.Multiplayer.UI
 
                 case MultiplayerFlowState.Failed:
                     SetBusy(false, string.Empty);
-                    ShowBaseScreen(MainMenuMultiplayerScreen.CoopBrowser);
+                    if (_currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings)
+                    {
+                        ShowBaseScreen(MainMenuMultiplayerScreen.CoopBrowser);
+                    }
                     ShowFailure(
                         string.IsNullOrWhiteSpace(_flowController.LastError)
                             ? "Multiplayer operation failed."
@@ -971,9 +1057,10 @@ namespace EXW.Multiplayer.UI
                 case MultiplayerFlowState.Idle:
                     SetBusy(false, string.Empty);
 
-                    if (_returnToBrowserAfterDisconnect ||
-                        _lastFlowState == MultiplayerFlowState.Disconnecting ||
-                        _currentScreen == MainMenuMultiplayerScreen.LobbyRoom)
+                    if (_currentScreen != MainMenuMultiplayerScreen.SinglePlayerSettings &&
+                        (_returnToBrowserAfterDisconnect ||
+                         _lastFlowState == MultiplayerFlowState.Disconnecting ||
+                         _currentScreen == MainMenuMultiplayerScreen.LobbyRoom))
                     {
                         _returnToBrowserAfterDisconnect = false;
                         ShowBaseScreen(MainMenuMultiplayerScreen.CoopBrowser);
@@ -1378,10 +1465,21 @@ namespace EXW.Multiplayer.UI
                               _lobbyService != null &&
                               _lobbyService.IsReady;
 
+            bool canStartSinglePlayer = _sessionCoordinator != null &&
+                                        _sessionCoordinator.CanStartSinglePlayer;
             SetInteractable(
                 playSinglePlayerButton,
-                _sessionCoordinator != null &&
-                _sessionCoordinator.CanStartSinglePlayer);
+                canStartSinglePlayer);
+            SetInteractable(
+                singlePlayerStartButton,
+                canStartSinglePlayer &&
+                _currentScreen == MainMenuMultiplayerScreen.SinglePlayerSettings);
+            SetInteractable(singlePlayerHideNsfwGamesToggle, canStartSinglePlayer);
+            // SetInteractable(
+            //     singlePlayerBackButton,
+            //     (_flowController == null ||
+            //      (!_flowController.IsBusy && !_flowController.IsConnected)) &&
+            //     (_sessionCoordinator == null || !_sessionCoordinator.IsLoading));
             SetInteractable(
                 rejoinSessionButton,
                 idle && steamReady && _lastSessionRecord != null);
@@ -1432,6 +1530,8 @@ namespace EXW.Multiplayer.UI
             _currentScreen = screen;
             SetActive(mainPanel, screen == MainMenuMultiplayerScreen.Main);
             SetActive(coopPanel, screen == MainMenuMultiplayerScreen.CoopBrowser);
+            SetActive(singlePlayerSettingsModal,
+                screen == MainMenuMultiplayerScreen.SinglePlayerSettings);
             SetActive(lobbyRoomPanel, screen == MainMenuMultiplayerScreen.LobbyRoom);
             RefreshLastSessionView();
         }
@@ -1470,6 +1570,8 @@ namespace EXW.Multiplayer.UI
 
             AddListener(playCoopButton, OpenCoopPanel);
             AddListener(playSinglePlayerButton, PlaySinglePlayer);
+            AddListener(singlePlayerStartButton, StartSinglePlayerFromSettings);
+            // AddListener(singlePlayerBackButton, ReturnToMainPanel);
             AddListener(rejoinSessionButton, RejoinLastSession);
             AddListener(forgetSessionButton, ForgetLastSession);
             AddListener(coopBackButton, ReturnToMainPanel);
@@ -1498,6 +1600,8 @@ namespace EXW.Multiplayer.UI
 
             RemoveListener(playCoopButton, OpenCoopPanel);
             RemoveListener(playSinglePlayerButton, PlaySinglePlayer);
+            RemoveListener(singlePlayerStartButton, StartSinglePlayerFromSettings);
+            // RemoveListener(singlePlayerBackButton, ReturnToMainPanel);
             RemoveListener(rejoinSessionButton, RejoinLastSession);
             RemoveListener(forgetSessionButton, ForgetLastSession);
             RemoveListener(coopBackButton, ReturnToMainPanel);
