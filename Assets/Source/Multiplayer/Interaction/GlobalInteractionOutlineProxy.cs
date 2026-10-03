@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-[DefaultExecutionOrder(-1000)]
+[DefaultExecutionOrder(1100)]
 [DisallowMultipleComponent]
 public sealed class GlobalInteractionOutlineProxy : MonoBehaviour
 {
