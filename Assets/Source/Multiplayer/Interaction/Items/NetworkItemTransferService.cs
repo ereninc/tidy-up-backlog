@@ -57,6 +57,8 @@ namespace EXW.Multiplayer
 
             NetworkCarryable targetCarryable =
                 targetItem.GetComponent<NetworkCarryable>();
+            NetworkCarryable previousCarryable =
+                previousItem.GetComponent<NetworkCarryable>();
 
             if (targetCarryable == null ||
                 !targetCarryable.CanPickUpServer(
@@ -68,8 +70,30 @@ namespace EXW.Multiplayer
 
             string previousName = previousItem.DisplayName;
             string targetName = targetItem.DisplayName;
+            Vector3 replacementPosition = Vector3.zero;
+            Quaternion replacementRotation = Quaternion.identity;
+            bool hasReplacementPose =
+                targetItem.Location.IsWorld &&
+                carrier.TryGetSwapReplacementPoseServer(
+                    previousItem,
+                    targetItem,
+                    previousCarryable,
+                    out replacementPosition,
+                    out replacementRotation);
 
-            if (!TryDrop(carrier, out string dropMessage))
+            string dropMessage;
+            bool droppedPrevious = hasReplacementPose
+                ? CommitDrop(
+                    carrier,
+                    previousItem,
+                    replacementPosition,
+                    replacementRotation,
+                    false,
+                    false,
+                    out dropMessage)
+                : TryDrop(carrier, out dropMessage);
+
+            if (!droppedPrevious)
             {
                 resultMessage = "Swap could not drop the top item: " +
                                 dropMessage;
@@ -147,6 +171,11 @@ namespace EXW.Multiplayer
                 return false;
             }
 
+            // A world item may be picked up before its short settle finishes.
+            // Freeze it first so parenting never fights an active Rigidbody.
+            bool cancelledPhysicsSettle =
+                NetworkItemPhysicsSettler.CancelServer(item);
+
             NetworkItemMotionPresenter motion = CaptureMotionStart(
                 item,
                 out Vector3 visualStartPosition,
@@ -160,6 +189,16 @@ namespace EXW.Multiplayer
                     false))
             {
                 item.CancelPreparedParentPoseServer();
+
+                if (cancelledPhysicsSettle && item.Location.IsWorld)
+                {
+                    item.BroadcastPhysicsPoseServer(
+                        item.transform.position,
+                        item.transform.rotation,
+                        item.Revision,
+                        true);
+                }
+
                 resultMessage = "NGO could not parent the item to the player.";
                 return false;
             }
@@ -230,6 +269,17 @@ namespace EXW.Multiplayer
             }
 
             NetworkCarryable carryable = item.GetComponent<NetworkCarryable>();
+            bool hasBoxShape =
+                item.GetComponentInChildren<BoxCollider>(true) != null;
+            bool usePhysicsSettle =
+                NetworkItemPhysicsSettler.CanSettleServer(item);
+
+            if (hasBoxShape && !usePhysicsSettle)
+            {
+                resultMessage =
+                    "Controlled case drops require a Rigidbody on the item root.";
+                return false;
+            }
 
             if (!carrier.TryGetDefaultDropPoseServer(
                     item,
@@ -238,6 +288,38 @@ namespace EXW.Multiplayer
                     out Quaternion worldRotation))
             {
                 resultMessage = "Could not calculate a safe drop pose.";
+                return false;
+            }
+
+            return CommitDrop(
+                carrier,
+                item,
+                worldPosition,
+                worldRotation,
+                disconnectCleanup,
+                usePhysicsSettle,
+                out resultMessage);
+        }
+
+        private static bool CommitDrop(
+            NetworkItemCarrier carrier,
+            NetworkWorldItem item,
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            bool disconnectCleanup,
+            bool usePhysicsSettle,
+            out string resultMessage)
+        {
+            resultMessage = string.Empty;
+
+            if (carrier == null || item == null || !item.IsSpawned ||
+                !item.IsHeld ||
+                item.Location.HolderClientId != carrier.OwnerClientId ||
+                !carrier.TryGetHeldItem(out NetworkWorldItem topItem) ||
+                topItem != item)
+            {
+                resultMessage =
+                    "Carrier and top item state changed before drop commit.";
                 return false;
             }
 
@@ -254,7 +336,8 @@ namespace EXW.Multiplayer
             if (!detached)
             {
                 item.CancelPreparedParentPoseServer();
-                resultMessage = "NGO could not detach the item from the player.";
+                resultMessage =
+                    "NGO could not detach the item from the player.";
                 return false;
             }
 
@@ -262,13 +345,32 @@ namespace EXW.Multiplayer
             item.SetLocationServer(NetworkItemLocationState.World(revision));
             carrier.RemoveHeldItemServer(item);
 
+            bool settleStarted = false;
+
+            if (usePhysicsSettle)
+            {
+                settleStarted = NetworkItemPhysicsSettler.TryBeginServer(
+                    item,
+                    revision,
+                    out string settleError);
+
+                if (!settleStarted)
+                {
+                    Debug.LogWarning(
+                        $"[ItemDrop] Controlled physics could not start for " +
+                        $"{item.name}: {settleError}",
+                        item);
+                }
+            }
+
             PlayMotion(
                 carrier,
                 item,
                 motion,
                 visualStartPosition,
                 visualStartRotation,
-                revision);
+                revision,
+                settleStarted);
 
             resultMessage = disconnectCleanup
                 ? $"Dropped {item.DisplayName} during disconnect cleanup."
@@ -459,7 +561,8 @@ namespace EXW.Multiplayer
             NetworkItemMotionPresenter motion,
             Vector3 startPosition,
             Quaternion startRotation,
-            uint targetRevision)
+            uint targetRevision,
+            bool physicsSettle = false)
         {
             if (carrier != null && motion != null)
             {
@@ -467,7 +570,8 @@ namespace EXW.Multiplayer
                     item,
                     startPosition,
                     startRotation,
-                    targetRevision);
+                    targetRevision,
+                    physicsSettle);
             }
         }
 

@@ -53,6 +53,35 @@ namespace EXW.Multiplayer
         [SerializeField]
         private bool animateRotation = true;
 
+        [TitleGroup("World Drop Settle")]
+        [Tooltip(
+            "Adds a tiny visual-only bounce to world drops. The authoritative " +
+            "root and collider remain at the server-resolved safe pose.")]
+        [SerializeField]
+        private bool settleWorldDrops = true;
+
+        [TitleGroup("World Drop Settle")]
+        [Range(0f, 0.95f)]
+        [SerializeField]
+        private float settleStartNormalized = 0.55f;
+
+        [TitleGroup("World Drop Settle")]
+        [MinValue(0f)]
+        [SuffixLabel("m")]
+        [SerializeField]
+        private float settleHeight = 0.018f;
+
+        [TitleGroup("World Drop Settle")]
+        [MinValue(0f)]
+        [SuffixLabel("degrees")]
+        [SerializeField]
+        private float settleAngle = 1.25f;
+
+        [TitleGroup("World Drop Settle")]
+        [MinValue(0.25f)]
+        [SerializeField]
+        private float settleCycles = 1.25f;
+
         [TitleGroup("Reliability")]
         [MinValue(0.25f)]
         [SuffixLabel("seconds")]
@@ -62,10 +91,27 @@ namespace EXW.Multiplayer
         [SerializeField]
         private float hierarchyReadyTimeout = 2f;
 
+        [TitleGroup("Physics Snapshot Smoothing")]
+        [MinValue(0.01f)]
+        [SuffixLabel("seconds")]
+        [SerializeField]
+        private float snapshotCatchUpDuration = 0.09f;
+
+        [TitleGroup("Physics Snapshot Smoothing")]
+        [MinValue(0.01f)]
+        [SuffixLabel("seconds")]
+        [SerializeField]
+        private float finalPoseCatchUpDuration = 0.12f;
+
         [ShowInInspector]
         [ReadOnly]
         [BoxGroup("Runtime")]
         public bool IsAnimating => _isPending || _isAnimating;
+
+        [ShowInInspector]
+        [ReadOnly]
+        [BoxGroup("Runtime")]
+        public bool IsPhysicsSettling => _physicsSettleActive;
 
         private Vector3 _authoredLocalPosition;
         private Quaternion _authoredLocalRotation;
@@ -82,6 +128,13 @@ namespace EXW.Multiplayer
         private Vector3 _animationStartPosition;
         private Quaternion _animationStartRotation;
         private float _animationElapsed;
+        private float _activeDuration;
+        private bool _settleCurrentWorldDrop;
+        private bool _physicsSettleActive;
+        private bool _hasPhysicsPoseSample;
+        private uint _physicsRevision;
+        private bool _hasFinalizedPhysicsRevision;
+        private uint _finalizedPhysicsRevision;
 
         private void Reset()
         {
@@ -102,9 +155,22 @@ namespace EXW.Multiplayer
         private void OnValidate()
         {
             duration = Mathf.Max(0.01f, duration);
+            settleStartNormalized = Mathf.Clamp(
+                settleStartNormalized,
+                0f,
+                0.95f);
+            settleHeight = Mathf.Max(0f, settleHeight);
+            settleAngle = Mathf.Max(0f, settleAngle);
+            settleCycles = Mathf.Max(0.25f, settleCycles);
             hierarchyReadyTimeout = Mathf.Max(
                 0.25f,
                 hierarchyReadyTimeout);
+            snapshotCatchUpDuration = Mathf.Max(
+                0.01f,
+                snapshotCatchUpDuration);
+            finalPoseCatchUpDuration = Mathf.Max(
+                0.01f,
+                finalPoseCatchUpDuration);
             AutoAssignReferences();
             CaptureAuthoredPose();
         }
@@ -153,7 +219,8 @@ namespace EXW.Multiplayer
         internal void PlayTransitionLocal(
             Vector3 startWorldPosition,
             Quaternion startWorldRotation,
-            uint targetRevision)
+            uint targetRevision,
+            bool physicsSettle = false)
         {
             AutoAssignReferences();
 
@@ -165,6 +232,18 @@ namespace EXW.Multiplayer
             if (visualRoot == null || visualRoot == transform ||
                 !IsFinite(startWorldPosition) ||
                 !IsFinite(startWorldRotation))
+            {
+                return;
+            }
+
+            // An unreliable physics sample may overtake the initial reliable
+            // motion cue on another behaviour. Never rewind that newer visual.
+            if (physicsSettle &&
+                ((_hasPhysicsPoseSample &&
+                  _physicsSettleActive &&
+                  _physicsRevision == targetRevision) ||
+                 (_hasFinalizedPhysicsRevision &&
+                  _finalizedPhysicsRevision == targetRevision)))
             {
                 return;
             }
@@ -185,8 +264,101 @@ namespace EXW.Multiplayer
             _pendingElapsed = 0f;
             _isPending = true;
             _isAnimating = false;
+            _activeDuration = duration;
+            _settleCurrentWorldDrop = false;
+            _physicsSettleActive = physicsSettle;
+            _hasPhysicsPoseSample = false;
+            _physicsRevision = targetRevision;
 
             HoldVisualAtPendingStart();
+        }
+
+        internal void SetPhysicsSettleActiveLocal(
+            bool active,
+            uint revision)
+        {
+            if (active && _hasFinalizedPhysicsRevision &&
+                _finalizedPhysicsRevision == revision)
+            {
+                return;
+            }
+
+            if (active || _physicsRevision == revision)
+            {
+                _physicsSettleActive = active;
+                _physicsRevision = revision;
+            }
+        }
+
+        internal void ApplyReplicatedWorldPoseLocal(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            uint revision,
+            bool final)
+        {
+            AutoAssignReferences();
+
+            if (item == null || !item.IsSpawned ||
+                !item.Location.IsWorld || item.Revision != revision ||
+                !IsFinite(worldPosition) ||
+                !IsFinite(worldRotation) ||
+                (!final && _hasFinalizedPhysicsRevision &&
+                 _finalizedPhysicsRevision == revision))
+            {
+                return;
+            }
+
+            if (!_hasAuthoredPose)
+            {
+                CaptureAuthoredPose();
+            }
+
+            bool hasVisual = visualRoot != null &&
+                             visualRoot != transform &&
+                             _hasAuthoredPose;
+            Vector3 visiblePosition = hasVisual
+                ? visualRoot.position
+                : worldPosition;
+            Quaternion visibleRotation = hasVisual
+                ? visualRoot.rotation
+                : worldRotation;
+
+            transform.SetPositionAndRotation(
+                worldPosition,
+                worldRotation);
+
+            _physicsRevision = revision;
+            _physicsSettleActive = !final;
+            _hasPhysicsPoseSample = true;
+
+            if (final)
+            {
+                _hasFinalizedPhysicsRevision = true;
+                _finalizedPhysicsRevision = revision;
+            }
+
+            if (!hasVisual)
+            {
+                return;
+            }
+
+            // Keep what the client was displaying in place, move only the
+            // authoritative root, then let the visual child catch up locally.
+            visualRoot.SetPositionAndRotation(
+                visiblePosition,
+                visibleRotation);
+            visualRoot.localScale = _authoredLocalScale;
+
+            _isPending = false;
+            _isAnimating = true;
+            _animationStartPosition = visiblePosition;
+            _animationStartRotation = visibleRotation;
+            _animationElapsed = 0f;
+            _activeDuration = final
+                ? finalPoseCatchUpDuration
+                : snapshotCatchUpDuration;
+            _settleCurrentWorldDrop = false;
+            enabled = true;
         }
 
         private void UpdatePendingTransition()
@@ -200,6 +372,10 @@ namespace EXW.Multiplayer
                 _animationStartPosition = _pendingStartPosition;
                 _animationStartRotation = _pendingStartRotation;
                 _animationElapsed = 0f;
+                _activeDuration = duration;
+                _settleCurrentWorldDrop =
+                    settleWorldDrops && item.Location.IsWorld &&
+                    !_physicsSettleActive;
                 _isPending = false;
                 _isAnimating = true;
                 return;
@@ -214,7 +390,8 @@ namespace EXW.Multiplayer
         private void UpdateAnimation()
         {
             _animationElapsed += Time.deltaTime;
-            float normalized = Mathf.Clamp01(_animationElapsed / duration);
+            float normalized = Mathf.Clamp01(
+                _animationElapsed / Mathf.Max(0.01f, _activeDuration));
             float eased = easing != null
                 ? easing.Evaluate(normalized)
                 : Mathf.SmoothStep(0f, 1f, normalized);
@@ -235,6 +412,27 @@ namespace EXW.Multiplayer
                     targetRotation,
                     eased)
                 : targetRotation;
+
+            if (_settleCurrentWorldDrop &&
+                normalized > settleStartNormalized)
+            {
+                float settleT = Mathf.InverseLerp(
+                    settleStartNormalized,
+                    1f,
+                    normalized);
+                float wave = Mathf.Sin(
+                    settleT * Mathf.PI * 2f * settleCycles);
+                float decay = 1f - settleT;
+                float bounce = Mathf.Abs(wave) *
+                               decay * settleHeight;
+                float wobble = wave * decay * settleAngle;
+
+                position += Vector3.up * bounce;
+                rotation *= Quaternion.Euler(
+                    wobble * 0.35f,
+                    0f,
+                    wobble);
+            }
 
             visualRoot.SetPositionAndRotation(position, rotation);
             visualRoot.localScale = _authoredLocalScale;
@@ -312,6 +510,7 @@ namespace EXW.Multiplayer
             _isAnimating = false;
             _pendingElapsed = 0f;
             _animationElapsed = 0f;
+            _settleCurrentWorldDrop = false;
 
             if (snapToTarget)
             {

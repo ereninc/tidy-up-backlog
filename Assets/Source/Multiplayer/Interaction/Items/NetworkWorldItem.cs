@@ -8,6 +8,7 @@ namespace EXW.Multiplayer
     /// <summary>
     /// Authoritative identity and persistent location state for one world item.
     /// Capabilities such as carrying and using remain separate components.
+    /// Physics settle poses are transient RPCs, not per-item NetworkVariables.
     /// </summary>
     [RequireComponent(typeof(NetworkObject))]
     [DisallowMultipleComponent]
@@ -73,6 +74,8 @@ namespace EXW.Multiplayer
         private Vector3 _preparedLocalPosition;
         private Quaternion _preparedLocalRotation;
         private Vector3 _authoredLocalScale;
+        private bool _hasFinalPhysicsRevision;
+        private uint _finalPhysicsRevision;
 
         private void Awake()
         {
@@ -81,6 +84,7 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkSpawn()
         {
+            _hasFinalPhysicsRevision = false;
             _location.OnValueChanged += HandleLocationChanged;
 
             if (IsServer)
@@ -106,6 +110,7 @@ namespace EXW.Multiplayer
                 ReleaseExternalBookkeepingServer();
             }
 
+            _hasFinalPhysicsRevision = false;
             _location.OnValueChanged -= HandleLocationChanged;
             base.OnNetworkDespawn();
         }
@@ -188,6 +193,107 @@ namespace EXW.Multiplayer
             return receiverObject.TryGetComponent(out receiver);
         }
 
+        internal void BroadcastPhysicsPoseServer(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            uint revision,
+            bool final)
+        {
+            if (!IsServer || !IsSpawned || !Location.IsWorld ||
+                Revision != revision ||
+                !IsFinite(worldPosition) || !IsFinite(worldRotation))
+            {
+                return;
+            }
+
+            if (final)
+            {
+                ApplyPhysicsFinalPoseClientRpc(
+                    worldPosition,
+                    worldRotation,
+                    revision);
+            }
+            else
+            {
+                ApplyPhysicsPoseSnapshotClientRpc(
+                    worldPosition,
+                    worldRotation,
+                    revision);
+            }
+        }
+
+        [ClientRpc(Delivery = RpcDelivery.Unreliable)]
+        private void ApplyPhysicsPoseSnapshotClientRpc(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            uint revision)
+        {
+            if (IsServer ||
+                (_hasFinalPhysicsRevision &&
+                 _finalPhysicsRevision == revision))
+            {
+                return;
+            }
+
+            ApplyPhysicsPoseLocal(
+                worldPosition,
+                worldRotation,
+                revision,
+                false);
+        }
+
+        [ClientRpc]
+        private void ApplyPhysicsFinalPoseClientRpc(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            uint revision)
+        {
+            if (IsServer)
+            {
+                return;
+            }
+
+            ApplyPhysicsPoseLocal(
+                worldPosition,
+                worldRotation,
+                revision,
+                true);
+        }
+
+        private void ApplyPhysicsPoseLocal(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            uint revision,
+            bool final)
+        {
+            if (!IsSpawned || !Location.IsWorld || Revision != revision ||
+                !IsFinite(worldPosition) || !IsFinite(worldRotation))
+            {
+                return;
+            }
+
+            if (final)
+            {
+                _hasFinalPhysicsRevision = true;
+                _finalPhysicsRevision = revision;
+            }
+
+            if (TryGetComponent(
+                    out NetworkItemMotionPresenter presenter))
+            {
+                presenter.ApplyReplicatedWorldPoseLocal(
+                    worldPosition,
+                    worldRotation,
+                    revision,
+                    final);
+                return;
+            }
+
+            transform.SetPositionAndRotation(
+                worldPosition,
+                worldRotation);
+        }
+
         [Button("AUTO NAME FROM GAMEOBJECT")]
         private void AutoNameFromGameObject()
         {
@@ -222,6 +328,26 @@ namespace EXW.Multiplayer
             {
                 carrier.ClearHeldItemServer(this);
             }
+        }
+
+        private static bool IsFinite(Vector3 value)
+        {
+            return IsFinite(value.x) &&
+                   IsFinite(value.y) &&
+                   IsFinite(value.z);
+        }
+
+        private static bool IsFinite(Quaternion value)
+        {
+            return IsFinite(value.x) &&
+                   IsFinite(value.y) &&
+                   IsFinite(value.z) &&
+                   IsFinite(value.w);
+        }
+
+        private static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
         }
     }
 }
