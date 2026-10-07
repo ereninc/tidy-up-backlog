@@ -857,6 +857,7 @@ MonoBehaviour:
     m_Bits: 127
   queryTriggers: 2
   interactionKey: 19
+  shelfPickupModifierKey: 40
   allowGamepadSouthButton: 1
   requireLockedCursorForInput: 1
   minimumRequestInterval: 0.08

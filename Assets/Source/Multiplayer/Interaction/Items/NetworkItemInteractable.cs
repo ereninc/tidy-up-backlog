@@ -33,8 +33,61 @@ namespace EXW.Multiplayer
         public override bool IsAvailableLocally(
             NetworkInteractionController interactor)
         {
-            return base.IsAvailableLocally(interactor) &&
-                   item != null && !item.IsHeld;
+            if (!base.IsAvailableLocally(interactor) ||
+                !CanPickUp(out _))
+            {
+                return false;
+            }
+
+            NetworkItemCarrier carrier = interactor != null
+                ? interactor.GetComponent<NetworkItemCarrier>()
+                : null;
+
+            return carrier != null && carrier.isActiveAndEnabled &&
+                   carrier.IsSpawned && !carrier.ContainsHeldItem(item);
+        }
+
+        internal bool TryGetShelfReceiver(out NetworkItemReceiver receiver)
+        {
+            receiver = null;
+            return item != null && item.TryResolveReceiver(out receiver) &&
+                   receiver != null && receiver.IsSpawned &&
+                   receiver.Destination is NetworkGameCaseShelfDestination;
+        }
+
+        private bool CanPickUp(out string rejectionMessage)
+        {
+            if (item == null || carryable == null || !carryable.isActiveAndEnabled)
+            {
+                rejectionMessage = "Item carry components are unavailable.";
+                return false;
+            }
+
+            if (!carryable.CanPickUpServer(item, out rejectionMessage))
+            {
+                return false;
+            }
+
+            if (item.IsPlaced)
+            {
+                if (!item.TryResolveReceiver(out NetworkItemReceiver receiver) ||
+                    receiver == null || !receiver.IsSpawned)
+                {
+                    rejectionMessage = "Item placement receiver is unavailable.";
+                    return false;
+                }
+
+                if (receiver.Destination is NetworkGameCaseShelfDestination shelf &&
+                    (shelf.SlotState == null || !shelf.SlotState.IsSpawned ||
+                     shelf.SlotState.IsComplete))
+                {
+                    rejectionMessage = "Completed shelf cases cannot be picked up.";
+                    return false;
+                }
+            }
+
+            rejectionMessage = string.Empty;
+            return true;
         }
 
         public override string GetInteractionDisplayName(
@@ -77,7 +130,7 @@ namespace EXW.Multiplayer
                 ? context.PlayerController.GetComponent<NetworkItemCarrier>()
                 : null;
 
-            if (carrier == null)
+            if (carrier == null || !carrier.isActiveAndEnabled || !carrier.IsSpawned)
             {
                 rejectionMessage = "Player has no NetworkItemCarrier.";
                 return false;
@@ -95,7 +148,7 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            return carryable.CanPickUpServer(item, out rejectionMessage);
+            return CanPickUp(out rejectionMessage);
         }
 
         protected override bool ExecuteInteractionServer(

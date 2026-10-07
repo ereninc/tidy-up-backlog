@@ -24,6 +24,20 @@ namespace EXW.Multiplayer
         private NetworkItemTagDefinition[] rejectAny =
             Array.Empty<NetworkItemTagDefinition>();
 
+        public bool Accepts(NetworkWorldItem item)
+        {
+            if (item == null)
+            {
+                return false;
+            }
+
+            NetworkItemDefinition definition = item.Definition;
+            return !ContainsMatchingTag(definition, rejectAny) &&
+                   (!HasAnyConfiguredTag(requireAny) ||
+                    ContainsMatchingTag(definition, requireAny)) &&
+                   ContainsEveryTag(definition, requireAll);
+        }
+
         public bool Accepts(NetworkWorldItem item, out string rejectionMessage)
         {
             rejectionMessage = string.Empty;

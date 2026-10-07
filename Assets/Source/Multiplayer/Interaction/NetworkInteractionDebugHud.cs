@@ -14,7 +14,8 @@ namespace EXW.Multiplayer
     public sealed class NetworkInteractionDebugHud : MonoBehaviour
     {
         [InfoBox(
-            "Build-safe temporary HUD. E/Gamepad South interacts; F8 toggles the " +
+            "Build-safe temporary HUD. E/Gamepad South interacts; F/Gamepad North " +
+            "picks up a shelf case. F8 toggles the " +
             "diagnostic panel. This component owns no network state.")]
         [TitleGroup("References")]
         [Required]
@@ -116,11 +117,13 @@ namespace EXW.Multiplayer
 
             if (showInteractionPrompt && controller.CurrentTarget != null)
             {
+                string alternativePrompt = controller.CurrentAlternativePrompt;
+                bool showAlternative = !string.IsNullOrEmpty(alternativePrompt);
                 Rect promptBox = new Rect(
                     Screen.width * 0.5f - 250f,
                     Screen.height * 0.5f + 28f,
                     500f,
-                    70f);
+                    showAlternative ? 98f : 70f);
 
                 GUI.Box(promptBox, GUIContent.none, _diagnosticBoxStyle);
 
@@ -145,6 +148,19 @@ namespace EXW.Multiplayer
                         30f),
                     prompt,
                     _promptStyle);
+
+                if (showAlternative)
+                {
+                    GUI.Label(
+                        new Rect(
+                            promptBox.x + 8f,
+                            promptBox.y + 62f,
+                            promptBox.width - 16f,
+                            28f),
+                        $"[{controller.AlternativeInteractionKeyDisplayName}] " +
+                        alternativePrompt,
+                        _promptStyle);
+                }
             }
 
             if (!showDiagnostics)
@@ -173,7 +189,8 @@ namespace EXW.Multiplayer
                 $"Target: {targetText}\n" +
                 $"Prompt: {controller.CurrentPrompt}\n" +
                 $"Result: {controller.LastResultSummary}\n" +
-                $"Input: {controller.InteractionKeyDisplayName} / Gamepad South" +
+                $"Input: {controller.InteractionKeyDisplayName} / " +
+                controller.AlternativeInteractionKeyDisplayName +
                 $"   Hide: {diagnosticsToggleKey}";
 
             GUI.Label(

@@ -35,6 +35,7 @@ namespace EXW.Multiplayer
         public event Action<GameInputDevice> DeviceChanged;
         public event Action InteractPressed;
         public event Action DropPressed;
+        public event Action ShelfPickupPressed;
         public event Action JumpPressed;
         public event Action PausePressed;
         public event Action<int> SkillPressed;
@@ -98,6 +99,10 @@ namespace EXW.Multiplayer
         public bool DropPressedThisFrame =>
             CanReadGameplayInput &&
             _actions.Gameplay.Drop.WasPressedThisFrame();
+
+        public bool ShelfPickupPressedThisFrame =>
+            CanReadGameplayInput &&
+            _actions.Gameplay.ShelfPickup.WasPressedThisFrame();
 
         public bool PausePressedThisFrame =>
             CanReadOwnerInput &&
@@ -220,6 +225,7 @@ namespace EXW.Multiplayer
 
             _actions.Gameplay.Interact.performed += HandleInteractPerformed;
             _actions.Gameplay.Drop.performed += HandleDropPerformed;
+            _actions.Gameplay.ShelfPickup.performed += HandleShelfPickupPerformed;
             _actions.Gameplay.Jump.performed += HandleJumpPerformed;
             _actions.Gameplay.Pause.performed += HandlePausePerformed;
             _actions.Gameplay.Skill1.performed += HandleSkill1Performed;
@@ -245,6 +251,7 @@ namespace EXW.Multiplayer
 
             _actions.Gameplay.Interact.performed -= HandleInteractPerformed;
             _actions.Gameplay.Drop.performed -= HandleDropPerformed;
+            _actions.Gameplay.ShelfPickup.performed -= HandleShelfPickupPerformed;
             _actions.Gameplay.Jump.performed -= HandleJumpPerformed;
             _actions.Gameplay.Pause.performed -= HandlePausePerformed;
             _actions.Gameplay.Skill1.performed -= HandleSkill1Performed;
@@ -290,6 +297,17 @@ namespace EXW.Multiplayer
             if (CanReadGameplayInput)
             {
                 JumpPressed?.Invoke();
+            }
+        }
+
+        private void HandleShelfPickupPerformed(
+            InputAction.CallbackContext context)
+        {
+            UpdateActiveDevice(context);
+
+            if (CanReadGameplayInput)
+            {
+                ShelfPickupPressed?.Invoke();
             }
         }
 

@@ -1,7 +1,9 @@
 #if UNITY_EDITOR
 using Unity.Netcode;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EXW.Multiplayer.Editor
 {
@@ -209,6 +211,93 @@ namespace EXW.Multiplayer.Editor
         private static bool CanConfigureSelectedCarryItem()
         {
             return Selection.activeGameObject != null;
+        }
+
+        [MenuItem(
+            RootMenu + "Create Selected Shelf Slot Prefab (Temporary)",
+            priority = 14)]
+        private static void CreateSelectedShelfSlotPrefab()
+        {
+            if (!TryGetSelectedShelfSlot(out GameObject source))
+            {
+                return;
+            }
+
+            const string folder =
+                "Assets/__PlaceholderAssetPacks/Shelf and Slots";
+
+            if (!AssetDatabase.IsValidFolder(folder))
+            {
+                Debug.LogError("[ItemSetup] Shelf and Slots asset folder is missing.");
+                return;
+            }
+
+            Scene previewScene = EditorSceneManager.NewPreviewScene();
+
+            try
+            {
+                GameObject slot = Object.Instantiate(source);
+                SceneManager.MoveGameObjectToScene(slot, previewScene);
+                slot.name = "GameCaseShelfSlot";
+                slot.transform.SetPositionAndRotation(
+                    Vector3.zero,
+                    source.transform.localRotation);
+                slot.transform.localScale = source.transform.localScale;
+
+                if (PrefabUtility.IsOutermostPrefabInstanceRoot(slot))
+                {
+                    PrefabUtility.UnpackPrefabInstance(
+                        slot,
+                        PrefabUnpackMode.Completely,
+                        InteractionMode.AutomatedAction);
+                }
+
+                NetworkItemReceiver receiver =
+                    slot.GetComponent<NetworkItemReceiver>();
+                Collider[] configuredColliders = receiver.EditorInteractionColliders;
+
+                if (configuredColliders == null || configuredColliders.Length == 0)
+                {
+                    Collider[] slotColliders =
+                        slot.GetComponentsInChildren<Collider>(true);
+
+                    if (slotColliders.Length == 1 &&
+                        slotColliders[0] is BoxCollider &&
+                        slotColliders[0].transform == slot.transform &&
+                        slot.GetComponentInChildren<Renderer>(true) == null &&
+                        slot.GetComponentInChildren<MeshFilter>(true) == null &&
+                        slot.GetComponentInChildren<Rigidbody>(true) == null)
+                    {
+                        receiver.EditorConfigureInteractionColliders(slotColliders);
+                    }
+                }
+
+                string path = AssetDatabase.GenerateUniqueAssetPath(
+                    folder + "/GameCaseShelfSlot.prefab");
+                GameObject prefab = PrefabUtility.SaveAsPrefabAsset(slot, path);
+
+                if (prefab != null)
+                {
+                    Selection.activeGameObject = prefab;
+                    EditorGUIUtility.PingObject(prefab);
+                    Debug.Log(
+                        $"[ItemSetup] Shelf slot prefab created at {path}. " +
+                        "The original shelf is unchanged.",
+                        prefab);
+                }
+            }
+            finally
+            {
+                EditorSceneManager.ClosePreviewScene(previewScene);
+            }
+        }
+
+        [MenuItem(
+            RootMenu + "Create Selected Shelf Slot Prefab (Temporary)",
+            true)]
+        private static bool CanCreateSelectedShelfSlotPrefab()
+        {
+            return TryGetSelectedShelfSlot(out _);
         }
 
         [MenuItem(RootMenu + "Create Scene Carry Test Rig", priority = 20)]
@@ -562,6 +651,31 @@ namespace EXW.Multiplayer.Editor
             }
 
             root = networkObject.gameObject;
+            return true;
+        }
+
+        private static bool TryGetSelectedShelfSlot(out GameObject root)
+        {
+            root = null;
+            GameObject selected = Selection.activeGameObject;
+
+            if (EditorApplication.isPlayingOrWillChangePlaymode ||
+                selected == null || EditorUtility.IsPersistent(selected))
+            {
+                return false;
+            }
+
+            NetworkGameCaseShelfDestination destination =
+                selected.GetComponentInParent<NetworkGameCaseShelfDestination>();
+
+            if (destination == null ||
+                destination.GetComponent<NetworkItemReceiver>() == null ||
+                destination.GetComponent<NetworkObject>() == null)
+            {
+                return false;
+            }
+
+            root = destination.gameObject;
             return true;
         }
 

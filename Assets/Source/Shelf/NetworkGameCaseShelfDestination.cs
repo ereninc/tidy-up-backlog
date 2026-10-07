@@ -6,7 +6,7 @@ namespace EXW.Multiplayer
     /// <summary>
     /// Server-authoritative destination for one logical game shelf slot. The
     /// first case locks the slot to its AppId; subsequent cases must match.
-    /// Positions are generated from one start point and a local step vector.
+    /// Poses are generated in the start point's local space.
     /// </summary>
     [RequireComponent(typeof(NetworkItemReceiver))]
     [RequireComponent(typeof(NetworkGameCaseShelfSlotState))]
@@ -16,6 +16,28 @@ namespace EXW.Multiplayer
     public sealed class NetworkGameCaseShelfDestination :
         NetworkItemDestination
     {
+        public enum ShelfLayout
+        {
+            LeftToRight,
+            RightToLeft,
+            BackToFront,
+            Circular
+        }
+
+        public enum ShelfFacing
+        {
+            Front,
+            Back
+        }
+
+        [TitleGroup("Layout")]
+        [SerializeField]
+        private ShelfLayout layout = ShelfLayout.LeftToRight;
+
+        [TitleGroup("Layout")]
+        [SerializeField]
+        private ShelfFacing facing = ShelfFacing.Front;
+
         [TitleGroup("Layout")]
         [SerializeField]
         [MinValue(1)]
@@ -23,20 +45,50 @@ namespace EXW.Multiplayer
         private int capacity = 10;
 
         [TitleGroup("Layout")]
-        [Tooltip("Pose origin for shelf index zero. Place it at the case pivot.")]
+        [Tooltip("Origin of the linear layout; center of the Circular layout.")]
         [SerializeField]
         private Transform startPoint;
 
         [TitleGroup("Layout")]
-        [Tooltip("Offset in Start Point local space for every next case.")]
+        [HideIf(nameof(IsCircularLayout))]
+        [Tooltip("LeftToRight uses this local step; RightToLeft reverses the " +
+                 "same positions. BackToFront uses its length along local -Z.")]
         [SerializeField]
         private Vector3 localStep = new Vector3(0.12f, 0f, 0f);
 
         [TitleGroup("Layout")]
+        [ShowIf(nameof(IsCircularLayout))]
+        [MinValue(0.001f)]
+        [SerializeField]
+        private float circularRadius = 0.5f;
+
+        [TitleGroup("Layout")]
+        [ShowIf(nameof(IsCircularLayout))]
+        [Tooltip("Degrees around local +Y. Zero starts at local +Z.")]
+        [SerializeField]
+        private float circularStartAngle;
+
+        [TitleGroup("Layout")]
+        [ShowIf(nameof(IsCircularLayout))]
+        [MinValue(0f)]
+        [SerializeField]
+        private float circularAngularStep = 15f;
+
+        [TitleGroup("Layout")]
+        [ShowIf(nameof(IsCircularLayout))]
+        [Tooltip("Clockwise when viewed from above the Start Point (+Y).")]
+        [SerializeField]
+        private bool circularClockwise = true;
+
+        [TitleGroup("Layout")]
+        [Tooltip("Additional offset for every pose in Start Point local space.")]
         [SerializeField]
         private Vector3 firstItemLocalOffset;
 
         [TitleGroup("Layout")]
+        [Tooltip("Case orientation in Start Point space. Circular aligns the " +
+                 "cover's heading radially and preserves authored tilt. " +
+                 "The supplied case stands upright at (270, 90, 180).")]
         [SerializeField]
         private Vector3 itemEulerOffset;
 
@@ -50,8 +102,18 @@ namespace EXW.Multiplayer
         private NetworkGameCaseShelfSlotState slotState;
 
         [TitleGroup("Gizmos")]
+        [Tooltip("Preview size in the case prefab's local axes: " +
+                 "X width, Y thickness, Z height.")]
         [SerializeField]
         private Vector3 previewCaseSize = new Vector3(0.11f, 0.18f, 0.025f);
+
+        // NetworkGameCase's cover mesh faces -Y, and its visual is rotated
+        // 180 degrees around Z: the root cover normal is +Y and its top +Z.
+        private static readonly Quaternion UprightCoverRotation =
+            Quaternion.Inverse(
+                Quaternion.LookRotation(Vector3.up, Vector3.forward));
+
+        private bool IsCircularLayout => layout == ShelfLayout.Circular;
 
         private NetworkWorldItem[] _occupants =
             System.Array.Empty<NetworkWorldItem>();
@@ -99,6 +161,8 @@ namespace EXW.Multiplayer
         private void OnValidate()
         {
             capacity = Mathf.Clamp(capacity, 1, 256);
+            circularRadius = Mathf.Max(0.001f, circularRadius);
+            circularAngularStep = Mathf.Max(0f, circularAngularStep);
             previewCaseSize.x = Mathf.Max(0.001f, previewCaseSize.x);
             previewCaseSize.y = Mathf.Max(0.001f, previewCaseSize.y);
             previewCaseSize.z = Mathf.Max(0.001f, previewCaseSize.z);
@@ -363,11 +427,60 @@ namespace EXW.Multiplayer
             out Quaternion worldRotation)
         {
             Transform origin = StartPoint;
-            Vector3 localPosition = firstItemLocalOffset +
+            Vector3 localPosition;
+            Quaternion localRotation = Quaternion.Euler(itemEulerOffset);
+
+            switch (layout)
+            {
+                case ShelfLayout.RightToLeft:
+                    localPosition = firstItemLocalOffset +
+                                    localStep * (Capacity - 1 - slotIndex);
+                    break;
+                case ShelfLayout.BackToFront:
+                    localPosition = firstItemLocalOffset +
+                                    Vector3.back * (localStep.magnitude * slotIndex);
+                    break;
+                case ShelfLayout.Circular:
+                    float angle = circularStartAngle +
+                                  circularAngularStep * slotIndex *
+                                  (circularClockwise ? 1f : -1f);
+                    Vector3 radialDirection =
+                        Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
+                    localPosition = firstItemLocalOffset +
+                                    radialDirection * circularRadius;
+
+                    Vector3 coverNormal = localRotation * Vector3.up;
+                    Vector3 coverHeading = new Vector3(
+                        coverNormal.x, 0f, coverNormal.z);
+
+                    if (coverHeading.sqrMagnitude > 0.000001f)
+                    {
+                        localRotation = Quaternion.AngleAxis(
+                            Vector3.SignedAngle(
+                                coverHeading, radialDirection, Vector3.up),
+                            Vector3.up) * localRotation;
+                    }
+                    else
+                    {
+                        localRotation = Quaternion.LookRotation(
+                            radialDirection, Vector3.up) * UprightCoverRotation;
+                    }
+
+                    break;
+                default:
+                    localPosition = firstItemLocalOffset +
                                     localStep * slotIndex;
+                    break;
+            }
+
+            if (facing == ShelfFacing.Back)
+            {
+                localRotation = Quaternion.AngleAxis(180f, Vector3.up) *
+                                localRotation;
+            }
+
             worldPosition = origin.TransformPoint(localPosition);
-            worldRotation = origin.rotation *
-                            Quaternion.Euler(itemEulerOffset);
+            worldRotation = origin.rotation * localRotation;
         }
 
         private void ResolveReferences()
@@ -408,16 +521,30 @@ namespace EXW.Multiplayer
             Transform origin = StartPoint;
             Matrix4x4 previousMatrix = Gizmos.matrix;
             Color previousColor = Gizmos.color;
-            Gizmos.matrix = origin.localToWorldMatrix;
+            float arrowLength = Mathf.Max(
+                0.08f, previewCaseSize.magnitude * 0.35f);
 
             for (int i = 0; i < Capacity; i++)
             {
+                BuildWorldPose(
+                    i, out Vector3 worldPosition, out Quaternion worldRotation);
                 Gizmos.color = i == 0
                     ? new Color(0.2f, 1f, 0.55f, 0.9f)
                     : new Color(0.2f, 0.75f, 1f, 0.65f);
-                Gizmos.DrawWireCube(
-                    firstItemLocalOffset + localStep * i,
-                    previewCaseSize);
+                Gizmos.matrix = Matrix4x4.TRS(
+                    worldPosition, worldRotation, origin.lossyScale);
+                Gizmos.DrawWireCube(Vector3.zero, previewCaseSize);
+
+                Gizmos.matrix = Matrix4x4.identity;
+                Vector3 coverDirection = worldRotation * Vector3.up;
+                Vector3 coverTop = worldRotation * Vector3.forward;
+                Vector3 arrowTip = worldPosition + coverDirection * arrowLength;
+                Vector3 arrowBase = arrowTip - coverDirection * arrowLength * 0.25f;
+                Gizmos.DrawLine(worldPosition, arrowTip);
+                Gizmos.DrawLine(
+                    arrowTip, arrowBase + coverTop * arrowLength * 0.15f);
+                Gizmos.DrawLine(
+                    arrowTip, arrowBase - coverTop * arrowLength * 0.15f);
             }
 
             Gizmos.matrix = previousMatrix;

@@ -43,6 +43,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ShelfPickup",
+                    "type": "Button",
+                    "id": "a5d2adad-9538-49d9-af9f-e480abb61e50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "f847740f-6d88-4bb4-9fc5-4465fab39d37",
@@ -188,8 +197,30 @@
                 },
                 {
                     "name": "",
-                    "id": "22dd8f18-a8ce-4bd3-a91c-437b41197aa2",
+                    "id": "4d13f2fa-fc6d-418e-a7cd-3304560c8cc1",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "ShelfPickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61dac20b-7d6c-40cb-8839-a11fee4d077b",
                     "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ShelfPickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22dd8f18-a8ce-4bd3-a91c-437b41197aa2",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",

@@ -129,6 +129,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ShelfPickup"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5d2adad-9538-49d9-af9f-e480abb61e50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""f847740f-6d88-4bb4-9fc5-4465fab39d37"",
@@ -274,8 +283,30 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""22dd8f18-a8ce-4bd3-a91c-437b41197aa2"",
+                    ""id"": ""4d13f2fa-fc6d-418e-a7cd-3304560c8cc1"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";KeyboardMouse"",
+                    ""action"": ""ShelfPickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61dac20b-7d6c-40cb-8839-a11fee4d077b"",
                     ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""ShelfPickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22dd8f18-a8ce-4bd3-a91c-437b41197aa2"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -834,6 +865,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
         m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
+        m_Gameplay_ShelfPickup = m_Gameplay.FindAction("ShelfPickup", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
@@ -933,6 +965,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Interact;
     private readonly InputAction m_Gameplay_Drop;
+    private readonly InputAction m_Gameplay_ShelfPickup;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Sprint;
     private readonly InputAction m_Gameplay_Pause;
@@ -966,6 +999,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Drop".
         /// </summary>
         public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ShelfPickup".
+        /// </summary>
+        public InputAction @ShelfPickup => m_Wrapper.m_Gameplay_ShelfPickup;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/Jump".
         /// </summary>
@@ -1028,6 +1065,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
+            @ShelfPickup.started += instance.OnShelfPickup;
+            @ShelfPickup.performed += instance.OnShelfPickup;
+            @ShelfPickup.canceled += instance.OnShelfPickup;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -1069,6 +1109,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
+            @ShelfPickup.started -= instance.OnShelfPickup;
+            @ShelfPickup.performed -= instance.OnShelfPickup;
+            @ShelfPickup.canceled -= instance.OnShelfPickup;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -1332,6 +1375,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDrop(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ShelfPickup" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShelfPickup(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Jump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

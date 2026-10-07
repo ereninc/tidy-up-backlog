@@ -136,31 +136,11 @@ namespace EXW.Multiplayer
             worldPosition = Vector3.zero;
             worldRotation = Quaternion.identity;
 
-            for (int i = carrier.HeldItemCount - 1; i >= 0; i--)
-            {
-                if (!carrier.TryGetHeldItemAt(
-                        i,
-                        out NetworkWorldItem heldItem) ||
-                    !heldItem.TryGetComponent(
-                        out NetworkGameCase gameCase))
-                {
-                    continue;
-                }
-
-                if (!_focusedDestination.TryGetPreviewWorldPose(
-                        gameCase,
-                        out worldPosition,
-                        out worldRotation))
-                {
-                    continue;
-                }
-
-                stackIndex = i;
-                selectedItem = heldItem;
-                return true;
-            }
-
-            return false;
+            NetworkItemReceiver receiver =
+                _focusedDestination.GetComponent<NetworkItemReceiver>();
+            return receiver != null && receiver.TryGetShelfPlacementCandidate(
+                carrier, out stackIndex, out selectedItem,
+                out worldPosition, out worldRotation);
         }
 
         private void SetPreviewSelection(

@@ -284,8 +284,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCaseLoadingCoordinator
   gameplaySceneName: 03_GameplayScene
   fullBarHoldSeconds: 0.35
-  requiredDistinctGames: 40
-  copiesPerGame: 100
+  requiredDistinctGames: 80
+  copiesPerGame: 50
   fallbackAppIds: f046370074ae3200aefd0300a6ac11000e580300faef0b00
   excludedAppIds: 
   extraCandidatesPerPass: 25

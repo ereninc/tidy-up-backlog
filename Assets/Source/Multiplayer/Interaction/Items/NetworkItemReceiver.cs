@@ -27,6 +27,15 @@ namespace EXW.Multiplayer
         [TitleGroup("Receiver"), Required]
         [SerializeField] private NetworkItemDestination destination;
 
+        [TitleGroup("Receiver")]
+        [Tooltip(
+            "Selection volumes that may be bypassed when targeting this shelf's " +
+            "pickable cases. Do not include physical shelf colliders. If empty, " +
+            "legacy shelves use a sole root BoxCollider on a renderer-free slot.")]
+        [SerializeField] private Collider[] interactionColliders;
+
+        private Collider _legacyInteractionCollider;
+
         [ShowInInspector, ReadOnly, BoxGroup("Live Receiver")]
         public int OccupiedCount => IsSpawned
             ? _occupiedCount.Value
@@ -43,12 +52,68 @@ namespace EXW.Multiplayer
         {
             base.Reset();
             AutoAssignDestination();
+            ResolveLegacyInteractionCollider();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            AutoAssignDestination();
+            ResolveLegacyInteractionCollider();
         }
 
         protected override void OnValidate()
         {
             base.OnValidate();
             AutoAssignDestination();
+            ResolveLegacyInteractionCollider();
+        }
+
+        internal bool IsShelfInteractionCollider(Collider candidate)
+        {
+            if (candidate == null ||
+                !(destination is NetworkGameCaseShelfDestination))
+            {
+                return false;
+            }
+
+            if (interactionColliders == null || interactionColliders.Length == 0)
+            {
+                return candidate == _legacyInteractionCollider;
+            }
+
+            for (int i = 0; i < interactionColliders.Length; i++)
+            {
+                if (interactionColliders[i] == candidate &&
+                    candidate.GetComponentInParent<NetworkItemReceiver>() == this)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ResolveLegacyInteractionCollider()
+        {
+            _legacyInteractionCollider = null;
+
+            if ((interactionColliders != null && interactionColliders.Length > 0) ||
+                !(destination is NetworkGameCaseShelfDestination) ||
+                GetComponentInChildren<Renderer>(true) != null ||
+                GetComponentInChildren<MeshFilter>(true) != null ||
+                GetComponentInChildren<Rigidbody>(true) != null)
+            {
+                return;
+            }
+
+            Collider[] slotColliders = GetComponentsInChildren<Collider>(true);
+
+            if (slotColliders.Length == 1 && slotColliders[0] is BoxCollider &&
+                slotColliders[0].transform == transform)
+            {
+                _legacyInteractionCollider = slotColliders[0];
+            }
         }
 
         public override void OnNetworkSpawn()
@@ -64,9 +129,55 @@ namespace EXW.Multiplayer
         public override string GetInteractionDisplayName(
             NetworkInteractionController interactor)
         {
+            if (destination is NetworkGameCaseShelfDestination shelf &&
+                shelf.SlotState != null && shelf.SlotState.LockedAppId != 0)
+            {
+                return GameCaseSessionPlan.GetGameName(shelf.SlotState.LockedAppId);
+            }
+
             return string.IsNullOrWhiteSpace(receiverDisplayName)
                 ? base.GetInteractionDisplayName(interactor)
                 : receiverDisplayName;
+        }
+
+        internal bool TryGetShelfPlacementCandidate(
+            NetworkItemCarrier carrier,
+            out int stackIndex,
+            out NetworkWorldItem selectedItem,
+            out Vector3 worldPosition,
+            out Quaternion worldRotation)
+        {
+            stackIndex = -1;
+            selectedItem = null;
+            worldPosition = Vector3.zero;
+            worldRotation = Quaternion.identity;
+
+            if (!isActiveAndEnabled || !IsSpawned || carrier == null ||
+                !carrier.isActiveAndEnabled || !carrier.IsSpawned ||
+                !(destination is NetworkGameCaseShelfDestination shelf))
+            {
+                return false;
+            }
+
+            for (int i = carrier.HeldItemCount - 1; i >= 0; i--)
+            {
+                if (!carrier.TryGetHeldItemAt(i, out NetworkWorldItem candidate) ||
+                    candidate == null || !candidate.IsSpawned || !candidate.IsHeld ||
+                    candidate.Location.HolderClientId != carrier.OwnerClientId ||
+                    (acceptanceFilter != null && !acceptanceFilter.Accepts(candidate)) ||
+                    !candidate.TryGetComponent(out NetworkGameCase gameCase) ||
+                    !shelf.TryGetPreviewWorldPose(
+                        gameCase, out worldPosition, out worldRotation))
+                {
+                    continue;
+                }
+
+                stackIndex = i;
+                selectedItem = candidate;
+                return true;
+            }
+
+            return false;
         }
 
         public override string GetInteractionPrompt(
@@ -81,9 +192,21 @@ namespace EXW.Multiplayer
                 return "Carrier Missing";
             }
 
+            if (destination is NetworkGameCaseShelfDestination shelf &&
+                shelf.SlotState != null && shelf.SlotState.IsComplete)
+            {
+                return "Shelf Complete";
+            }
+
             if (!carrier.HasHeldItem)
             {
                 return "Hold an Item";
+            }
+
+            if (destination is NetworkGameCaseShelfDestination &&
+                !TryGetShelfPlacementCandidate(carrier, out _, out _, out _, out _))
+            {
+                return "No Matching Game";
             }
 
             return destination != null
@@ -266,12 +389,21 @@ namespace EXW.Multiplayer
         }
 
 #if UNITY_EDITOR
+        public Collider[] EditorInteractionColliders => interactionColliders;
+
         public void EditorConfigure(
             string displayName,
             NetworkItemDestination configuredDestination)
         {
             receiverDisplayName = displayName;
             destination = configuredDestination;
+            ResolveLegacyInteractionCollider();
+        }
+
+        public void EditorConfigureInteractionColliders(Collider[] colliders)
+        {
+            interactionColliders = colliders;
+            ResolveLegacyInteractionCollider();
         }
 #endif
     }

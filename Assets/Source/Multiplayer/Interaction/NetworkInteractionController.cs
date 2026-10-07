@@ -2,7 +2,6 @@ using System;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace EXW.Multiplayer
 {
@@ -16,6 +15,7 @@ namespace EXW.Multiplayer
     public sealed class NetworkInteractionController : NetworkBehaviour
     {
         private const int RaycastBufferSize = 32;
+        private const int RaycastOverflowBufferSize = 128;
         private const int MaximumResultMessageCharacters = 160;
 
         [InfoBox(
@@ -49,12 +49,6 @@ namespace EXW.Multiplayer
         [TitleGroup("Targeting")]
         [SerializeField] private QueryTriggerInteraction queryTriggers =
             QueryTriggerInteraction.Collide;
-
-        [TitleGroup("Input")]
-        [SerializeField] private Key interactionKey = Key.E;
-
-        [TitleGroup("Input")]
-        [SerializeField] private bool allowGamepadSouthButton = true;
 
         [TitleGroup("Input")]
         [Tooltip("Prevents gameplay interactions while a menu owns the cursor.")]
@@ -120,9 +114,13 @@ namespace EXW.Multiplayer
         [Sirenix.OdinInspector.ReadOnly]
         [BoxGroup("Live State")]
         [LabelText("Display Name")]
-        public string CurrentTargetDisplayName => CurrentTarget != null
-            ? CurrentTarget.GetInteractionDisplayName(this)
-            : string.Empty;
+        public string CurrentTargetDisplayName =>
+            CurrentTarget is NetworkItemInteractable shelfCase &&
+            shelfCase.TryGetShelfReceiver(out NetworkItemReceiver receiver)
+                ? receiver.GetInteractionDisplayName(this)
+                : CurrentTarget != null
+                    ? CurrentTarget.GetInteractionDisplayName(this)
+                    : string.Empty;
 
         [ShowInInspector]
         [Sirenix.OdinInspector.ReadOnly]
@@ -145,20 +143,40 @@ namespace EXW.Multiplayer
         public InteractionResult LastResult { get; private set; } =
             InteractionResult.Empty;
 
-        public string InteractionKeyDisplayName => interactionKey.ToString();
+        public string InteractionKeyDisplayName => IsUsingGamepad
+            ? "A / Cross"
+            : "E";
+
+        public string AlternativeInteractionKeyDisplayName => IsUsingGamepad
+            ? "Y / Triangle"
+            : "F";
+
+        public string CurrentAlternativePrompt =>
+            CurrentTarget is NetworkItemReceiver && _alternativeShelfCase != null
+            ? _alternativeShelfCase.GetInteractionPrompt(this)
+            : string.Empty;
+
         public bool CanLocallyInteract =>
             IsSpawned && IsOwner &&
             !GameplayInputGate.IsBlocked &&
+            _inputReader != null && _inputReader.CanReadGameplayInput &&
             CurrentTarget != null;
 
         private readonly RaycastHit[] _raycastHits =
             new RaycastHit[RaycastBufferSize];
+
+        private readonly RaycastHit[] _overflowRaycastHits =
+            new RaycastHit[RaycastOverflowBufferSize];
 
         private uint _nextSequence;
         private double _lastLocalRequestTime = double.NegativeInfinity;
         private double _lastServerRequestTime = double.NegativeInfinity;
         private double _pendingSince;
         private uint _latestResponseSequence;
+        private NetworkPlayerInputReader _inputReader;
+        private NetworkItemInteractable _alternativeShelfCase;
+        private bool IsUsingGamepad =>
+            _inputReader != null && _inputReader.IsGamepad;
 
         private bool CanRequestFromInspector =>
             Application.isPlaying && CanLocallyInteract;
@@ -225,7 +243,8 @@ namespace EXW.Multiplayer
 
             UpdatePendingTimeout();
 
-            if (GameplayInputGate.IsBlocked)
+            if (GameplayInputGate.IsBlocked || _inputReader == null ||
+                !_inputReader.CanReadGameplayInput)
             {
                 ClearFocus();
                 return;
@@ -233,7 +252,17 @@ namespace EXW.Multiplayer
 
             UpdateFocus();
 
-            if (WasInteractionPressedThisFrame())
+            if (requireLockedCursorForInput &&
+                Cursor.lockState != CursorLockMode.Locked)
+            {
+                return;
+            }
+
+            if (_inputReader.ShelfPickupPressedThisFrame)
+            {
+                RequestShelfPickupInteraction();
+            }
+            else if (_inputReader.InteractPressedThisFrame)
             {
                 RequestCurrentInteraction();
             }
@@ -243,6 +272,11 @@ namespace EXW.Multiplayer
         [PropertyOrder(-10)]
         public void AutoAssignReferences()
         {
+            if (_inputReader == null)
+            {
+                _inputReader = GetComponent<NetworkPlayerInputReader>();
+            }
+
             if (viewCamera == null)
             {
                 viewCamera = GetComponentInChildren<Camera>(true);
@@ -266,6 +300,30 @@ namespace EXW.Multiplayer
         [PropertyOrder(-9)]
         public bool RequestCurrentInteraction()
         {
+            return RequestInteraction(CurrentTarget, false);
+        }
+
+        public bool RequestShelfPickupInteraction()
+        {
+            if (!TryBuildViewRay(out Ray ray) ||
+                !TryGetTargetHit(
+                    ray, interactionDistance, 0f, true,
+                    out RaycastHit hit, out NetworkInteractable target, out _) ||
+                !(target is NetworkItemInteractable shelfCase) ||
+                !shelfCase.TryGetShelfReceiver(out _) ||
+                hit.distance > shelfCase.MaximumInteractionDistance ||
+                !shelfCase.IsAvailableLocally(this))
+            {
+                return false;
+            }
+
+            return RequestInteraction(shelfCase, true);
+        }
+
+        private bool RequestInteraction(
+            NetworkInteractable target,
+            bool preferShelfPickup)
+        {
             uint sequence = NextSequence();
 
             if (!IsSpawned)
@@ -286,7 +344,8 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (GameplayInputGate.IsBlocked)
+            if (GameplayInputGate.IsBlocked || _inputReader == null ||
+                !_inputReader.CanReadGameplayInput)
             {
                 SetLocalRejected(
                     sequence,
@@ -295,7 +354,7 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (CurrentTarget == null)
+            if (target == null)
             {
                 SetLocalRejected(
                     sequence,
@@ -304,8 +363,7 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (!CurrentTarget.IsSpawned ||
-                CurrentTarget.NetworkObject == null)
+            if (!target.IsSpawned || target.NetworkObject == null)
             {
                 SetLocalRejected(
                     sequence,
@@ -341,15 +399,16 @@ namespace EXW.Multiplayer
                 sequence,
                 InteractionResultState.Pending,
                 InteractionRejectReason.None,
-                $"Request sent to {CurrentTarget.name}."));
+                $"Request sent to {target.name}."));
 
             NetworkObjectReference targetReference =
-                new NetworkObjectReference(CurrentTarget.NetworkObject);
+                new NetworkObjectReference(target.NetworkObject);
 
             RequestInteractionServerRpc(
                 targetReference,
                 ray.origin,
                 ray.direction,
+                preferShelfPickup,
                 sequence);
 
             return true;
@@ -364,18 +423,21 @@ namespace EXW.Multiplayer
 
         private void UpdateFocus()
         {
+            _alternativeShelfCase = null;
+
             if (!TryBuildViewRay(out Ray ray) ||
-                !TryGetNearestExternalHit(
+                !TryGetTargetHit(
                     ray,
                     interactionDistance,
-                    out RaycastHit hit))
+                    0f,
+                    false,
+                    out RaycastHit hit,
+                    out NetworkInteractable candidate,
+                    out NetworkItemInteractable alternativeShelfCase))
             {
                 SetFocus(null, 0f);
                 return;
             }
-
-            NetworkInteractable candidate =
-                hit.collider.GetComponentInParent<NetworkInteractable>();
 
             if (candidate == null ||
                 candidate.NetworkObject == NetworkObject ||
@@ -386,6 +448,7 @@ namespace EXW.Multiplayer
                 return;
             }
 
+            _alternativeShelfCase = alternativeShelfCase;
             SetFocus(candidate, hit.distance);
         }
 
@@ -417,6 +480,7 @@ namespace EXW.Multiplayer
 
         private void ClearFocus()
         {
+            _alternativeShelfCase = null;
             SetFocus(null, 0f);
         }
 
@@ -447,26 +511,51 @@ namespace EXW.Multiplayer
             return false;
         }
 
-        private bool TryGetNearestExternalHit(
+        private bool TryGetTargetHit(
             Ray ray,
             float maximumDistance,
-            out RaycastHit nearestHit)
+            float targetDistanceTolerance,
+            bool preferShelfPickup,
+            out RaycastHit nearestHit,
+            out NetworkInteractable target,
+            out NetworkItemInteractable alternativeShelfCase)
         {
             nearestHit = default;
+            target = null;
+            alternativeShelfCase = null;
+
+            RaycastHit[] hits = _raycastHits;
 
             int hitCount = Physics.RaycastNonAlloc(
                 ray,
-                _raycastHits,
+                hits,
                 maximumDistance,
                 interactionMask,
                 queryTriggers);
+
+            if (hitCount == hits.Length)
+            {
+                hits = _overflowRaycastHits;
+                hitCount = Physics.RaycastNonAlloc(
+                    ray,
+                    hits,
+                    maximumDistance,
+                    interactionMask,
+                    queryTriggers);
+
+                // NonAlloc may omit the nearest obstacle when full.
+                if (hitCount == hits.Length)
+                {
+                    return false;
+                }
+            }
 
             float nearestDistance = float.PositiveInfinity;
             bool found = false;
 
             for (int i = 0; i < hitCount; i++)
             {
-                RaycastHit candidate = _raycastHits[i];
+                RaycastHit candidate = hits[i];
 
                 if (candidate.collider == null ||
                     IsOwnCollider(candidate.collider) ||
@@ -480,7 +569,127 @@ namespace EXW.Multiplayer
                 found = true;
             }
 
-            return found;
+            if (!found)
+            {
+                return false;
+            }
+
+            target = nearestHit.collider
+                .GetComponentInParent<NetworkInteractable>();
+
+            NetworkItemCarrier carrier = GetComponent<NetworkItemCarrier>();
+
+            if (target is NetworkItemInteractable directCase &&
+                directCase.TryGetShelfReceiver(out NetworkItemReceiver directReceiver) &&
+                directReceiver.TryGetShelfPlacementCandidate(
+                    carrier, out _, out _, out _, out _))
+            {
+                for (int i = 0; i < hitCount; i++)
+                {
+                    RaycastHit obstruction = hits[i];
+
+                    if (obstruction.collider == null ||
+                        IsOwnCollider(obstruction.collider) ||
+                        obstruction.distance > nearestHit.distance ||
+                        obstruction.collider.GetComponentInParent<NetworkInteractable>() == directCase ||
+                        directReceiver.IsShelfInteractionCollider(obstruction.collider))
+                    {
+                        continue;
+                    }
+
+                    target = null;
+                    return true;
+                }
+
+                bool canPickUp = directCase.IsAvailableLocally(this) &&
+                    nearestHit.distance <= directCase.MaximumInteractionDistance +
+                        targetDistanceTolerance;
+                alternativeShelfCase = canPickUp ? directCase : null;
+
+                if (!preferShelfPickup || !canPickUp)
+                {
+                    target = directReceiver;
+                }
+
+                return true;
+            }
+
+            NetworkItemReceiver receiver = target as NetworkItemReceiver;
+
+            if (receiver == null || !receiver.IsAvailableLocally(this) ||
+                !receiver.IsShelfInteractionCollider(nearestHit.collider))
+            {
+                return true;
+            }
+
+            NetworkItemInteractable shelfCase = null;
+            RaycastHit caseHit = default;
+            float caseDistance = float.PositiveInfinity;
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit candidateHit = hits[i];
+
+                if (candidateHit.collider == null ||
+                    IsOwnCollider(candidateHit.collider) ||
+                    candidateHit.distance >= caseDistance)
+                {
+                    continue;
+                }
+
+                NetworkItemInteractable candidate = candidateHit.collider
+                    .GetComponentInParent<NetworkInteractable>() as NetworkItemInteractable;
+
+                if (candidate == null ||
+                    candidateHit.distance > candidate.MaximumInteractionDistance +
+                        targetDistanceTolerance ||
+                    !candidate.IsAvailableLocally(this) ||
+                    !candidate.TryGetShelfReceiver(out NetworkItemReceiver caseReceiver) ||
+                    caseReceiver != receiver)
+                {
+                    continue;
+                }
+
+                shelfCase = candidate;
+                caseHit = candidateHit;
+                caseDistance = candidateHit.distance;
+            }
+
+            if (shelfCase == null)
+            {
+                return true;
+            }
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                RaycastHit obstruction = hits[i];
+
+                if (obstruction.collider == null ||
+                    IsOwnCollider(obstruction.collider) ||
+                    obstruction.distance > caseDistance ||
+                    obstruction.collider.GetComponentInParent<NetworkInteractable>() == shelfCase ||
+                    receiver.IsShelfInteractionCollider(obstruction.collider))
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            if (receiver.TryGetShelfPlacementCandidate(
+                    carrier, out _, out _, out _, out _))
+            {
+                alternativeShelfCase = shelfCase;
+
+                if (!preferShelfPickup)
+                {
+                    return true;
+                }
+            }
+
+            nearestHit = caseHit;
+            target = shelfCase;
+            return true;
         }
 
         private bool IsOwnCollider(Collider candidate)
@@ -490,36 +699,12 @@ namespace EXW.Multiplayer
                    candidateTransform.IsChildOf(transform);
         }
 
-        private bool WasInteractionPressedThisFrame()
-        {
-            if (requireLockedCursorForInput &&
-                Cursor.lockState != CursorLockMode.Locked)
-            {
-                return false;
-            }
-
-            Keyboard keyboard = Keyboard.current;
-
-            if (keyboard != null)
-            {
-                var keyControl = keyboard[interactionKey];
-
-                if (keyControl != null && keyControl.wasPressedThisFrame)
-                {
-                    return true;
-                }
-            }
-
-            return allowGamepadSouthButton &&
-                   Gamepad.current != null &&
-                   Gamepad.current.buttonSouth.wasPressedThisFrame;
-        }
-
         [ServerRpc(RequireOwnership = true)]
         private void RequestInteractionServerRpc(
             NetworkObjectReference targetReference,
             Vector3 submittedOrigin,
             Vector3 submittedDirection,
+            bool preferShelfPickup,
             uint sequence,
             ServerRpcParams rpcParams = default)
         {
@@ -654,10 +839,14 @@ namespace EXW.Multiplayer
                 submittedOrigin,
                 normalizedDirection);
 
-            if (!TryGetNearestExternalHit(
+            if (!TryGetTargetHit(
                     validationRay,
                     allowedDistance + distanceTolerance,
-                    out RaycastHit serverHit))
+                    distanceTolerance,
+                    preferShelfPickup,
+                    out RaycastHit serverHit,
+                    out NetworkInteractable firstHitInteractable,
+                    out _))
             {
                 SendResultToClient(
                     senderClientId,
@@ -667,9 +856,6 @@ namespace EXW.Multiplayer
                     "Server ray did not reach the target.");
                 return;
             }
-
-            NetworkInteractable firstHitInteractable =
-                serverHit.collider.GetComponentInParent<NetworkInteractable>();
 
             if (firstHitInteractable != target)
             {
