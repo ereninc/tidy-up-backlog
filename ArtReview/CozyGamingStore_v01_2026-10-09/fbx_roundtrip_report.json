@@ -1,0 +1,64 @@
+{
+  "imported_into_new_empty_scenes": true,
+  "models": {
+    "environment": {
+      "file": "CozyGamingStore_Environment.fbx",
+      "objects": 237,
+      "mesh_objects": 211,
+      "distinct_mesh_datablocks": 167,
+      "triangles": 41893,
+      "root_scale_one": true,
+      "hierarchy_and_door_pivots_preserved": true,
+      "forward_up_and_metre_geometry_match": true,
+      "max_world_matrix_error": 2.2649765014648438e-06,
+      "max_world_bounds_error_metres": 2.384185791015625e-06,
+      "per_object_material_slots_match": true,
+      "triangle_material_assignments_match": true,
+      "closed_meshes_with_outward_normals": 208,
+      "negative_volume_meshes": 0,
+      "intentional_flat_poster_art": [
+        {
+          "name": "CST01_FBX_CST01_Poster_Back_Orbit_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Poster_Back_Paths_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Poster_Front_Welcome_Mountains",
+          "edges": 7
+        }
+      ],
+      "preview_lights_cameras_scale_references_absent": true
+    },
+    "shelf_placeholders": {
+      "file": "CozyGamingStore_ShelfPlaceholders.fbx",
+      "objects": 27,
+      "mesh_objects": 15,
+      "distinct_mesh_datablocks": 9,
+      "triangles": 27351,
+      "root_scale_one": true,
+      "hierarchy_and_door_pivots_preserved": true,
+      "forward_up_and_metre_geometry_match": true,
+      "max_world_matrix_error": 1.0728836059570312e-06,
+      "max_world_bounds_error_metres": 1.1920928955078125e-06,
+      "per_object_material_slots_match": true,
+      "triangle_material_assignments_match": true,
+      "closed_meshes_with_outward_normals": 13,
+      "negative_volume_meshes": 0,
+      "intentional_flat_poster_art": [
+        {
+          "name": "CST01_FBX_CST01_Spotlight_Poster_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Spotlight_Poster_Trail",
+          "edges": 4
+        }
+      ],
+      "preview_lights_cameras_scale_references_absent": true
+    }
+  },
+  "unity_validation_performed": false
+}

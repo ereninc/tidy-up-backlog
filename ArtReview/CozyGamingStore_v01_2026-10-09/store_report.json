@@ -1,0 +1,462 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "source_library_file": "C:\\Users\\erenc\\Documents\\Repositories\\tidy-up-backlog\\ArtReview\\CozyGamingStore_v01_2026-10-09\\CozyGamingStore_v01.blend",
+  "original_three_shelves_and_gamebox_preserved": true,
+  "original_library_signature": "80930930eb9fad4b0c29dc52d4fd90e6b1093c7b8375a5ce5fb669494d9b0fea",
+  "main_interior_metres": [
+    12.0,
+    18.0,
+    4.55
+  ],
+  "stockroom_interior_metres": [
+    4.0,
+    5.0,
+    3.4
+  ],
+  "shelf_placements": [
+    {
+      "root": "CST01_Shelf_Wall_West_1",
+      "visual": "CST01_Shelf_Wall_West_1_Visual",
+      "type": "Approved_Single_3Rows",
+      "position": [
+        -5.59,
+        -2.036,
+        0
+      ],
+      "rotation_z_degrees": 90.0,
+      "bounds_min": [
+        -5.950000286102295,
+        -4.800000190734863,
+        0.0
+      ],
+      "bounds_max": [
+        -5.162499904632568,
+        0.7279999256134033,
+        3.0399999618530273
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Wall_West_2",
+      "visual": "CST01_Shelf_Wall_West_2_Visual",
+      "type": "Approved_Single_3Rows",
+      "position": [
+        -5.59,
+        3.864,
+        0
+      ],
+      "rotation_z_degrees": 90.0,
+      "bounds_min": [
+        -5.950000286102295,
+        1.1000001430511475,
+        0.0
+      ],
+      "bounds_max": [
+        -5.162499904632568,
+        6.628000259399414,
+        3.0399999618530273
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Wall_East_1",
+      "visual": "CST01_Shelf_Wall_East_1_Visual",
+      "type": "Approved_Single_3Rows",
+      "position": [
+        5.59,
+        -2.036,
+        0
+      ],
+      "rotation_z_degrees": -90.0,
+      "bounds_min": [
+        5.162499904632568,
+        -4.800000190734863,
+        0.0
+      ],
+      "bounds_max": [
+        5.950000286102295,
+        0.7279999256134033,
+        3.0399999618530273
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Wall_East_2",
+      "visual": "CST01_Shelf_Wall_East_2_Visual",
+      "type": "Approved_Single_3Rows",
+      "position": [
+        5.59,
+        3.864,
+        0
+      ],
+      "rotation_z_degrees": -90.0,
+      "bounds_min": [
+        5.162499904632568,
+        1.1000001430511475,
+        0.0
+      ],
+      "bounds_max": [
+        5.950000286102295,
+        6.628000259399414,
+        3.0399999618530273
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Island_1_EastFace",
+      "visual": "CST01_Shelf_Island_1_EastFace_Visual",
+      "type": "Low_Derivative_2Rows",
+      "position": [
+        -1.7400000000000002,
+        0.25,
+        0
+      ],
+      "rotation_z_degrees": 90.0,
+      "bounds_min": [
+        -2.1000001430511475,
+        -2.5139999389648438,
+        0.0
+      ],
+      "bounds_max": [
+        -1.3294998407363892,
+        3.0139999389648438,
+        1.5
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Island_1_WestFace",
+      "visual": "CST01_Shelf_Island_1_WestFace_Visual",
+      "type": "Low_Derivative_2Rows",
+      "position": [
+        -2.46,
+        0.25,
+        0
+      ],
+      "rotation_z_degrees": -90.0,
+      "bounds_min": [
+        -2.870500087738037,
+        -2.5139999389648438,
+        0.0
+      ],
+      "bounds_max": [
+        -2.0999999046325684,
+        3.0139999389648438,
+        1.5
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Island_2_EastFace",
+      "visual": "CST01_Shelf_Island_2_EastFace_Visual",
+      "type": "Low_Derivative_2Rows",
+      "position": [
+        2.46,
+        0.25,
+        0
+      ],
+      "rotation_z_degrees": 90.0,
+      "bounds_min": [
+        2.0999999046325684,
+        -2.5139999389648438,
+        0.0
+      ],
+      "bounds_max": [
+        2.870500087738037,
+        3.0139999389648438,
+        1.5
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Island_2_WestFace",
+      "visual": "CST01_Shelf_Island_2_WestFace_Visual",
+      "type": "Low_Derivative_2Rows",
+      "position": [
+        1.7400000000000002,
+        0.25,
+        0
+      ],
+      "rotation_z_degrees": -90.0,
+      "bounds_min": [
+        1.3294998407363892,
+        -2.5139999389648438,
+        0.0
+      ],
+      "bounds_max": [
+        2.1000001430511475,
+        3.0139999389648438,
+        1.5
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Rear_Archive_Double",
+      "visual": "CST01_Shelf_Rear_Archive_Double_Visual",
+      "type": "Approved_Double_4Rows",
+      "position": [
+        0,
+        5.9,
+        0
+      ],
+      "rotation_z_degrees": 0.0,
+      "bounds_min": [
+        -2.7639999389648438,
+        5.163000106811523,
+        0.0
+      ],
+      "bounds_max": [
+        2.7639999389648438,
+        6.63700008392334,
+        3.7100000381469727
+      ]
+    },
+    {
+      "root": "CST01_Shelf_Entry_Spotlight",
+      "visual": "CST01_Shelf_Entry_Spotlight_Visual",
+      "type": "Approved_Featured_Display",
+      "position": [
+        3.45,
+        -6.25,
+        0
+      ],
+      "rotation_z_degrees": 0.0,
+      "bounds_min": [
+        1.971000075340271,
+        -6.808499813079834,
+        0.0
+      ],
+      "bounds_max": [
+        4.928999900817871,
+        -5.710000038146973,
+        3.2749998569488525
+      ]
+    }
+  ],
+  "measured_clearances_metres": {
+    "west_main_aisle": 2.2919998168945312,
+    "centre_main_aisle": 2.6589996814727783,
+    "east_main_aisle": 2.2919998168945312,
+    "island_to_rear_rack": 2.1490001678466797,
+    "behind_rear_rack": 2.36299991607666,
+    "rear_rack_west_end": 2.3984999656677246,
+    "rear_rack_east_end": 2.3984999656677246,
+    "entrance_structural_opening": 2.2,
+    "entrance_open_leaves_clear": 2.04500013589859,
+    "stock_door_structural_opening": 2.2,
+    "stock_door_open_leaf_clear": 2.1999999523162845,
+    "counter_front_approach": 3.3860000610351566,
+    "counter_staff_to_front_wall": 2.0,
+    "display_front_approach": 2.191500186920166
+  },
+  "low_shelf_height": 1.5,
+  "low_shelf_deck_tops": [
+    0.13,
+    0.94
+  ],
+  "low_shelf_upper_case_top": 1.58,
+  "camera_eye_height": 1.68,
+  "human_reference_height": 1.8,
+  "gamebox_dimensions_width_depth_height": [
+    0.48,
+    0.048,
+    0.64
+  ],
+  "low_shelf_derivative_authorized_by_user": true,
+  "walkability_grid_step": 0.2,
+  "walkability_person_diameter": 0.6,
+  "connected_walkable_cells": 3449,
+  "all_walkable_cells_connected": true,
+  "connected_waypoints": {
+    "entrance": [
+      -0.5,
+      -8.0
+    ],
+    "checkout": [
+      -3.1,
+      -4.9
+    ],
+    "west_aisle": [
+      -4.0,
+      0.25
+    ],
+    "centre_aisle": [
+      0,
+      0.25
+    ],
+    "east_aisle": [
+      4.0,
+      0.25
+    ],
+    "rear_cross_aisle": [
+      0,
+      4.1
+    ],
+    "rear_rack_back": [
+      0,
+      7.8
+    ],
+    "depot": [
+      3.8,
+      12.0
+    ],
+    "spotlight": [
+      3.45,
+      -8.0
+    ]
+  },
+  "front_clear_organizing_zone": {
+    "name": "Front organizing space",
+    "min": [
+      -1.6,
+      -6.5
+    ],
+    "max": [
+      1.6,
+      -3.3
+    ],
+    "area_m2": 10.24
+  },
+  "geometry": {
+    "environment": {
+      "triangles": 41893,
+      "material_count": 15,
+      "materials": [
+        "CGS01_Dusty_Blue",
+        "CGS01_Mustard",
+        "CGS01_Preview_Ink",
+        "CGS01_Soft_Cream",
+        "CGS01_Warm_Oak",
+        "CST01_Delivery_Cardboard",
+        "CST01_Floor_BlueGrey",
+        "CST01_Floor_Cream",
+        "CST01_Lamp_Warm_Diffuser",
+        "CST01_Light_Wood",
+        "CST01_Muted_Terracotta",
+        "CST01_Sage_Leaves",
+        "CST01_Soft_Teal",
+        "CST01_Warm_Plaster",
+        "CST01_Window_Glass"
+      ],
+      "mesh_objects": 211,
+      "negative_scales": [],
+      "nonmanifold_edges_including_intentional_flat_art": 21,
+      "open_parts": [
+        {
+          "name": "CST01_FBX_CST01_Poster_Back_Orbit_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Poster_Back_Paths_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Poster_Front_Welcome_Mountains",
+          "edges": 7
+        }
+      ],
+      "degenerate_faces": 0
+    },
+    "shelf_placeholders": {
+      "triangles": 27351,
+      "material_count": 4,
+      "materials": [
+        "CGS01_Dusty_Blue",
+        "CGS01_Mustard",
+        "CGS01_Soft_Cream",
+        "CGS01_Warm_Oak"
+      ],
+      "mesh_objects": 15,
+      "negative_scales": [],
+      "nonmanifold_edges_including_intentional_flat_art": 11,
+      "open_parts": [
+        {
+          "name": "CST01_FBX_CST01_Spotlight_Poster_Mountains",
+          "edges": 7
+        },
+        {
+          "name": "CST01_FBX_CST01_Spotlight_Poster_Trail",
+          "edges": 4
+        }
+      ],
+      "degenerate_faces": 0
+    }
+  },
+  "palette": {
+    "CST01_Warm_Plaster": {
+      "srgb_hex": "#F1E8D7",
+      "roughness": 0.85,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Light_Wood": {
+      "srgb_hex": "#C5A17C",
+      "roughness": 0.74,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Floor_Cream": {
+      "srgb_hex": "#DDD5C5",
+      "roughness": 0.82,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Floor_BlueGrey": {
+      "srgb_hex": "#CBD2CD",
+      "roughness": 0.82,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Soft_Teal": {
+      "srgb_hex": "#67958B",
+      "roughness": 0.76,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Muted_Terracotta": {
+      "srgb_hex": "#B77D68",
+      "roughness": 0.82,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Delivery_Cardboard": {
+      "srgb_hex": "#B69C78",
+      "roughness": 0.88,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Sage_Leaves": {
+      "srgb_hex": "#829B70",
+      "roughness": 0.83,
+      "metallic": 0,
+      "emission": 0
+    },
+    "CST01_Lamp_Warm_Diffuser": {
+      "srgb_hex": "#FFF1D2",
+      "roughness": 0.55,
+      "metallic": 0,
+      "emission": 2
+    },
+    "CST01_Window_Glass": {
+      "srgb_hex": "#D6E5DF",
+      "roughness": 0.14,
+      "metallic": 0,
+      "emission": 0,
+      "transmission": 0.96,
+      "ior": 1.45
+    }
+  },
+  "no_game_cases_or_piles_spawned_in_store": true,
+  "fbx_axis_forward": "-Z",
+  "fbx_axis_up": "Y",
+  "export_root_scale": [
+    1,
+    1,
+    1
+  ],
+  "unity_validation_performed": false,
+  "render_settings": {
+    "engine": "Cycles",
+    "device": "GPU",
+    "samples": 64,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": -2.0
+  },
+  "approved_shelf_library": "C:\\Users\\erenc\\Documents\\Repositories\\tidy-up-backlog\\ArtReview\\GamingShelf_v01_2026-10-09\\CozyGamingShelf_v01.blend",
+  "all_player_eye_cameras_in_walkable_space": true,
+  "props_to_shelves_bounding_box_penetrations": 0,
+  "cartons_to_workbench_bounding_box_penetrations": 0
+}
