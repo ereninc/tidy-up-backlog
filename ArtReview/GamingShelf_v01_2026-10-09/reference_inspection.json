@@ -1,0 +1,157 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "loaded_saved_file": "C:\\Users\\erenc\\Desktop\\6.1sol.blend",
+  "scene_units": {
+    "system": "METRIC",
+    "scale_length": 1.0
+  },
+  "objects": [
+    {
+      "name": "GameBox",
+      "type": "MESH",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "world_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "dimensions": [
+        1.2000000476837158,
+        0.19999992847442627,
+        1.600000023841858
+      ],
+      "parent": null,
+      "mesh": "Cube.001",
+      "vertices": 16,
+      "polygons": 14,
+      "local_min": [
+        -0.6000000238418579,
+        -0.09999996423721313,
+        -0.800000011920929
+      ],
+      "local_max": [
+        0.6000000238418579,
+        0.09999996423721313,
+        0.800000011920929
+      ],
+      "materials": [
+        "m_CaseShell",
+        "m_CoverArt"
+      ],
+      "modifiers": []
+    },
+    {
+      "name": "Placeholder_Shelf_Type1",
+      "type": "MESH",
+      "location": [
+        5.0,
+        0.0,
+        1.0
+      ],
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        3.6000001430511475,
+        1.8000000715255737,
+        1.8000000715255737
+      ],
+      "world_matrix": [
+        [
+          3.6000001430511475,
+          0.0,
+          0.0,
+          5.0
+        ],
+        [
+          0.0,
+          1.8000000715255737,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.8000000715255737,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "dimensions": [
+        7.200000286102295,
+        4.2946248054504395,
+        10.800000190734863
+      ],
+      "parent": null,
+      "mesh": "Cube.002",
+      "vertices": 280,
+      "polygons": 278,
+      "local_min": [
+        -1.0,
+        -1.0100873708724976,
+        -1.0
+      ],
+      "local_max": [
+        1.0,
+        1.3758152723312378,
+        5.0
+      ],
+      "materials": [],
+      "modifiers": []
+    }
+  ],
+  "images": [
+    {
+      "name": "Render Result",
+      "filepath": "",
+      "packed": false
+    },
+    {
+      "name": "Viewer Node",
+      "filepath": "",
+      "packed": false
+    }
+  ]
+}

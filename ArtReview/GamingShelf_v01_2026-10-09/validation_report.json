@@ -1,0 +1,17 @@
+{
+  "saved_blend_loads": true,
+  "reference_objects_meshes_transforms_materials_match_original": {
+    "GameBox": true,
+    "Placeholder_Shelf_Type1": true
+  },
+  "rerun_no_duplicate_generated_objects": true,
+  "reference_cases": 30,
+  "editable_mesh_font_parts": 30,
+  "export_objects": 1,
+  "export_triangles": 2620,
+  "export_materials": 4,
+  "export_identity_transforms_ground_center_pivot": true,
+  "export_boundary_or_nonmanifold_edges": 0,
+  "all_30_cases_fit_checks_passed": true,
+  "original_saved_file_was_not_overwritten": true
+}

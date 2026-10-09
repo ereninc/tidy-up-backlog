@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -64,23 +65,48 @@ namespace EXW.Multiplayer
         public static event Action<GameCaseShelfCompletionData>
             AnySlotCompleted;
 
+        /// <summary>
+        /// Raised once on the server and each connected client when every
+        /// session case has been committed to a shelf slot. Late joiners do
+        /// not replay this celebration.
+        /// </summary>
+        public static event Action AllCasesPlaced;
+
+        private static readonly Dictionary<NetworkGameCaseShelfSlotState, int>
+            ServerPlacedCounts =
+                new Dictionary<NetworkGameCaseShelfSlotState, int>();
+
+        private static int _serverPlacedCaseCount;
+        private static bool _allCasesPlacedServer;
+
         public event Action<
             GameCaseShelfSlotSnapshot,
             GameCaseShelfSlotSnapshot> SnapshotChanged;
 
         private uint _raisedCompletionRevision;
+        private uint _notifiedSnapshotRevision;
 
         [RuntimeInitializeOnLoadMethod(
             RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetStaticEvents()
         {
+            GameCaseSessionPlan.Changed -= HandleSessionPlanChanged;
+            ServerPlacedCounts.Clear();
+            _serverPlacedCaseCount = 0;
+            _allCasesPlacedServer = false;
             AnySlotCompleted = null;
+            AllCasesPlaced = null;
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             _snapshot.OnValueChanged += HandleSnapshotChanged;
+
+            if (IsServer)
+            {
+                RegisterSessionSlotServer();
+            }
 
             if (IsServer && _snapshot.Value.Revision == 0)
             {
@@ -89,13 +115,22 @@ namespace EXW.Multiplayer
 
             // Intentionally current/current. A late joiner receives the final
             // visual state but must not replay rewards or celebration events.
+            _notifiedSnapshotRevision = _snapshot.Value.Revision;
             SnapshotChanged?.Invoke(_snapshot.Value, _snapshot.Value);
+            UpdateSessionProgressServer();
         }
 
         public override void OnNetworkDespawn()
         {
             _snapshot.OnValueChanged -= HandleSnapshotChanged;
+            UnregisterSessionSlotServer();
             base.OnNetworkDespawn();
+        }
+
+        public override void OnDestroy()
+        {
+            UnregisterSessionSlotServer();
+            base.OnDestroy();
         }
 
         internal void PublishServer(
@@ -136,18 +171,111 @@ namespace EXW.Multiplayer
 
             _snapshot.Value = current;
 
-            // NGO normally invokes OnValueChanged for the server write. This
-            // explicit call makes the semantic transaction robust to version
-            // differences; the revision guard prevents a duplicate.
-            TryRaiseCompletion(previous, current);
+            // Row authority must see this commit before the next placement.
+            // NGO's callback and this fallback share one revision guard.
+            HandleSnapshotChanged(previous, current);
         }
 
         private void HandleSnapshotChanged(
             GameCaseShelfSlotSnapshot previous,
             GameCaseShelfSlotSnapshot current)
         {
+            if (_notifiedSnapshotRevision == current.Revision)
+            {
+                return;
+            }
+
+            _notifiedSnapshotRevision = current.Revision;
             SnapshotChanged?.Invoke(previous, current);
             TryRaiseCompletion(previous, current);
+            UpdateSessionProgressServer();
+        }
+
+        private void RegisterSessionSlotServer()
+        {
+            if (ServerPlacedCounts.ContainsKey(this))
+            {
+                return;
+            }
+
+            if (ServerPlacedCounts.Count == 0)
+            {
+                GameCaseSessionPlan.Changed += HandleSessionPlanChanged;
+            }
+
+            ServerPlacedCounts.Add(this, 0);
+        }
+
+        private void UpdateSessionProgressServer()
+        {
+            if (!IsServer || !IsSpawned ||
+                !ServerPlacedCounts.TryGetValue(this, out int previousCount))
+            {
+                return;
+            }
+
+            int currentCount = OccupiedCount;
+            ServerPlacedCounts[this] = currentCount;
+            _serverPlacedCaseCount += currentCount - previousCount;
+            TryRaiseAllCasesPlacedServer(this);
+        }
+
+        private void UnregisterSessionSlotServer()
+        {
+            if (!ServerPlacedCounts.TryGetValue(this, out int previousCount))
+            {
+                return;
+            }
+
+            ServerPlacedCounts.Remove(this);
+            _serverPlacedCaseCount -= previousCount;
+
+            if (ServerPlacedCounts.Count == 0)
+            {
+                GameCaseSessionPlan.Changed -= HandleSessionPlanChanged;
+                _serverPlacedCaseCount = 0;
+                _allCasesPlacedServer = false;
+            }
+        }
+
+        private static void HandleSessionPlanChanged()
+        {
+            foreach (NetworkGameCaseShelfSlotState slot in ServerPlacedCounts.Keys)
+            {
+                TryRaiseAllCasesPlacedServer(slot);
+                break;
+            }
+        }
+
+        private static void TryRaiseAllCasesPlacedServer(
+            NetworkGameCaseShelfSlotState source)
+        {
+            int requiredCount = GameCaseSessionPlan.TotalCaseCount;
+
+            if (_allCasesPlacedServer || requiredCount <= 0 ||
+                _serverPlacedCaseCount < requiredCount ||
+                source == null || !source.IsServer || !source.IsSpawned)
+            {
+                return;
+            }
+
+            _allCasesPlacedServer = true;
+            Debug.Log(
+                "[GameCaseShelf] All session cases placed | " +
+                $"Placed={_serverPlacedCaseCount} | Target={requiredCount}",
+                source);
+
+            source.NotifyAllCasesPlacedClientRpc();
+            AllCasesPlaced?.Invoke();
+        }
+
+        [ClientRpc]
+        private void NotifyAllCasesPlacedClientRpc()
+        {
+            if (!IsServer)
+            {
+                AllCasesPlaced?.Invoke();
+            }
         }
 
         private void TryRaiseCompletion(

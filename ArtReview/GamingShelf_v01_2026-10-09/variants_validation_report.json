@@ -1,0 +1,31 @@
+{
+  "saved_blend_loads": true,
+  "first_shelf_and_original_references_match_backup": true,
+  "first_shelf_scene_and_palette_unchanged": true,
+  "models": {
+    "double_sided": {
+      "triangles": 4764,
+      "shared_materials": 4,
+      "cases_verified": 80,
+      "cases_rest_on_decks": true,
+      "case_to_case_and_case_to_model_bounding_box_penetrations": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "positive_scales_identity_export_ground_pivot": true,
+      "rerun_duplicate_objects": 0
+    },
+    "featured_display": {
+      "triangles": 3876,
+      "shared_materials": 4,
+      "cases_verified": 15,
+      "cases_rest_on_decks": true,
+      "case_to_case_and_case_to_model_bounding_box_penetrations": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "positive_scales_identity_export_ground_pivot": true,
+      "rerun_duplicate_objects": 0
+    }
+  },
+  "poster_front_uv_available": true,
+  "unity_editor_or_export_validation_performed": false
+}

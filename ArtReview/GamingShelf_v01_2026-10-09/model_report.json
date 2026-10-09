@@ -1,0 +1,702 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "source_saved_blend": "C:\\Users\\erenc\\Documents\\Repositories\\tidy-up-backlog\\ArtReview\\GamingShelf_v01_2026-10-09\\CozyGamingShelf_v01.blend",
+  "source_reference_object": "GameBox",
+  "source_reference_fingerprint_unchanged": true,
+  "reference_mesh_local_dimensions": [
+    1.2000000476837158,
+    0.19999992847442627,
+    1.600000023841858
+  ],
+  "reference_original_object_scale": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "preview_case_scale_from_raw_mesh": [
+    0.3999999761581421,
+    0.24000008404254913,
+    0.4000000059604645
+  ],
+  "unity_case_dimensions_width_height_thickness": [
+    0.48,
+    0.64,
+    0.048
+  ],
+  "module_dimensions_width_depth_height": [
+    5.5279998779296875,
+    0.7875000238418579,
+    3.0399999618530273
+  ],
+  "module_world_bounds_min": [
+    -2.7639999389648438,
+    -0.42750000953674316,
+    0.0
+  ],
+  "module_world_bounds_max": [
+    2.7639999389648438,
+    0.36000001430511475,
+    3.0399999618530273
+  ],
+  "row_count": 3,
+  "boxes_per_row": 10,
+  "source_mesh_or_font_parts": 30,
+  "evaluated_export_triangles": 2620,
+  "shelf_material_count": 4,
+  "palette_srgb_hex_roughness_metallic": {
+    "Warm_Oak": [
+      "#9B6849",
+      0.72,
+      0.0
+    ],
+    "Soft_Cream": [
+      "#E9DFCC",
+      0.78,
+      0.0
+    ],
+    "Dusty_Blue": [
+      "#789CA8",
+      0.65,
+      0.0
+    ],
+    "Mustard": [
+      "#D5AE54",
+      0.67,
+      0.0
+    ]
+  },
+  "geometry_warnings": [],
+  "fit_checks": [
+    {
+      "name": "CGS01_Preview_GameBox_Row01_01",
+      "row": 1,
+      "world_min": [
+        -2.5439999103546143,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        -2.063999891281128,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 0.07000008964538562,
+      "right_clearance": 4.677999891281128,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_02",
+      "row": 1,
+      "world_min": [
+        -2.0320000648498535,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        -1.5520000457763672,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 0.5819999351501464,
+      "right_clearance": 4.166000045776367,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_03",
+      "row": 1,
+      "world_min": [
+        -1.5199999809265137,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        -1.0399999618530273,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 1.0940000190734862,
+      "right_clearance": 3.6539999618530272,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_04",
+      "row": 1,
+      "world_min": [
+        -1.0080000162124634,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        -0.527999997138977,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 1.6059999837875365,
+      "right_clearance": 3.141999997138977,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_05",
+      "row": 1,
+      "world_min": [
+        -0.4959999918937683,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        -0.016000017523765564,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 2.1180000081062316,
+      "right_clearance": 2.6300000175237654,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_06",
+      "row": 1,
+      "world_min": [
+        0.016000017523765564,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        0.4959999918937683,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 2.6300000175237654,
+      "right_clearance": 2.1180000081062316,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_07",
+      "row": 1,
+      "world_min": [
+        0.527999997138977,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        1.0080000162124634,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 3.141999997138977,
+      "right_clearance": 1.6059999837875365,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_08",
+      "row": 1,
+      "world_min": [
+        1.0399999618530273,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        1.5199999809265137,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 3.6539999618530272,
+      "right_clearance": 1.0940000190734862,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_09",
+      "row": 1,
+      "world_min": [
+        1.5520000457763672,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        2.0320000648498535,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 4.166000045776367,
+      "right_clearance": 0.5819999351501464,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row01_10",
+      "row": 1,
+      "world_min": [
+        2.063999891281128,
+        -0.2240000069141388,
+        0.31999996304512024
+      ],
+      "world_max": [
+        2.5439999103546143,
+        -0.17599999904632568,
+        0.9600000381469727
+      ],
+      "left_clearance": 4.677999891281128,
+      "right_clearance": 0.07000008964538562,
+      "base_error": 3.6954879767403526e-08,
+      "headroom": 0.13499996185302732,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699996185302728
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_01",
+      "row": 2,
+      "world_min": [
+        -2.5439999103546143,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        -2.063999891281128,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 0.07000008964538562,
+      "right_clearance": 4.677999891281128,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_02",
+      "row": 2,
+      "world_min": [
+        -2.0320000648498535,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        -1.5520000457763672,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 0.5819999351501464,
+      "right_clearance": 4.166000045776367,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_03",
+      "row": 2,
+      "world_min": [
+        -1.5199999809265137,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        -1.0399999618530273,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 1.0940000190734862,
+      "right_clearance": 3.6539999618530272,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_04",
+      "row": 2,
+      "world_min": [
+        -1.0080000162124634,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        -0.527999997138977,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 1.6059999837875365,
+      "right_clearance": 3.141999997138977,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_05",
+      "row": 2,
+      "world_min": [
+        -0.4959999918937683,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        -0.016000017523765564,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 2.1180000081062316,
+      "right_clearance": 2.6300000175237654,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_06",
+      "row": 2,
+      "world_min": [
+        0.016000017523765564,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        0.4959999918937683,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 2.6300000175237654,
+      "right_clearance": 2.1180000081062316,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_07",
+      "row": 2,
+      "world_min": [
+        0.527999997138977,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        1.0080000162124634,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 3.141999997138977,
+      "right_clearance": 1.6059999837875365,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_08",
+      "row": 2,
+      "world_min": [
+        1.0399999618530273,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        1.5199999809265137,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 3.6539999618530272,
+      "right_clearance": 1.0940000190734862,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_09",
+      "row": 2,
+      "world_min": [
+        1.5520000457763672,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        2.0320000648498535,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 4.166000045776367,
+      "right_clearance": 0.5819999351501464,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row02_10",
+      "row": 2,
+      "world_min": [
+        2.063999891281128,
+        -0.2240000069141388,
+        1.1799999475479126
+      ],
+      "world_max": [
+        2.5439999103546143,
+        -0.17599999904632568,
+        1.8200000524520874
+      ],
+      "left_clearance": 4.677999891281128,
+      "right_clearance": 0.07000008964538562,
+      "base_error": 5.245208734017126e-08,
+      "headroom": 0.13499994754791267,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.09699994754791263
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_01",
+      "row": 3,
+      "world_min": [
+        -2.5439999103546143,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        -2.063999891281128,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 0.07000008964538562,
+      "right_clearance": 4.677999891281128,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_02",
+      "row": 3,
+      "world_min": [
+        -2.0320000648498535,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        -1.5520000457763672,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 0.5819999351501464,
+      "right_clearance": 4.166000045776367,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_03",
+      "row": 3,
+      "world_min": [
+        -1.5199999809265137,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        -1.0399999618530273,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 1.0940000190734862,
+      "right_clearance": 3.6539999618530272,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_04",
+      "row": 3,
+      "world_min": [
+        -1.0080000162124634,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        -0.527999997138977,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 1.6059999837875365,
+      "right_clearance": 3.141999997138977,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_05",
+      "row": 3,
+      "world_min": [
+        -0.4959999918937683,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        -0.016000017523765564,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 2.1180000081062316,
+      "right_clearance": 2.6300000175237654,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_06",
+      "row": 3,
+      "world_min": [
+        0.016000017523765564,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        0.4959999918937683,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 2.6300000175237654,
+      "right_clearance": 2.1180000081062316,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_07",
+      "row": 3,
+      "world_min": [
+        0.527999997138977,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        1.0080000162124634,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 3.141999997138977,
+      "right_clearance": 1.6059999837875365,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_08",
+      "row": 3,
+      "world_min": [
+        1.0399999618530273,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        1.5199999809265137,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 3.6539999618530272,
+      "right_clearance": 1.0940000190734862,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_09",
+      "row": 3,
+      "world_min": [
+        1.5520000457763672,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        2.0320000648498535,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 4.166000045776367,
+      "right_clearance": 0.5819999351501464,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    },
+    {
+      "name": "CGS01_Preview_GameBox_Row03_10",
+      "row": 3,
+      "world_min": [
+        2.063999891281128,
+        -0.2240000069141388,
+        2.0399999618530273
+      ],
+      "world_max": [
+        2.5439999103546143,
+        -0.17599999904632568,
+        2.679999828338623
+      ],
+      "left_clearance": 4.677999891281128,
+      "right_clearance": 0.07000008964538562,
+      "base_error": 3.814697269177714e-08,
+      "headroom": 0.1350001716613769,
+      "back_clearance": 0.4059999990463257,
+      "front_lip_clearance": 0.10399999308586128,
+      "front_loading_headroom": 0.062000171661376946
+    }
+  ],
+  "preview_material_note": "Original mesh/materials unchanged. Object-linked material overrides only on preview copies; cover graphics/cameras/lights are not exported."
+}

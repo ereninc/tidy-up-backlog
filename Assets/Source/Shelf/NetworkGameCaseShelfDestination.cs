@@ -141,6 +141,11 @@ namespace EXW.Multiplayer
         }
 
         public NetworkGameCaseShelfSlotState SlotState => slotState;
+        public NetworkGameCaseShelfRow Row { get; private set; }
+        public uint EffectiveLockedAppId => slotState != null &&
+            slotState.LockedAppId != 0
+                ? slotState.LockedAppId
+                : Row != null ? Row.LockedAppId : 0;
         public Transform StartPoint => startPoint != null
             ? startPoint
             : transform;
@@ -156,6 +161,35 @@ namespace EXW.Multiplayer
         {
             ResolveReferences();
             EnsureOccupants();
+            NetworkGameCaseShelfRow.BindConfiguredRowsFor(this);
+        }
+
+        internal bool TryAssignRow(NetworkGameCaseShelfRow row)
+        {
+            if (Row != null && Row != row)
+            {
+                Row.ReportMembershipConflict(this, row);
+                row.ReportMembershipConflict(this, Row);
+                return false;
+            }
+
+            Row = row;
+            return true;
+        }
+
+        internal void UnassignRow(NetworkGameCaseShelfRow row)
+        {
+            if (Row == row)
+            {
+                Row = null;
+            }
+        }
+
+        private bool CanAcceptAppId(uint appId)
+        {
+            return (slotState.LockedAppId == 0 ||
+                    slotState.LockedAppId == appId) &&
+                   (Row == null || Row.CanAcceptAppId(appId));
         }
 
         private void OnValidate()
@@ -206,11 +240,12 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (snapshot.LockedAppId != 0 &&
-                snapshot.LockedAppId != gameCase.AppId)
+            if (!CanAcceptAppId(gameCase.AppId))
             {
                 rejectionMessage =
-                    "This shelf slot is reserved for another game.";
+                    Row == null
+                        ? "This shelf slot is reserved for another game."
+                        : "This shelf slot or row cannot accept this game.";
                 return false;
             }
 
@@ -262,7 +297,7 @@ namespace EXW.Multiplayer
 
             uint lockedAppId = slotState.Snapshot.LockedAppId;
 
-            if (lockedAppId != 0 && lockedAppId != gameCase.AppId)
+            if (!CanAcceptAppId(gameCase.AppId))
             {
                 Debug.LogError(
                     "[GameCaseShelf] A mismatched game reached CommitServer.",
@@ -339,8 +374,7 @@ namespace EXW.Multiplayer
                 return false;
             }
 
-            if (snapshot.LockedAppId != 0 &&
-                snapshot.LockedAppId != gameCase.AppId)
+            if (!CanAcceptAppId(gameCase.AppId))
             {
                 return false;
             }

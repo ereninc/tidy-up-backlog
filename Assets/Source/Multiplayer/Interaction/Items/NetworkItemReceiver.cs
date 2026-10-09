@@ -130,9 +130,9 @@ namespace EXW.Multiplayer
             NetworkInteractionController interactor)
         {
             if (destination is NetworkGameCaseShelfDestination shelf &&
-                shelf.SlotState != null && shelf.SlotState.LockedAppId != 0)
+                shelf.EffectiveLockedAppId != 0)
             {
-                return GameCaseSessionPlan.GetGameName(shelf.SlotState.LockedAppId);
+                return GameCaseSessionPlan.GetGameName(shelf.EffectiveLockedAppId);
             }
 
             return string.IsNullOrWhiteSpace(receiverDisplayName)
