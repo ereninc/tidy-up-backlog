@@ -1,0 +1,4 @@
+MATERIALS_FIXED
+12 prefabs; 53 prefab slots and 210 scene slots rebound.
+Reload verified: 53 prefab slots, 263 scene slots reference BlenderMats assets.
+All 15 extracted materials use supported URP/Lit. Existing material values preserved.

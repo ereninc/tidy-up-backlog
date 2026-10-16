@@ -3,7 +3,82 @@ guid: 9acec06305123694c8ff44df64e02b5a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CGS01_Dusty_Blue
+    second: {fileID: 2100000, guid: b9f6d0c76e88c834e98ce41d1db07cf7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CGS01_Mustard
+    second: {fileID: 2100000, guid: 0f3ceb09469b84a45b80e2d68edbec82, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CGS01_Preview_Ink
+    second: {fileID: 2100000, guid: 48d138aa67c5b9446abd9581216b43f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CGS01_Soft_Cream
+    second: {fileID: 2100000, guid: 2b991e85f7cf8eb4da4242d651957991, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CGS01_Warm_Oak
+    second: {fileID: 2100000, guid: f79ddf2e92f721f4da717556eb6f0dc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Delivery_Cardboard
+    second: {fileID: 2100000, guid: ee6244843def9a3418ff9b62f4a2e5b9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Floor_BlueGrey
+    second: {fileID: 2100000, guid: 7e51daf97feecb14dbd1161f3676da23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Floor_Cream
+    second: {fileID: 2100000, guid: 87b926d48485e924b9522d9fde60d3d7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Lamp_Warm_Diffuser
+    second: {fileID: 2100000, guid: c8593a51b1ae95e4c8434982820efde4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Light_Wood
+    second: {fileID: 2100000, guid: e157f91d348fe1a41aa3e6ff52ee2cfc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Muted_Terracotta
+    second: {fileID: 2100000, guid: 7af046ef6481cf94d82ce6291884d8d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Sage_Leaves
+    second: {fileID: 2100000, guid: 98ddab5c7bf0f2a4790db21ccd402def, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Soft_Teal
+    second: {fileID: 2100000, guid: 8d9c8237317943548aa4641ca733ca51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Warm_Plaster
+    second: {fileID: 2100000, guid: b6c164dbcfc369444ba75c5fbe9084bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CST01_Window_Glass
+    second: {fileID: 2100000, guid: 261bb943eba3e2743ba71e14b850948b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
