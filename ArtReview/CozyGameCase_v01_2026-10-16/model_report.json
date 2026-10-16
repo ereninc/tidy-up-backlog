@@ -1,0 +1,26 @@
+{
+  "blender_version": "5.2.2 LTS",
+  "vertices_before_normal_splits": 72,
+  "triangles": 140,
+  "material_slots": 2,
+  "closed_manifold": true,
+  "source_dimensions": [
+    0.012,
+    0.002,
+    0.016
+  ],
+  "unity_mesh_dimensions_expected": [
+    0.012,
+    0.002,
+    0.016
+  ],
+  "game_visible_dimensions": [
+    0.48,
+    0.048,
+    0.64
+  ],
+  "pivot": "centre",
+  "cover_normal": "-Y",
+  "combiner_contract": "single mesh / Shell=0 / Cover=1",
+  "renders_created": false
+}

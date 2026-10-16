@@ -1,4 +1,7 @@
-MATERIALS_FIXED
-12 prefabs; 53 prefab slots and 210 scene slots rebound.
-Reload verified: 53 prefab slots, 263 scene slots reference BlenderMats assets.
-All 15 extracted materials use supported URP/Lit. Existing material values preserved.
+PASS
+Source: 272 imported vertices, 140 triangles, Shell0/Cover1, readable.
+Combined: 272 vertices, 140 triangles, one submesh, 16-bit indices, UV1 mask verified.
+Gameplay dimensions: (0.480000, 0.048000, 0.640000); existing scale(40,24,40), Z180 rotation, centred pivot and cover UV orientation preserved.
+Existing CaseMeshCombiner used without changes. Gameplay scene/network prefab unchanged.
+Source prefab previews the included original artwork; runtime combined prefab uses the existing global cover array.
+Play Mode performance was not measured.

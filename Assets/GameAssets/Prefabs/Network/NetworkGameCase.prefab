@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1423656030
+  GlobalObjectIdHash: 3070506066
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EXW.Multiplayer.NetworkGameCase
   sceneCaseIndex: 2
   combinedRenderer: {fileID: 4844845932129268465}
-  lowPlaytimeColor: {r: 0.09524385, g: 0.21459568, b: 0.554717, a: 1}
-  mediumPlaytimeColor: {r: 0.3226415, g: 0.67860603, b: 1, a: 1}
-  highPlaytimeColor: {r: 1, g: 0.66023904, b: 0.031372547, a: 1}
+  lowPlaytimeColor: {r: 0.13930221, g: 0.14538611, b: 0.16226411, a: 1}
+  mediumPlaytimeColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+  highPlaytimeColor: {r: 1, g: 0.60898983, b: 0, a: 1}
   blueAtHours: 8
   goldAtHours: 24
 --- !u!114 &6678711445758127724
@@ -223,7 +223,14 @@ MonoBehaviour:
     m_RotationOrder: 4
   animatePosition: 1
   animateRotation: 1
+  settleWorldDrops: 1
+  settleStartNormalized: 0.55
+  settleHeight: 0.018
+  settleAngle: 1.25
+  settleCycles: 1.25
   hierarchyReadyTimeout: 2
+  snapshotCatchUpDuration: 0.09
+  finalPoseCatchUpDuration: 0.12
 --- !u!54 &5764986861227937245
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -363,7 +370,7 @@ PrefabInstance:
     - target: {fileID: -5754084199372789682, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: a4ac7c0794e900d458dc8e0807403797, type: 2}
+      objectReference: {fileID: 4300000, guid: 8b6987d35a8f38346891c9c9e17fcd09, type: 2}
     - target: {fileID: 919132149155446097, guid: fd75094e3049b664080e40a8260c4a8d, type: 3}
       propertyPath: m_Name
       value: GameBoxVisual

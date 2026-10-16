@@ -25,7 +25,7 @@ internal static class CozyStorePrototypeSetup
     static CozyStorePrototypeSetup()
     {
         EditorApplication.update += CheckRequest;
-        if (Directory.Exists(Folder)) File.WriteAllText(Folder + "/ready.txt", "setup-v6");
+        if (Directory.Exists(Folder)) File.WriteAllText(Folder + "/ready.txt", "setup-v7");
     }
 
     private static void CheckRequest()
@@ -45,6 +45,7 @@ internal static class CozyStorePrototypeSetup
             else if (command == "validate") ValidateSavedScene();
             else if (command == "restore") RestoreBeforeSetup();
             else if (command == "materials") RepairMaterialBindings();
+            else if (command == "case") CozyGameCaseAssetBuilder.Build();
             else throw new InvalidOperationException("Unknown command: " + command);
         }
         catch (Exception e)
