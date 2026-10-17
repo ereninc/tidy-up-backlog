@@ -140,6 +140,8 @@ namespace EXW.Multiplayer
 
         public event Action<InteractionResult> InteractionResultChanged;
 
+        public event Action NetworkDespawned;
+
         public InteractionResult LastResult { get; private set; } =
             InteractionResult.Empty;
 
@@ -216,6 +218,7 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkDespawn()
         {
+            NetworkDespawned?.Invoke();
             ClearFocus();
 
             if (Local == this)

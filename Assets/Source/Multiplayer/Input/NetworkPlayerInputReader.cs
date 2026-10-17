@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -56,6 +57,8 @@ namespace EXW.Multiplayer
         [BoxGroup("Runtime")]
         public bool ActionsReady => _actions != null;
 
+        public InputActionAsset ActionsAsset => _actions?.asset;
+
         [ShowInInspector]
         [ReadOnly]
         [BoxGroup("Runtime")]
@@ -107,11 +110,14 @@ namespace EXW.Multiplayer
         public bool PausePressedThisFrame =>
             CanReadOwnerInput &&
             _gameplayEnabled &&
+            _pauseSuppressors.Count == 0 &&
             _actions.Gameplay.Pause.WasPressedThisFrame();
 
         private PlayerInputActions _actions;
         private bool _gameplayEnabled = true;
         private bool _callbacksSubscribed;
+        private readonly HashSet<int> _pauseSuppressors = new HashSet<int>();
+        private readonly HashSet<int> _uiInputOwners = new HashSet<int>();
 
         private bool CanReadOwnerInput =>
             IsSpawned &&
@@ -160,6 +166,25 @@ namespace EXW.Multiplayer
             _gameplayEnabled = enabled;
         }
 
+        /// <summary>Stops gameplay Pause while a local gameplay UI owns its own Back action.</summary>
+        public void SetPauseSuppressed(UnityEngine.Object owner, bool suppressed)
+        {
+            if (owner == null) return;
+            if (suppressed) _pauseSuppressors.Add(owner.GetInstanceID());
+            else _pauseSuppressors.Remove(owner.GetInstanceID());
+        }
+
+        /// <summary>Shares the local owner's UI map with the existing scene UI module.</summary>
+        public void SetUIInputEnabled(UnityEngine.Object owner, bool enabled)
+        {
+            if (owner == null) return;
+            if (enabled) _uiInputOwners.Add(owner.GetInstanceID());
+            else _uiInputOwners.Remove(owner.GetInstanceID());
+            if (_actions == null) return;
+            if (_uiInputOwners.Count > 0) _actions.UI.Enable();
+            else _actions.UI.Disable();
+        }
+
         private void InitializeOwnerInput()
         {
             if (_actions != null)
@@ -178,6 +203,7 @@ namespace EXW.Multiplayer
             _actions = new PlayerInputActions();
             SubscribeCallbacks();
             _actions.Gameplay.Enable();
+            if (_uiInputOwners.Count > 0) _actions.UI.Enable();
 
             Local = this;
 
@@ -194,19 +220,23 @@ namespace EXW.Multiplayer
 
         private void ShutdownOwnerInput()
         {
-            if (_actions != null)
-            {
-                UnsubscribeCallbacks();
-                _actions.Gameplay.Disable();
-                _actions.Dispose();
-                _actions = null;
-            }
-
+            // UI consumers must detach the shared actions before the asset is disposed.
             if (Local == this)
             {
                 Local = null;
                 LocalReaderChanged?.Invoke(null);
             }
+
+            if (_actions != null)
+            {
+                UnsubscribeCallbacks();
+                _actions.Gameplay.Disable();
+                _actions.UI.Disable();
+                _actions.Dispose();
+                _actions = null;
+            }
+            _pauseSuppressors.Clear();
+            _uiInputOwners.Clear();
         }
 
         private void SubscribeCallbacks()
@@ -222,6 +252,9 @@ namespace EXW.Multiplayer
             {
                 gameplay.actions[i].performed += HandleAnyActionPerformed;
             }
+            InputActionMap ui = _actions.UI.Get();
+            for (int i = 0; i < ui.actions.Count; i++)
+                ui.actions[i].performed += HandleAnyActionPerformed;
 
             _actions.Gameplay.Interact.performed += HandleInteractPerformed;
             _actions.Gameplay.Drop.performed += HandleDropPerformed;
@@ -248,6 +281,9 @@ namespace EXW.Multiplayer
             {
                 gameplay.actions[i].performed -= HandleAnyActionPerformed;
             }
+            InputActionMap ui = _actions.UI.Get();
+            for (int i = 0; i < ui.actions.Count; i++)
+                ui.actions[i].performed -= HandleAnyActionPerformed;
 
             _actions.Gameplay.Interact.performed -= HandleInteractPerformed;
             _actions.Gameplay.Drop.performed -= HandleDropPerformed;
@@ -316,7 +352,7 @@ namespace EXW.Multiplayer
         {
             UpdateActiveDevice(context);
 
-            if (CanReadOwnerInput && _gameplayEnabled)
+            if (CanReadOwnerInput && _gameplayEnabled && _pauseSuppressors.Count == 0)
             {
                 PausePressed?.Invoke();
             }

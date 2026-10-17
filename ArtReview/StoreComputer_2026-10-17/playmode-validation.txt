@@ -1,0 +1,35 @@
+Unity 6000.2.7f2 — isolated actual NGO host/UnityTransport fixture
+LIMITS: Single host only; no remote-client race/forged sender/disconnect or transport late-join test. Internal target transaction bypasses controller aim/range/LOS.
+LIMITS: Virtual device events are tested; physical hardware, pixel readback, visual brightness and held-case stack are not reviewed.
+DEBUG SCENE  path=
+DEBUG ROOT PCValidation_EmptySceneMarker scene= components=UnityEngine.Transform;
+PASS Unique isolated unsaved fixture scene is active before runtime cleanup
+PASS Fixture contains no production session/Steam/network runtime
+PASS Actual NGO/UTP host starts
+PASS Actual host client ID zero is connected
+PASS Existing PlayerInputActions asset supplies explicit EventSystem actions
+PASS Existing Assets/UINavigation/UINavigationSettings.asset loads
+PASS Real local input reader and gameplay presence are ready
+PASS Generated PC prefab validates in isolated scene
+PASS PC begins idle with no camera transition
+PASS Normal server transaction commits host-zero reservation
+PASS Snapshot distinguishes occupied host-zero from empty
+PASS Accepted local grant blocks gameplay during transition
+PASS PC remains server-owned
+PASS Real RenderTexture is created without readback
+PASS Local HUD is temporarily hidden
+PASS Local camera reaches authored screen anchor
+PASS UI map and existing EventSystem remain usable
+PASS UI input fixture begins with the reserved local desktop
+PASS Desktop has the Upgrades default selection for gamepad Submit
+PASS Generated gamepad South reaches the existing UI module and opens Upgrades
+PASS Generated gamepad East closes the app without leaving the computer
+PASS Store Info button center maps through the real fullscreen RectTransform to RT pixels
+FAIL Generated mouse movement produces Store Info hover through the real UI module
+FAIL System.InvalidOperationException: Generated mouse movement produces Store Info hover through the real UI module
+  at StoreComputerPlayModeValidation.Check (System.Boolean condition, System.String description) [0x00036] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Editor\StoreComputerPlayModeValidation.cs:469 
+  at StoreComputerUiInputValidation+<Run>d__0.MoveNext () [0x00548] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Editor\StoreComputerUiInputValidation.cs:82 
+  at StoreComputerPlayModeValidation+<Run>d__21.MoveNext () [0x007c7] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Editor\StoreComputerPlayModeValidation.cs:268 
+  at StoreComputerPlayModeValidation.Tick () [0x000c0] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Editor\StoreComputerPlayModeValidation.cs:151 
+FAIL — 23 checks; Unity Play Mode host fixture.
+NOT RUN: real second peer and competing clients; remote transport disconnect and late join; physical mouse/gamepad hardware; interaction-controller origin/aim/range/line-of-sight checks. Virtual Input System/UI events are reported in the checks above.

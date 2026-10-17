@@ -46,6 +46,13 @@ internal static class CozyStorePrototypeSetup
             else if (command == "restore") RestoreBeforeSetup();
             else if (command == "materials") RepairMaterialBindings();
             else if (command == "case") CozyGameCaseAssetBuilder.Build();
+            else if (command == "pc_inspect") StoreComputerEditorSetup.Inspect();
+            else if (command == "pc_setup") StoreComputerEditorSetup.Build();
+            else if (command == "pc_validate") StoreComputerEditorSetup.Validate();
+            else if (command == "pc_finish") StoreComputerEditorSetup.Finish();
+            else if (command == "pc_test") StoreComputerPlayModeValidation.Begin();
+            else if (command == "pc_recover") StoreComputerPlayModeValidation.RecoverEditorState();
+            else if (command == "pc_scene") EditorSceneManager.OpenScene("Assets/Scene/03_GameplayScene.unity");
             else throw new InvalidOperationException("Unknown command: " + command);
         }
         catch (Exception e)

@@ -1,0 +1,3 @@
+PASS Sobel material pass 0 synchronous compilation requested.
+PASS No Sobel shader compiler errors.
+Visual PC enter/exit, fade and co-op camera checks require Game View verification.

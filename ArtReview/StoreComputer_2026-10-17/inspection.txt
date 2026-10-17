@@ -1,0 +1,7 @@
+SCENE Assets/Scene/02_MainMenuScene.unity loaded=True dirty=False
+EVENTSYSTEM Others/EventSystem active=True module=EventSystem (UnityEngine.InputSystem.UI.InputSystemUIInputModule) actions=PlayerInputActions (UnityEngine.InputSystem.InputActionAsset)
+EVENTSYSTEM IngameDebugConsole/EventSystem active=False module= actions=
+FOCUS ScreenCanvas/ScreenController
+CANVAS IngameDebugConsole mode=ScreenSpaceOverlay enabled=True group=null
+CANVAS ScreenCanvas mode=ScreenSpaceOverlay enabled=True group=null
+PLAYER_CAMERA Player/CameraPitchRoot/PlayerCamera FOV=60 near=0,3 PP=True

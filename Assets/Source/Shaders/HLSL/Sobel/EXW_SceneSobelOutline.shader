@@ -57,6 +57,29 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                 float _Intensity;
             CBUFFER_END
 
+            // Camera-scoped opaque UI coverage. UI does not replace scene depth.
+            float4 _EXW_SobelUiRect;
+            float4 _EXW_SobelUiOpacity;
+
+            float GetVisibleSceneAmount(float2 pixelPosition)
+            {
+                float matteVisibility = 1.0 - saturate(_EXW_SobelUiOpacity.y);
+                float imageOpacity = saturate(_EXW_SobelUiOpacity.x);
+                if (matteVisibility <= 0.0001 || imageOpacity <= 0.0)
+                {
+                    return matteVisibility;
+                }
+
+                float2 screenUv = pixelPosition / _ScaledScreenParams.xy;
+                #if UNITY_UV_STARTS_AT_TOP
+                    screenUv.y = 1.0 - screenUv.y;
+                #endif
+
+                float insideUi = all(screenUv >= _EXW_SobelUiRect.xy) &&
+                                 all(screenUv <= _EXW_SobelUiRect.zw) ? 1.0 : 0.0;
+                return (1.0 - imageOpacity * insideUi) * matteVisibility;
+            }
+
             bool IsBackgroundDepth(float rawDepth)
             {
                 #if UNITY_REVERSED_Z
@@ -153,6 +176,12 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
                     sampler_LinearClamp,
                     uv);
 
+                float visibleScene = GetVisibleSceneAmount(input.positionCS.xy);
+                if (visibleScene <= 0.0001)
+                {
+                    return sceneColor;
+                }
+
                 float centerRawDepth = SampleSceneDepth(uv);
 
                 if (IsBackgroundDepth(centerRawDepth))
@@ -186,6 +215,7 @@ Shader "EXW/Fullscreen/Scene Sobel Outline"
 
                 edge = saturate(
                     edge *
+                    visibleScene *
                     distanceMultiplier *
                     _Intensity *
                     _OutlineColor.a);

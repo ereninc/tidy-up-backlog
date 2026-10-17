@@ -86,8 +86,11 @@ namespace EXW.Multiplayer
             }
             if (_ownsCursor)
             {
-                Cursor.lockState = _previousLockState;
-                Cursor.visible = _previousCursorVisible;
+                if (!GameplayInputGate.IsBlocked)
+                {
+                    Cursor.lockState = _previousLockState;
+                    Cursor.visible = _previousCursorVisible;
+                }
                 _ownsCursor = false;
             }
         }
