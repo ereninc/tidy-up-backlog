@@ -77,6 +77,8 @@ namespace EXW.Multiplayer
 
         public bool RequestUseSkillSlot(int slotIndex)
         {
+            if (GameplayInputGate.IsBlocked) return false;
+
             if (!IsSpawned || catalog == null ||
                 !catalog.TryGetSkillAtSlot(
                     slotIndex,
@@ -227,6 +229,12 @@ namespace EXW.Multiplayer
             if (!IsServer || !IsSpawned || catalog == null)
             {
                 resultMessage = "Shared skill service is not ready.";
+                return false;
+            }
+
+            if (NetworkStoreComputer.IsClientUsingComputerServer(NetworkManager, senderClientId))
+            {
+                resultMessage = "Skills are unavailable while using a computer.";
                 return false;
             }
 

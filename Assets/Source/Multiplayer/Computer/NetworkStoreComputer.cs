@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,6 +10,21 @@ namespace EXW.Multiplayer
     public sealed class NetworkStoreComputer : NetworkInteractable
     {
         public const string UnavailableMessage = "Computer is not available.";
+        private static readonly HashSet<NetworkStoreComputer> ServerComputers = new HashSet<NetworkStoreComputer>();
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetServerComputers() => ServerComputers.Clear();
+
+        internal static bool IsClientUsingComputerServer(NetworkManager manager, ulong clientId)
+        {
+            foreach (var computer in ServerComputers)
+            {
+                if (computer != null && computer.NetworkManager == manager &&
+                    computer.IsInUse && computer.UserClientId == clientId)
+                    return true;
+            }
+            return false;
+        }
 
         private readonly NetworkVariable<StoreComputerSnapshot> _state =
             new NetworkVariable<StoreComputerSnapshot>(
@@ -64,6 +80,7 @@ namespace EXW.Multiplayer
 
             if (IsServer)
             {
+                ServerComputers.Add(this);
                 _state.Value = new StoreComputerSnapshot
                 {
                     SessionToken = _state.Value.SessionToken,
@@ -81,6 +98,7 @@ namespace EXW.Multiplayer
 
         public override void OnNetworkDespawn()
         {
+            ServerComputers.Remove(this);
             if (IsServer)
             {
                 ReleaseServer();

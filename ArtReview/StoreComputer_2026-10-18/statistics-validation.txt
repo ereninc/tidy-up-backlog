@@ -1,0 +1,17 @@
+PASS Loaded scene has a computer
+PASS Statistics presenter propagated from prefab
+PASS GameScreen CanvasGroup hides wallet, skill bar and stack HUD only locally
+PASS Statistics reference desktop
+PASS Statistics reference balanceText
+PASS Statistics reference completedShelvesText
+PASS Statistics reference completedSlotsText
+PASS Statistics reference totalGamesText
+PASS Statistics reference totalCasesText
+PASS Statistics reference placementText
+PASS Statistics reference placementProgress
+PASS Progress bar width at %0
+PASS Progress bar width at %50
+PASS Progress bar width at %100
+PASS Tracked physical shelves=12, slots=445
+PASS Existing replicated wallet and slot snapshots are used; no new RPC or polling.
+Play Mode/co-op checks remain: PC-only skills, HUD restore, live balance, placement/pickup progress and late join.

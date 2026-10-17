@@ -7,3 +7,6 @@ internal sealed class ComputerLocalPresenterEditor : OdinEditor { }
 
 [CustomEditor(typeof(StoreComputerDesktopPresenter)), CanEditMultipleObjects]
 internal sealed class StoreComputerDesktopPresenterEditor : OdinEditor { }
+
+[CustomEditor(typeof(StoreComputerStatisticsPresenter)), CanEditMultipleObjects]
+internal sealed class StoreComputerStatisticsPresenterEditor : OdinEditor { }

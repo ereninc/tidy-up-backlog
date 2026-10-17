@@ -366908,7 +366908,7 @@ PrefabInstance:
     - target: {fileID: 1423168572010460469, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
       propertyPath: 'hudGroups.Array.data[0]'
       value: 
-      objectReference: {fileID: 924145394}
+      objectReference: {fileID: 1179217048}
     - target: {fileID: 3726039084542220046, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1284627984
@@ -366961,6 +366961,58 @@ PrefabInstance:
       propertyPath: focusCoordinator
       value: 
       objectReference: {fileID: 1590569477}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: shelfRoots.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[0]'
+      value: 
+      objectReference: {fileID: 817702056}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1773316565}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[2]'
+      value: 
+      objectReference: {fileID: 565661704}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1867869087}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2119959309}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[5]'
+      value: 
+      objectReference: {fileID: 610176031}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[6]'
+      value: 
+      objectReference: {fileID: 232185107}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2025105221}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[8]'
+      value: 
+      objectReference: {fileID: 1333352975}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1018407625}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[10]'
+      value: 
+      objectReference: {fileID: 1229152510}
+    - target: {fileID: 7336062014723902007, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
+      propertyPath: 'shelfRoots.Array.data[11]'
+      value: 
+      objectReference: {fileID: 1044856347}
     - target: {fileID: 7586439445477209595, guid: 45d375e8cbcafa04daf7ea7de852745e, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25

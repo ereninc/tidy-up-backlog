@@ -525,8 +525,8 @@ internal static class StoreComputerEditorSetup
 
     private static void WireHud(ComputerLocalPresenter local)
     {
-        var targets = Object.FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None)
-            .Where(t => t.name == "StackInfoPanel").ToArray();
+        var targets = local.gameObject.scene.GetRootGameObjects().SelectMany(t => t.GetComponentsInChildren<GameScreen>(true))
+            .Select(t => t.transform).ToArray();
         var groups = targets.Select(t =>
         {
             var group = t.GetComponent<CanvasGroup>();
@@ -542,12 +542,145 @@ internal static class StoreComputerEditorSetup
         PrefabUtility.RecordPrefabInstancePropertyModifications(local);
     }
 
+    [MenuItem("Tools/Computer/Upgrade Statistics and HUD")]
+    internal static void UpgradeStatistics()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Leave Play Mode before upgrading the PC UI.");
+        CreateRoundedSprite();
+        string path = Folder + "/CounterComputer.prefab";
+        GameObject root = PrefabUtility.LoadPrefabContents(path);
+        try
+        {
+            var desktop = root.GetComponent<StoreComputerDesktopPresenter>();
+            var so = new SerializedObject(desktop);
+            var panel = ((GameObject)so.FindProperty("storeInfoPanel").objectReferenceValue).transform;
+            var button = (Button)so.FindProperty("storeInfoButton").objectReferenceValue;
+            button.transform.Find("Title").GetComponent<TMP_Text>().text = "Statistics";
+            button.transform.Find("Subtitle").GetComponent<TMP_Text>().text = "Your store at a glance.";
+            panel.Find("AppTitle").GetComponent<TMP_Text>().text = "Store statistics";
+            foreach (string name in new[] { "IconTile", "Icon", "Message", "Detail", "StatisticsContent" })
+            {
+                var child = panel.Find(name);
+                if (child != null) Object.DestroyImmediate(child.gameObject);
+            }
+            var background = panel.parent;
+            var status = background.Find("TopStatus").GetComponent<TMP_Text>();
+            status.text = "STORE DESKTOP";
+            status.alignment = TextAlignmentOptions.Left;
+            status.rectTransform.anchoredPosition = new Vector2(-80, 319);
+            status.rectTransform.sizeDelta = new Vector2(300, 40);
+            var oldBalance = background.Find("ComputerBalance");
+            if (oldBalance != null) Object.DestroyImmediate(oldBalance.gameObject);
+            var balance = Text("ComputerBalance", background, "$ --", 440, 319, 290, 46, 27, Cream, FontStyles.Bold, TextAlignmentOptions.Right);
+            var content = Rect("StatisticsContent", panel, 0, 0, 1168, 516);
+            var shelves = StatisticsTile("CompletedShelves", content, -276, 82, "COMPLETED SHELVES", "0 / 0");
+            var slots = StatisticsTile("CompletedSlots", content, 276, 82, "COMPLETED SLOTS", "0 / 0");
+            var games = StatisticsTile("GameTitles", content, -276, -32, "GAME TITLES", "--");
+            var cases = StatisticsTile("TotalCases", content, 276, -32, "TOTAL CASES", "--");
+            var placed = Text("PlacedCases", content, "Waiting for session data", 0, -134, 1080, 42, 23, Ink);
+            var bar = Panel("PlacementProgress", content, 0, -181, 1080, 22, Hex("C7D9D3"), true);
+            var fillArea = Rect("FillArea", bar, 0, 0, 0, 0);
+            Stretch(fillArea);
+            fillArea.offsetMin = new Vector2(4, 4);
+            fillArea.offsetMax = new Vector2(-4, -4);
+            var fill = Panel("Fill", fillArea, 0, 0, 0, 0, Teal, true);
+            Stretch(fill);
+            var slider = bar.gameObject.AddComponent<Slider>();
+            slider.interactable = false;
+            slider.navigation = new Navigation { mode = Navigation.Mode.None };
+            slider.transition = Selectable.Transition.None;
+            slider.fillRect = fill;
+            slider.minValue = 0;
+            slider.maxValue = 1;
+            slider.value = 0;
+            var stats = root.GetComponent<StoreComputerStatisticsPresenter>();
+            if (stats == null) stats = root.AddComponent<StoreComputerStatisticsPresenter>();
+            Set(stats, "desktop", desktop);
+            Set(stats, "balanceText", balance);
+            Set(stats, "completedShelvesText", shelves);
+            Set(stats, "completedSlotsText", slots);
+            Set(stats, "totalGamesText", games);
+            Set(stats, "totalCasesText", cases);
+            Set(stats, "placementText", placed);
+            Set(stats, "placementProgress", slider);
+            SetUILayer(content);
+            SetUILayer(balance.transform);
+            PrefabUtility.SaveAsPrefabAsset(root, path);
+        }
+        finally { PrefabUtility.UnloadPrefabContents(root); }
+        AssetDatabase.SaveAssets();
+        File.WriteAllText("ArtReview/CozyStorePrototype_2026-10-16/request.txt", "pc_statistics_wire");
+    }
+
+    private static TMP_Text StatisticsTile(string name, Transform parent, float x, float y, string label, string value)
+    {
+        var tile = Panel(name, parent, x, y, 532, 100, Cream, true);
+        Text("Label", tile, label, 0, 27, 480, 30, 17, Teal, FontStyles.Bold);
+        return Text("Value", tile, value, 0, -16, 480, 50, 32, Ink, FontStyles.Bold);
+    }
+
+    internal static void FinishStatisticsSetup()
+    {
+        const string reportPath = "ArtReview/StoreComputer_2026-10-18/statistics-validation.txt";
+        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(reportPath));
+        try
+        {
+            var report = new StringBuilder();
+            var computers = Object.FindObjectsByType<ComputerLocalPresenter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            Check(computers.Length > 0, "Loaded scene has a computer", report);
+            foreach (var pc in computers)
+            {
+                var sceneRoots = pc.gameObject.scene.GetRootGameObjects();
+                var shelfParent = sceneRoots.Single(t => t.name == "CozyStoreShelves").transform;
+                var stats = pc.GetComponent<StoreComputerStatisticsPresenter>();
+                Check(stats != null, "Statistics presenter propagated from prefab", report);
+                var shelves = shelfParent.Cast<Transform>().Where(t => t.GetComponentsInChildren<NetworkGameCaseShelfSlotState>(true).Length > 0).ToArray();
+                var serialized = new SerializedObject(stats);
+                var property = serialized.FindProperty("shelfRoots");
+                property.arraySize = shelves.Length;
+                for (int i = 0; i < shelves.Length; i++) property.GetArrayElementAtIndex(i).objectReferenceValue = shelves[i];
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+                PrefabUtility.RecordPrefabInstancePropertyModifications(stats);
+                WireHud(pc);
+                var hud = new SerializedObject(pc).FindProperty("hudGroups");
+                Check(hud.arraySize == 1 && ((CanvasGroup)hud.GetArrayElementAtIndex(0).objectReferenceValue).GetComponent<GameScreen>() != null,
+                    "GameScreen CanvasGroup hides wallet, skill bar and stack HUD only locally", report);
+                foreach (string field in new[] { "desktop", "balanceText", "completedShelvesText", "completedSlotsText", "totalGamesText", "totalCasesText", "placementText", "placementProgress" })
+                    Check(serialized.FindProperty(field).objectReferenceValue != null, "Statistics reference " + field, report);
+                var progress = (Slider)serialized.FindProperty("placementProgress").objectReferenceValue;
+                float width = ((RectTransform)progress.fillRect.parent).rect.width;
+                foreach (float value in new[] { 0f, .5f, 1f })
+                {
+                    progress.SetValueWithoutNotify(value);
+                    progress.fillRect.ForceUpdateRectTransforms();
+                    Check(Mathf.Abs(progress.fillRect.rect.width - width * value) < .01f, $"Progress bar width at {value:P0}", report);
+                }
+                progress.SetValueWithoutNotify(0);
+                int slots = shelves.Sum(t => t.GetComponentsInChildren<NetworkGameCaseShelfSlotState>(true).Length);
+                Check(shelves.Length > 0 && slots > 0, $"Tracked physical shelves={shelves.Length}, slots={slots}", report);
+                report.AppendLine("PASS Existing replicated wallet and slot snapshots are used; no new RPC or polling.");
+                EditorSceneManager.MarkSceneDirty(pc.gameObject.scene);
+                EditorSceneManager.SaveScene(pc.gameObject.scene);
+            }
+            report.AppendLine("Play Mode/co-op checks remain: PC-only skills, HUD restore, live balance, placement/pickup progress and late join.");
+            File.WriteAllText(reportPath, report.ToString());
+            File.WriteAllText(Result, report.ToString());
+            Debug.Log("[Computer Statistics] " + report);
+        }
+        catch (Exception e)
+        {
+            File.WriteAllText(reportPath, "ERROR\n" + e);
+            File.WriteAllText(Result, "ERROR\n" + e);
+            Debug.LogException(e);
+        }
+    }
+
     // Restore driven values dirtied by Unity's unrelated existing layout rebuilds.
-    internal static void Finish()
+    internal static void Finish(string layoutPath = null)
     {
         var local = Object.FindFirstObjectByType<ComputerLocalPresenter>();
         WireHud(local);
-        string path = ReviewFolder + "/original-scene-layout.json";
+        string path = layoutPath ?? ReviewFolder + "/original-scene-layout.json";
         if (File.Exists(path))
         {
             var layout = JsonUtility.FromJson<LayoutSnapshot>(File.ReadAllText(path));

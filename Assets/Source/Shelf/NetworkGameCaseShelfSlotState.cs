@@ -71,6 +71,7 @@ namespace EXW.Multiplayer
         /// not replay this celebration.
         /// </summary>
         public static event Action AllCasesPlaced;
+        public static event Action<NetworkGameCaseShelfSlotState, bool> SpawnStateChanged;
 
         private static readonly Dictionary<NetworkGameCaseShelfSlotState, int>
             ServerPlacedCounts =
@@ -96,6 +97,7 @@ namespace EXW.Multiplayer
             _allCasesPlacedServer = false;
             AnySlotCompleted = null;
             AllCasesPlaced = null;
+            SpawnStateChanged = null;
         }
 
         public override void OnNetworkSpawn()
@@ -118,12 +120,14 @@ namespace EXW.Multiplayer
             _notifiedSnapshotRevision = _snapshot.Value.Revision;
             SnapshotChanged?.Invoke(_snapshot.Value, _snapshot.Value);
             UpdateSessionProgressServer();
+            SpawnStateChanged?.Invoke(this, true);
         }
 
         public override void OnNetworkDespawn()
         {
             _snapshot.OnValueChanged -= HandleSnapshotChanged;
             UnregisterSessionSlotServer();
+            SpawnStateChanged?.Invoke(this, false);
             base.OnNetworkDespawn();
         }
 

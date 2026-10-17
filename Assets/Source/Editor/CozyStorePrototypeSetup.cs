@@ -49,6 +49,9 @@ internal static class CozyStorePrototypeSetup
             else if (command == "pc_inspect") StoreComputerEditorSetup.Inspect();
             else if (command == "pc_setup") StoreComputerEditorSetup.Build();
             else if (command == "pc_validate") StoreComputerEditorSetup.Validate();
+            else if (command == "pc_statistics") StoreComputerEditorSetup.UpgradeStatistics();
+            else if (command == "pc_statistics_wire") StoreComputerEditorSetup.FinishStatisticsSetup();
+            else if (command == "pc_statistics_finish") StoreComputerEditorSetup.Finish("ArtReview/StoreComputer_2026-10-18/original-scene-layout.json");
             else if (command == "pc_finish") StoreComputerEditorSetup.Finish();
             else if (command == "pc_test") StoreComputerPlayModeValidation.Begin();
             else if (command == "pc_recover") StoreComputerPlayModeValidation.RecoverEditorState();

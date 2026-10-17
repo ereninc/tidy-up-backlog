@@ -112,6 +112,8 @@ namespace EXW.Multiplayer
 
         public void UseSkillSlot(int slotIndex)
         {
+            if (GameplayInputGate.IsBlocked) return;
+
             NetworkSharedSkillService service =
                 NetworkSharedSkillService.Instance;
 

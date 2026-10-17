@@ -22,7 +22,15 @@ namespace EXW.Multiplayer
         [SerializeField, Min(0)] private long startingBalance;
 
         public static NetworkSharedWallet Instance { get; private set; }
+        public static event Action<NetworkSharedWallet> InstanceChanged;
         public long Balance => _balance.Value;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics()
+        {
+            Instance = null;
+            InstanceChanged = null;
+        }
 
         public event Action<long, long> BalanceChanged;
 
@@ -38,6 +46,7 @@ namespace EXW.Multiplayer
             }
 
             BalanceChanged?.Invoke(_balance.Value, _balance.Value);
+            InstanceChanged?.Invoke(this);
         }
 
         public override void OnNetworkDespawn()
@@ -47,6 +56,7 @@ namespace EXW.Multiplayer
             if (Instance == this)
             {
                 Instance = null;
+                InstanceChanged?.Invoke(null);
             }
 
             base.OnNetworkDespawn();
