@@ -447,6 +447,49 @@ namespace EXW.Multiplayer
                 resultMessage = $"Discarded {itemName}.";
                 return true;
             }
+            return CommitPlacementServer(carrier, receiver, item, plan, out resultMessage);
+        }
+
+        public static bool CanPlaceWorldGameCaseServer(NetworkWorldItem item)
+        {
+            return item != null && item.IsSpawned && item.IsServer &&
+                   item.isActiveAndEnabled && item.Location.IsWorld &&
+                   item.NetworkManager != null && item.NetworkManager.IsListening &&
+                   !item.NetworkManager.ShutdownInProgress &&
+                   item.TryGetComponent(out NetworkGameCase gameCase) && gameCase.isActiveAndEnabled && gameCase.IsBound &&
+                   (!item.TryGetComponent(out NetworkCarryable carryable) || carryable.isActiveAndEnabled) &&
+                   (!item.TryGetComponent(out NetworkItemInteractable interactable) || interactable.isActiveAndEnabled) &&
+                   !NetworkItemPhysicsSettler.IsSettlingServer(item) &&
+                   item.TryGetComponent(out NetworkItemMotionPresenter motion) && !motion.IsAnimating &&
+                   motion.TryCaptureCurrentVisualPose(out _, out _);
+        }
+
+        /// <summary>Server-only world case entry; no carrier, client RPC or alternate placement rules.</summary>
+        public static bool TryPlaceWorldGameCaseServer(
+            NetworkWorldItem item,
+            NetworkItemReceiver receiver,
+            out string resultMessage)
+        {
+            resultMessage = "World case or shelf is no longer available on the server.";
+            if (!CanPlaceWorldGameCaseServer(item) || receiver == null ||
+                !receiver.IsSpawned || !receiver.IsServer || !receiver.isActiveAndEnabled ||
+                receiver.NetworkManager != item.NetworkManager ||
+                !(receiver.Destination is NetworkGameCaseShelfDestination shelf) || !shelf.isActiveAndEnabled)
+                return false;
+
+            if (!receiver.TryBuildPlacementPlanServer(item, null, default, out var plan, out resultMessage))
+                return false;
+
+            return CommitPlacementServer(null, receiver, item, plan, out resultMessage);
+        }
+
+        private static bool CommitPlacementServer(
+            NetworkItemCarrier carrier,
+            NetworkItemReceiver receiver,
+            NetworkWorldItem item,
+            NetworkItemPlacementPlan plan,
+            out string resultMessage)
+        {
             NetworkItemMotionPresenter motion = CaptureMotionStart(
                 item,
                 out Vector3 visualStartPosition,
@@ -474,7 +517,7 @@ namespace EXW.Multiplayer
                 receiver.NetworkObject,
                 plan.SlotIndex,
                 revision));
-            carrier.RemoveHeldItemServer(item);
+            if (carrier != null) carrier.RemoveHeldItemServer(item);
             resultMessage = $"Placed {item.DisplayName}.";
             return true;
         }
@@ -505,7 +548,7 @@ namespace EXW.Multiplayer
             uint targetRevision,
             bool physicsSettle = false)
         {
-            if (carrier != null && motion != null)
+            if (motion != null)
             {
                 item.BroadcastMotionServer(
                     startPosition,

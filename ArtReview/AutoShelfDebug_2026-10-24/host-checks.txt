@@ -1,0 +1,52 @@
+PASS Isolated empty fixture
+PASS Actual NGO/UTP host starts
+PASS World entry uses normal receiver plan/commit
+PASS Seed locks row through existing state hook
+PASS Empty row slot inherits row restriction
+PASS Inspector target order contains all four spawned slots
+PASS Typed slot wins over earlier free/row-empty slots
+PASS Batch budget counts candidates
+PASS All typed capacity is used before row-empty capacity
+PASS Batch budget counts candidates
+PASS Same-game row-empty wins over free row
+PASS Batch budget counts candidates
+PASS Same-game row-empty wins over free row
+PASS Batch budget counts candidates
+PASS A remaining empty slot prevents aggregate completion
+PASS Different game is rejected by row rules
+PASS Button spam does not start a parallel coroutine
+PASS Cancel preserves committed placement and clears busy
+PASS Existing item motion remains active after commit/cancel
+PASS Committed motion finishes after cancellation
+PASS Aggregate fires after the last existing wallet reward
+PASS Every target slot complete: one aggregate event and normal rewards
+PASS Rechecking already-complete state does not replay event/rewards
+PASS Already placed/completed case is not a world candidate
+PASS Authoritative parent and existing layout pose agree
+PASS Unplaceable candidates consume budget and remain world items
+PASS Next batch advances beyond unplaceable first case
+PASS Next click after end starts a new round
+PASS Disable cancels busy state
+PASS Despawn cancels busy state
+PASS Capacity and world transfer: LeftToRight
+PASS Uses existing authored layout pose: LeftToRight
+PASS Capacity and world transfer: RightToLeft
+PASS Uses existing authored layout pose: RightToLeft
+PASS Capacity and world transfer: BackToFront
+PASS Uses existing authored layout pose: BackToFront
+PASS Capacity and world transfer: Circular
+PASS Uses existing authored layout pose: Circular
+PASS Normal pickup still works with a real spawned host carrier
+PASS Held case is excluded from debug candidates
+PASS Normal held placement still uses the shared commit
+PASS World entry respects a lock established by normal held placement
+PASS World and held transactions share capacity/occupancy/completion
+PASS Zero valid slots is not complete
+PASS Respawning group does not replay its completed celebration
+FAIL Left Shift+G starts a batch without drop
+FAIL System.InvalidOperationException: Left Shift+G starts a batch without drop
+  at EXW.Multiplayer.Editor.GameCaseAutoShelfDebugValidation.Check (System.Boolean condition, System.String description) [0x0002a] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Shelf\Editor\GameCaseAutoShelfDebugValidation.cs:356 
+  at EXW.Multiplayer.Editor.GameCaseAutoShelfDebugValidation+<Run>d__15.MoveNext () [0x00fd4] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Shelf\Editor\GameCaseAutoShelfDebugValidation.cs:281 
+  at EXW.Multiplayer.Editor.GameCaseAutoShelfDebugValidation.Tick () [0x000bc] in C:\Users\erenc\Documents\Repositories\tidy-up-backlog\Assets\Source\Shelf\Editor\GameCaseAutoShelfDebugValidation.cs:109 
+FAIL host checks
+Not run: a second client, real simultaneous network races/late join or rendered mesh appearance. All four layout modes and normal held/world interleaving use real services with empty visual transforms and injected bound AppIds; interaction range/LOS is not exercised.

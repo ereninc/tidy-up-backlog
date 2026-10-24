@@ -17,10 +17,12 @@ namespace EXW.Multiplayer
     {
         private readonly Dictionary<uint, List<NetworkGameCase>>
             _casesByAppId = new Dictionary<uint, List<NetworkGameCase>>();
+        private readonly List<NetworkGameCase> _cases = new List<NetworkGameCase>();
 
         public static GameCaseInstanceRegistry Instance { get; private set; }
         public bool IsReady { get; private set; }
         public int RegisteredCaseCount { get; private set; }
+        public IReadOnlyList<NetworkGameCase> Cases => _cases;
 
         public event Action Rebuilt;
 
@@ -82,6 +84,7 @@ namespace EXW.Multiplayer
         public void Rebuild()
         {
             _casesByAppId.Clear();
+            _cases.Clear();
             RegisteredCaseCount = 0;
 
             NetworkGameCase[] gameCases =
@@ -108,6 +111,7 @@ namespace EXW.Multiplayer
                 }
 
                 list.Add(gameCase);
+                _cases.Add(gameCase);
                 RegisteredCaseCount++;
             }
 
@@ -183,6 +187,7 @@ namespace EXW.Multiplayer
             IsReady = false;
             RegisteredCaseCount = 0;
             _casesByAppId.Clear();
+            _cases.Clear();
         }
     }
 }

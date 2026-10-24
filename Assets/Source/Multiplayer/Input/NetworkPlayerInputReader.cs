@@ -101,6 +101,7 @@ namespace EXW.Multiplayer
 
         public bool DropPressedThisFrame =>
             CanReadGameplayInput &&
+            !IsAutoShelfDropChord(_actions.Gameplay.Drop.activeControl) &&
             _actions.Gameplay.Drop.WasPressedThisFrame();
 
         public bool ShelfPickupPressedThisFrame =>
@@ -319,11 +320,15 @@ namespace EXW.Multiplayer
         {
             UpdateActiveDevice(context);
 
-            if (CanReadGameplayInput)
+            if (CanReadGameplayInput && !IsAutoShelfDropChord(context.control))
             {
                 DropPressed?.Invoke();
             }
         }
+
+        private static bool IsAutoShelfDropChord(InputControl control) =>
+            control?.device is Keyboard keyboard && control == keyboard.gKey && keyboard.shiftKey.isPressed;
+
 
         private void HandleJumpPerformed(
             InputAction.CallbackContext context)
